@@ -1,0 +1,33 @@
+@import '../../theme/variables';
+
+.footer-wrapper {
+    background: $primary;
+    color: $white;
+    align-items: center;
+    gap: 1rem;
+    padding: 6.5rem 0;
+
+    p {
+        font-family: $font-roboto-slab, serif;
+        font-weight: 900;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    span {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding-bottom: 1rem;
+    }
+
+    .sign-up {
+        color: $white;
+        border: 1px solid $white;
+        font-size: 1.5rem;
+        padding: 0.75rem 3.5rem;
+        background: inherit;
+        border-radius: 100px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}

@@ -1,0 +1,17 @@
+@import './theme/variables';
+
+:root {
+    background: $secondary;
+    font-family: $font-ubuntu, serif;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0
+}
+
+* {
+    font-family: $font-ubuntu, serif;
+}
+
+body, p {
+    margin: 0;
+}

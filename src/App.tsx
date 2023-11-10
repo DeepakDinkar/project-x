@@ -1,32 +1,26 @@
-import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import router from "./router/router";
+import "./App.scss";
+import Footer from "./components/Footer/Footer";
+import { ConfigProvider, ThemeConfig } from "antd";
+
+const theme: ThemeConfig = {
+  components: {
+    Button: {
+      colorPrimary: '#1E90FF',
+      borderRadius: 100,
+      algorithm: true
+    }
+  }
+}
 
 function App() {
-  const appEnvironment: string = import.meta.env.VITE_TESTING ?? "localhost";
-
-  const articles = [...new Array(15)];
-
-  console.log(appEnvironment);
-
   return (
-    <div className="container">
-      <header>Header</header>
-      <main>
-        <aside>Side bar</aside>
-        <section>
-          {articles.map((_, index) => (
-            <article key={index}>
-              <div className="card-img"></div>
-              <div className="card-content">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </article>
-          ))}
-        </section>
-      </main>
-      <footer>Footer</footer>
-    </div>
+    <ConfigProvider theme={theme}>
+      <header>Header</header> 
+      <RouterProvider router={router} />
+      <Footer />
+    </ConfigProvider>
   );
 }
 
