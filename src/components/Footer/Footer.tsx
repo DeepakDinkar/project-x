@@ -1,12 +1,12 @@
 import { Flex, Layout } from 'antd';
-import './Footer.module.scss';
+import styles from './Footer.module.scss';
 
 function Footer() {
     return <Layout>
-        <Flex className='footer-wrapper' vertical>
+        <Flex className={styles.footerWrapper} vertical>
             <p>Get latest updates on <br/> new courses</p>
             <span>Become a member now!</span>
-            <button className='sign-up'>Sign Up</button>
+            <button className={styles.signUp}>Sign Up</button>
         </Flex>
     </Layout>
 }

@@ -1,6 +1,6 @@
-@import '../../theme/variables';
+@import '../../theme/variables.scss';
 
-.footer-wrapper {
+.footerWrapper {
     background: $primary;
     color: $white;
     align-items: center;
@@ -20,7 +20,7 @@
         padding-bottom: 1rem;
     }
 
-    .sign-up {
+    .signUp {
         color: $white;
         border: 1px solid $white;
         font-size: 1.5rem;
