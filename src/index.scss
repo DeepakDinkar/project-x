@@ -9,6 +9,10 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   font-family: $font-ubuntu, serif;
 }
