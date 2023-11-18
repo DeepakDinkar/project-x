@@ -1,17 +1,35 @@
-@import './theme/variables';
+@import "./theme/variables";
 
 :root {
-    background: $secondary;
-    font-family: $font-ubuntu, serif;
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0
+  background: $secondary;
+  font-family: $font-ubuntu, serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: $brown-100;
+  margin: 0;
+
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+  }
 }
 
 * {
-    font-family: $font-ubuntu, serif;
+  font-family: $font-ubuntu, serif;
 }
 
-body, p {
-    margin: 0;
+body,
+p {
+  margin: 0;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.standard-font-bold {
+  font-size: 1.5rem;
 }

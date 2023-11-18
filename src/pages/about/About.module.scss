@@ -1,0 +1,144 @@
+@import "../../theme/variables";
+
+.aboutUsWrapper {
+  padding: 5.5rem;
+  justify-content: center;
+  align-items: center;
+
+  .coreValuesWrapper {
+    padding: 5.25rem 0;
+    justify-content: space-evenly;
+  }
+
+  .coreValuesContainer {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    span {
+      padding-top: 2.75rem;
+    }
+  }
+}
+.divider {
+  stroke-width: 1px;
+  border-block-start: 1px solid $brown;
+}
+
+.sectionHeaderWrapper {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sectionHeader,
+.sectionSubHeader {
+  font-weight: 700;
+  color: $brown-100;
+  text-align: center;
+}
+
+.sectionHeader {
+  font-size: 4.25rem;
+}
+
+.sectionSubHeader {
+  font-size: 1.5rem;
+  padding-top: 1.25rem;
+}
+
+.detailsWrapper {
+  .flexWrapper {
+    padding: 2.75rem 0;
+    display: flex;
+  }
+
+  p {
+    color: $black;
+    font-size: 1.25rem;
+  }
+  .detailsImageWrapper {
+    position: relative;
+    padding-bottom: 3rem;
+    min-width: 400px;
+    img {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 30px;
+    }
+    .outerDetailImage {
+      position: absolute;
+      top: 4rem;
+      left: 4rem;
+    }
+  }
+}
+
+.mentorWrapper {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+  margin-top: 2.5rem;
+  gap: 4.5rem;
+
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  scrollbar-width: thin; /* For Firefox */
+  ::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    display: none;
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
+
+  .mentorCard {
+    flex-shrink: 0;
+    text-align: center;
+  }
+
+  .mentorImageWrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+
+    .mentorCardCircle {
+      background: $primary;
+      height: 250px;
+      width: 250px;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 768px) {
+  .detailsWrapper {
+    .flexWrapper {
+      flex-flow: row wrap;
+      justify-content: center;
+      gap: 5rem;
+    }
+
+    .detailsImageWrapper {
+      min-width: auto;
+    }
+  }
+
+  .mentorWrapper {
+    .mentorImageWrapper {
+      .mentorCardCircle {
+        height: 150px;
+        width: 150px;
+        left: 18px;
+      }
+    }
+  }
+
+}
