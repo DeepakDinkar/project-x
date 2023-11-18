@@ -20,15 +20,15 @@ function About() {
               <div>
                 <Image
                   src="/images/about-us/pexels-pavel-danilyuk-8438979.png"
-                  width={breakPoint?.md ? 280 : 230}
-                  height={breakPoint?.md ? 280 : 230}
+                  width={breakPoint?.md ? 280 : 200}
+                  height={breakPoint?.md ? 280 : 200}
                 />
               </div>
               <div className={styles.outerDetailImage}>
                 <Image
                   src="/images/about-us/pexels-cottonbro-studio-4253320 1.png"
-                  width={breakPoint?.md ? 280 : 230}
-                  height={breakPoint?.md ? 280 : 230}
+                  width={breakPoint?.md ? 280 : 200}
+                  height={breakPoint?.md ? 280 : 200}
                 />
               </div>
             </div>

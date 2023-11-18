@@ -7,10 +7,6 @@
   font-weight: 500;
   color: $brown-100;
   margin: 0;
-
-  @media screen and (max-width: 768px) {
-    font-size: 10px;
-  }
 }
 
 * {
@@ -32,4 +28,16 @@ p {
 
 .standard-font-bold {
   font-size: 1.5rem;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 10px;
+  }
+
+  .standard-font-bold {
+    font-size: 1.3rem;
+  }
 }
