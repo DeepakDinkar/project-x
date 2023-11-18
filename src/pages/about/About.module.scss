@@ -132,10 +132,14 @@
   }
 
   .mentorWrapper {
+
+    .mentorCard {
+      max-width: 130px;
+    }
     .mentorImageWrapper {
       .mentorCardCircle {
-        height: 150px;
-        width: 150px;
+        height: 100px;
+        width: 100px;
         left: 18px;
       }
     }

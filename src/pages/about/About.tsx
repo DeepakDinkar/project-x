@@ -109,8 +109,8 @@ function About() {
               <div className={styles.mentorImageWrapper}>
                 <Image
                   src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
-                  height={breakPoint?.md ? 250 : 150}
-                  width={breakPoint?.md ? 250 : 150}
+                  height={breakPoint?.md ? 250 : 100}
+                  width={breakPoint?.md ? 250 : 100}
                 />
                 <div className={styles.mentorCardCircle}></div>
               </div>
