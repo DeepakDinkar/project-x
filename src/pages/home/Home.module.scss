@@ -1,21 +1,26 @@
 @import "../../theme/variables";
 
 .homeContainer {
-    background: $secondary;
+  background: $secondary;
 
-    .titleWrapper {
-        padding: 4rem 2.5rem;
-        .subHeader {
-            padding-top: 1.25rem;
-        }
-    
-        .mainCardWrapper {
-            margin-top: 2.5rem;
-        }
+  .titleWrapper {
+    padding: 4rem 2.5rem;
+    .titleContent {
+      width: fit-content;
+      margin: auto;
+      padding: 2rem 3.5rem;
+      position: relative;
     }
-    
-    .exploreWrapper {
-        background: $black;
+    .subHeader {
+      padding-top: 1.25rem;
     }
+
+    .mainCardWrapper {
+      margin-top: 2.5rem;
+    }
+  }
+
+  .exploreWrapper {
+    background: $black;
+  }
 }
-
