@@ -1,0 +1,21 @@
+@import "../../theme/variables";
+
+.homeContainer {
+    background: $secondary;
+
+    .titleWrapper {
+        padding: 4rem 2.5rem;
+        .subHeader {
+            padding-top: 1.25rem;
+        }
+    
+        .mainCardWrapper {
+            margin-top: 2.5rem;
+        }
+    }
+    
+    .exploreWrapper {
+        background: $black;
+    }
+}
+

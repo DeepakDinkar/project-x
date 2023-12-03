@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./router/router";
 import "./App.scss";
+import './theme/card.scss';
 import Footer from "./components/Footer/Footer";
 import { ConfigProvider, ThemeConfig } from "antd";
 
@@ -11,6 +12,11 @@ const theme: ThemeConfig = {
       borderRadius: 100,
       algorithm: true,
     },
+    Carousel: {
+      dotHeight: 12,
+      dotWidth: 12,
+      dotActiveWidth:12
+    }
   },
 };
 

@@ -1,0 +1,56 @@
+@import "./variables";
+
+.course-card {
+  position: relative;
+  &.large-card {
+    .ant-image-img {
+      border-radius: 50px;
+    }
+  }
+  &.small-card {
+    border-radius: 32px;
+  }
+  .ant-image-img {
+    border-radius: 40px;
+  }
+
+  .card-bottom-wrapper {
+    display: flex;
+    flex-flow: column;
+    text-align: left;
+    padding-top: 1.5rem;
+    .card-bottom-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+  }
+
+  .card-overlay-wrapper {
+    position: absolute;
+    top: 0;
+    padding: 1.5rem;
+    color: $white;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 61.16%, #000 100%);
+    border-radius: 32px;
+
+    .card-chip {
+      border-radius: 4px;
+      background: $primary;
+      text-transform: uppercase;
+      padding: .5rem .75rem;
+    }
+
+    .card-course-title {
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    // .card-sub-heading {
+
+    // }
+
+    // .card-course-title-lg {
+
+    // }
+  }
+}
