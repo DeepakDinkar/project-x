@@ -22,8 +22,8 @@ function Explore() {
           {courses.map((_course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={breakPoints?.md ? 380 : 170}
-                width={breakPoints?.md ? 380 : 170}
+                height={breakPoints?.md ? 380 : 160}
+                width={breakPoints?.md ? 380 : 160}
                 src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
@@ -62,8 +62,8 @@ function Explore() {
           {courses.map((_course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={breakPoints?.md ? 380 : 170}
-                width={breakPoints?.md ? 380 : 170}
+                height={breakPoints?.md ? 380 : 160}
+                width={breakPoints?.md ? 380 : 160}
                 src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
