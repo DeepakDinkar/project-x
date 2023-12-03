@@ -32,6 +32,8 @@
     color: $white;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 61.16%, #000 100%);
     border-radius: 32px;
+    width: 100%;
+    text-align: left;
 
     .card-chip {
       border-radius: 4px;
@@ -41,16 +43,32 @@
     }
 
     .card-course-title {
+      font-size: 1rem;
       font-weight: 500;
       text-transform: uppercase;
     }
-
-    // .card-sub-heading {
-
-    // }
-
-    // .card-course-title-lg {
-
-    // }
   }
+}
+
+/********************************/
+/** Media Query Styles **/
+
+@media screen and (max-width: 768px) { 
+  .course-card {
+    &.large-card {
+      .ant-image-img {
+        border-radius: 32px;
+      }
+    }
+    &.small-card {
+      border-radius: 24px;
+    }
+    .ant-image-img {
+      border-radius: 28px;
+    }
+
+    .card-overlay-wrapper {
+      border-radius: 24px;
+     }
+   }
 }

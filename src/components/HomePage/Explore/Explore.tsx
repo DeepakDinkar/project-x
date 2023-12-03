@@ -1,8 +1,11 @@
 import { Flex, Image } from "antd";
 import styles from "../../../pages/home/Home.module.scss";
+import { useBreakPoint } from "../../../hooks/useBreakPoint";
 
 function Explore() {
   const courses = [...new Array(3)];
+  const breakPoints = useBreakPoint();
+
   return (
     <div
       className={`${styles.titleWrapper} ${styles.exploreWrapper} text-center`}
@@ -12,24 +15,31 @@ function Explore() {
         Curated for you. Latest and trending <br /> topics to explore!
       </p>
       <div className="w-100">
-        <Flex gap={"4rem"} style={{ margin: "2.5rem 0" }}>
+        <Flex
+          gap={breakPoints?.md ? "4rem" : "2rem"}
+          style={{ margin: "2.5rem 0", maxWidth: "100%", flexFlow: 'row wrap' }}
+        >
           {courses.map((_course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={380}
-                width={380}
+                height={breakPoints?.md ? 380 : 170}
+                width={breakPoints?.md ? 380 : 170}
                 src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
-                    <Flex>
-                      <span className="card-chip font-bold">New Topic</span>
-                    </Flex>
-                    <Flex vertical align="baseline">
-                      <span className="card-course-title">Leadership and Business Management</span>
-                      <span className="sub-header font-bold">International Leadership</span>
-                    </Flex>
+                  <Flex>
+                    <span className="card-chip font-bold">New Topic</span>
+                  </Flex>
+                  <Flex vertical align="baseline">
+                    <span className="card-course-title">
+                      Leadership and Business Management
+                    </span>
+                    <span className="sub-header font-bold">
+                      International Leadership
+                    </span>
+                  </Flex>
                 </Flex>
               </div>
             </div>
@@ -38,31 +48,38 @@ function Explore() {
         <div>
           <div className="course-card large-card">
             <Image
-              height={650}
-              width={'100%'}
+              height={breakPoints?.md ? 650 : 350}
+              width={"100%"}
               src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
             />
           </div>
         </div>
-        <Flex gap={"4rem"} style={{ margin: "2.5rem 0" }}>
+        <Flex
+          gap={breakPoints?.md ? "4rem" : "2rem"}
+          style={{ margin: "2.5rem 0", maxWidth: "100%", flexFlow: 'row wrap' }}
+        >
           {courses.map((_course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={380}
-                width={380}
+                height={breakPoints?.md ? 380 : 170}
+                width={breakPoints?.md ? 380 : 170}
                 src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
-               <div className="card-overlay-wrapper h-100">
+              <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
-                    <Flex>
-                      <span className="card-chip font-bold">New Topic</span>
-                    </Flex>
-                    <Flex vertical align="baseline">
-                      <span className="card-course-title">Leadership and Business Management</span>
-                      <span className="sub-header font-bold">International Leadership</span>
-                    </Flex>
+                  <Flex>
+                    <span className="card-chip font-bold">New Topic</span>
+                  </Flex>
+                  <Flex vertical align="baseline">
+                    <span className="card-course-title">
+                      Leadership and Business Management
+                    </span>
+                    <span className="sub-header font-bold">
+                      International Leadership
+                    </span>
+                  </Flex>
                 </Flex>
               </div>
             </div>
