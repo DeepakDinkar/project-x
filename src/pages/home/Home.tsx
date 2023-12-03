@@ -56,9 +56,15 @@ function Home() {
                   <Flex
                     vertical={breakPoint?.md}
                     gap={"1rem"}
-                    style={{ paddingLeft: breakPoint?.md ? "1rem": 0 }}
+                    style={{
+                      paddingLeft: breakPoint?.md ? "1rem" : 0,
+                      paddingTop: breakPoint?.md ? 0 : ".5rem",
+                    }}
                   >
-                    <div className="course-card small-card" style={{ flexGrow: 1}}>
+                    <div
+                      className="course-card small-card"
+                      style={{ flexGrow: 1 }}
+                    >
                       <Image
                         height={breakPoint?.md ? 330 : 180}
                         width={"100%"}
@@ -89,7 +95,7 @@ function Home() {
                     </div>
                     <div className="course-card small-card">
                       <Image
-                        height={breakPoint?.md ? 205: 180}
+                        height={breakPoint?.md ? 205 : 180}
                         width={"100%"}
                         src="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                         preview={false}
