@@ -1,8 +1,9 @@
-import { Flex, Image } from "antd";
+import { Flex, Image, Input, Select } from "antd";
 import styles from "../../../pages/home/Home.module.scss";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import { LeftCurve } from "../../../utils/LeftCurve";
 import { RightCurve } from "../../../utils/RightCurve";
+import { SearchIcon } from "../../../utils/svgs/SearchIcon";
 
 function Explore() {
   const courses = [
@@ -24,14 +25,61 @@ function Explore() {
         </p>
         <RightCurve />
       </div>
-
       <div className="w-100">
+        <div className={`primary-container ${styles.exploreSearchWrapper}`}>
+          <Flex
+            style={{
+              flexFlow: "row wrap",
+              justifyContent: "space-between",
+              gap: "1.5rem",
+            }}
+          >
+            <Input
+              placeholder="Search topics"
+              prefix={<SearchIcon />}
+              size="middle"
+              style={{
+                width: breakPoints?.md ? "380px" : "100%",
+                flexShrink: 0,
+              }}
+            />
+            <Flex flex={"row wrap"} gap={"1.5rem"}>
+              <Select
+                placeholder="Categories"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                ]}
+              />
+              <Select
+                placeholder="Date"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                ]}
+              />
+              <Select
+                placeholder="Location"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                ]}
+              />
+            </Flex>
+          </Flex>
+        </div>
         <Flex
           gap={breakPoints?.md ? "4rem" : "2rem"}
           style={{ margin: "2.5rem 0", maxWidth: "100%", flexFlow: "row wrap" }}
         >
           {courses.map((course, index) => (
-            <div className="course-card small-card" key={index}>
+            <div
+              className={`course-card small-card ${styles.exploreCard}`}
+              key={index}
+            >
               <Image
                 height={breakPoints?.md ? 380 : 160}
                 width={breakPoints?.md ? 380 : 160}

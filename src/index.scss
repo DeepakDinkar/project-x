@@ -114,3 +114,56 @@ p {
     }
   }
 }
+
+.ant-select, .ant-input {
+  height: 42px !important;
+}
+
+.ant-input, .ant-input-affix-wrapper {
+  border-radius: 100px !important;
+}
+
+.ant-input-prefix {
+  padding: 0 .5rem 0 1.5rem;
+}
+
+.ant-select {
+  .ant-select-selector {
+    border-radius: 100px !important;
+    background: inherit !important;
+    border: 2px solid $primary !important;
+  }
+}
+
+.primary-container {
+  .ant-select-selection-placeholder, .ant-select-arrow {
+    color: $primary !important;
+    font-weight: 700 !important;
+  }
+
+  .ant-select-dropdown {
+    .rc-virtual-list {
+      .rc-virtual-list-holder-inner{
+        background: $black !important;          
+      }
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    padding: 0;
+    border: 0;
+    background: $brown;
+  }
+
+  .ant-input {
+    background: $brown;
+    color: $brown-200;
+    border: 0;
+    font-size: 1.125rem !important;
+    &::placeholder {
+      color: $brown-200;
+    }
+  }
+}
+
+// Media queries
