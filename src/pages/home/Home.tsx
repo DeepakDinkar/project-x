@@ -39,6 +39,36 @@ function Home() {
                           fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                           preview={false}
                         />
+                        <div className="card-overlay-wrapper h-100">
+                          <Flex
+                            vertical
+                            style={{
+                              padding: breakPoint?.md
+                                ? "3.5rem"
+                                : "2.5rem 1.5rem",
+                              justifyContent: "flex-end",
+                            }}
+                            className="h-100"
+                          >
+                            <div className="text-uppercase sub-header font-bold align-center d-flex">
+                              <Image
+                                src="/images/icons/trending.png"
+                                height={breakPoint?.md ? 36 : 22}
+                                width={breakPoint?.md ? 36 : 22}
+                              />
+                              <span className="color-primary">
+                                Trending in {' '}
+                              </span>
+                              <span>courses</span>
+                            </div>
+                            <span className="card-primary-title">
+                              TECHNOLOGY AND AI
+                            </span>
+                            <button className="button primary-button text-uppercase">
+                              Explore Now
+                            </button>
+                          </Flex>
+                        </div>
                       </div>
                       <div className="course-card large-card">
                         <Image

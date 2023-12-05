@@ -6,6 +6,12 @@
     .ant-image-img {
       border-radius: 50px;
     }
+    .card-primary-title {
+      font-family: $font-roboto-slab;
+      font-size: 3.5rem;
+      font-weight: 900;
+      padding: 1rem 0;
+    }
   }
   &.small-card {
     border-radius: 32px;
@@ -59,6 +65,11 @@
     &.large-card {
       .ant-image-img {
         border-radius: 32px;
+      }
+
+      .card-primary-title {
+        font-size: 2.5rem;
+        font-family: $font-roboto-slab;
       }
     }
     &.small-card {
