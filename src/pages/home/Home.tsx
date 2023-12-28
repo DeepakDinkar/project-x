@@ -21,7 +21,7 @@ function Home() {
               <p className={`${styles.subHeader} sub-header font-bold`}>
                 Get started with our
                 <span className="color-primary"> curated skill courses </span>
-                based on your <br /> work needs and Scale up compared to your
+                based on your work needs and Scale up compared to your
                 peers.
               </p>
               <RightCurve />
