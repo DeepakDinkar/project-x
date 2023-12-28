@@ -103,13 +103,76 @@ p {
 /* ================================================================= */
 /* Media Queries */
 
-@media screen and (max-width: 768px) {
+@media only screen and (min-width: $xs) {
+  :root {
+    font-size: 8px;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-select,
+  .button {
+    height: 40px !important;
+  }
+}
+
+/* Small devices such as large phones (576px and up) */
+@media only screen and (min-width: $sm) {
   :root {
     font-size: 10px;
   }
 
+  .ant-btn,
+  .ant-input,
+  .ant-select,
+  .button {
+    height: 44px !important;
+  }
+}
+
+/* Medium devices such as tablets (768px and up) */
+@media only screen and (min-width: $md) {
+  :root {
+    font-size: 12px;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-select,
+  .button {
+    height: 48px !important;
+  }
+
   .standard-font-bold {
     font-size: 1.3rem;
+  }
+}
+
+/* Large devices such as laptops (992px and up) */
+@media only screen and (min-width: $lg) {
+  :root {
+    font-size: 14px;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-select,
+  .button {
+    height: 52px !important;
+  }
+}
+
+/* Largest devices such as desktops (1200px and up) */
+@media only screen and (min-width: $xl) {
+  :root {
+    font-size: 16px;
+  }
+
+  .ant-btn,
+  .ant-input,
+  .ant-select,
+  .button {
+    height: 56px !important;
   }
 }
 
@@ -119,7 +182,6 @@ p {
 // Button overrides
 
 .ant-btn {
-  height: 56px !important;
   font-weight: 700;
   font-size: 1.5rem;
   padding: 0.875rem 3.5rem;
@@ -160,15 +222,22 @@ p {
 
 .modal-container {
   .ant-btn,
-  .ant-input {
+  .ant-input,
+  .ant-select {
     height: 44px !important;
+
+    .ant-select-selection-placeholder {
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .ant-select-selector {
+      border: 1px solid $black !important;
+      padding: 0 11px !important;
+    }
   }
 }
 
-.ant-select,
-.ant-input {
-  height: 56px !important;
-}
 
 .ant-input,
 .ant-input-affix-wrapper {
@@ -227,7 +296,6 @@ p {
 }
 
 .button {
-  height: 56px;
   padding: 0.75rem 2rem;
   font-size: 1.5rem;
   font-weight: 700;
@@ -247,8 +315,9 @@ p {
 
 // Media queries
 
-@media screen and (max-width: 768px) {
-  .button, .ant-btn {
+@media screen and (max-width: $md) {
+  .button,
+  .ant-btn {
     height: 32px !important;
     font-size: 1rem;
   }

@@ -29,7 +29,7 @@
 
 // Media queries
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $md) {
     .header {
         padding: 1.5rem 3rem 6.5rem;
     }

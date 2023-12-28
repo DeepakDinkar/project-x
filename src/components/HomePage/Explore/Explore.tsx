@@ -39,8 +39,9 @@ function Explore() {
               prefix={<SearchIcon />}
               size="middle"
               style={{
-                width: breakPoints?.md ? "380px" : "100%",
-                flexShrink: 0,
+                width: 'auto',
+                flexGrow: 1,
+                maxWidth: '380px'
               }}
             />
             <Flex flex={"row wrap"} gap={"1.5rem"}>

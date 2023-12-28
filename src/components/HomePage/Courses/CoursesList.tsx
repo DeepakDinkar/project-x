@@ -32,7 +32,7 @@ function CoursesList() {
       <div className="w-100">
         <Flex
           gap={"2rem"}
-          style={{ margin: "2.5rem 0", overflow: "auto", maxWidth: "100%" }}
+          style={{ padding: "2.5rem 0", overflow: "auto", maxWidth: "100%" }}
         >
           {courses.map((course, index) => (
             <div className="course-card small-card" key={index}>

@@ -6,7 +6,7 @@ import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { Logo } from "../../utils/svgs/Logo";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
 import styles from "./Header.module.scss";
-import Login from "./Login/Login";
+import Register from "./Register/Register";
 
 export type MenuMode = "horizontal" | "vertical" | "inline";
 
@@ -16,6 +16,8 @@ export default function Header() {
   const navigate = useNavigate();
   const breakPoints = useBreakPoint();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(breakPoints);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -44,8 +46,8 @@ export default function Header() {
                   prefix={<SearchIcon />}
                   size="middle"
                   style={{
-                    width: breakPoints?.md ? "380px" : "100%",
-                    flexShrink: 0,
+                    width: "auto",
+                    flexGrow: 1,
                   }}
                 />
                 <Button
@@ -103,7 +105,8 @@ export default function Header() {
             onCancel={() => handleCancel()}
             footer={null}
           >
-            <Login />
+            {/* <Login /> */}
+            <Register/>
           </Modal>
         </Layout.Header>
       </Layout>

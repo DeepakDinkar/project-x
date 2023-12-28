@@ -60,7 +60,7 @@
 /********************************/
 /** Media Query Styles **/
 
-@media screen and (max-width: 768px) { 
+@media screen and (max-width: $md) { 
   .course-card {
     &.large-card {
       .ant-image-img {
