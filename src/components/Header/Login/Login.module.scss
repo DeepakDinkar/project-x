@@ -1,0 +1,63 @@
+@import "../../../theme/variables";
+
+.divider {
+  stroke-width: 1px;
+  border-block-start: 1px solid $brown;
+}
+
+.modalWrapper {
+  gap: 1rem;
+  padding: 0 1rem;
+  text-align: center;
+
+  h2 {
+    font-family: $font-roboto-slab;
+    font-size: 1.5rem;
+    color: $primary;
+  }
+}
+
+.btn,
+.outlineBtn {
+  font-size: 1rem !important;
+  text-transform: uppercase;
+}
+
+.outlineBtn,
+.input {
+  border: 1px solid $brown-100;
+}
+
+.outlineBtn {
+  justify-content: center;
+}
+
+.signupContainer {
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 700;
+
+    .signupBtn {
+      height: auto !important;
+    }
+
+    button {
+      font-size: 1rem;
+      font-family: $font-ubuntu !important;
+      text-transform: none;
+      display: inline;
+      line-height: 0;
+      color: $primary;
+
+      span {
+        font-size: inherit;
+        text-decoration: underline;
+      }
+    }
+  }
+}

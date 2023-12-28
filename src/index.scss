@@ -85,7 +85,8 @@ p {
   text-transform: uppercase;
 }
 
-.left-curve, .right-curve {
+.left-curve,
+.right-curve {
   position: absolute;
 }
 
@@ -115,6 +116,32 @@ p {
 /* ================================================================= */
 /* Ant style overrides */
 
+// Button overrides
+
+.ant-btn {
+  height: 56px !important;
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 0.875rem 3.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.ant-btn-link {
+  color: $black;
+  font-family: $font-roboto-slab !important;
+  font-weight: 400;
+  padding: 0;
+
+  span {
+    font-family: inherit !important;
+  }
+}
+
+.ant-btn-primary {
+  background: $primary;
+}
+
 .slick-dots {
   bottom: 16px !important;
   li {
@@ -131,16 +158,29 @@ p {
   }
 }
 
-.ant-select, .ant-input {
-  height: 42px !important;
+.modal-container {
+  .ant-btn,
+  .ant-input {
+    height: 44px !important;
+  }
 }
 
-.ant-input, .ant-input-affix-wrapper {
+.ant-select,
+.ant-input {
+  height: 56px !important;
+}
+
+.ant-input,
+.ant-input-affix-wrapper {
   border-radius: 100px !important;
 }
 
 .ant-input-prefix {
-  padding: 0 .5rem 0 1.5rem;
+  padding: 0 0.5rem 0 1.5rem;
+}
+
+.ant-input-affix-wrapper {
+  padding: 0;
 }
 
 .ant-select {
@@ -148,19 +188,23 @@ p {
     border-radius: 100px !important;
     background: inherit !important;
     border: 2px solid $primary !important;
+    padding: 0 1.5rem !important;
+    font-size: 1.5rem;
   }
 }
 
 .primary-container {
-  .ant-select-selection-placeholder, .ant-select-arrow, .ant-select-selection-item {
+  .ant-select-selection-placeholder,
+  .ant-select-arrow,
+  .ant-select-selection-item {
     color: $primary !important;
     font-weight: 700 !important;
   }
 
   .ant-select-dropdown {
     .rc-virtual-list {
-      .rc-virtual-list-holder-inner{
-        background: $black !important;          
+      .rc-virtual-list-holder-inner {
+        background: $black !important;
       }
     }
   }
@@ -184,7 +228,7 @@ p {
 
 .button {
   height: 56px;
-  padding: .75rem 2rem;
+  padding: 0.75rem 2rem;
   font-size: 1.5rem;
   font-weight: 700;
   width: fit-content;
@@ -197,11 +241,15 @@ p {
   }
 }
 
-// Media queries
-
-@media screen and (max-width: 768px) { 
-  .button {
-    height: 32px;
-  }
+.active {
+  color: $primary;
 }
 
+// Media queries
+
+@media screen and (max-width: 768px) {
+  .button, .ant-btn {
+    height: 32px !important;
+    font-size: 1rem;
+  }
+}

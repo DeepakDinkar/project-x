@@ -1,0 +1,24 @@
+export function PasswordIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 24"
+      version="1.1"
+    >
+      <defs>
+        <image
+          id="image5"
+          width="128"
+          height="128"
+          xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABmJLR0QA/wD/AP+gvaeTAAAFCUlEQVR4nO2dzY4NQRTH/2MYOzzA8ABILM0MT2CHja/4SgRLvIJEkFgzgrH28Q7EQmR8s5B5AVYMkhmJweLe4Zq599bp7uo6p+r8f8lZzNy+3f869e/q6q661YAPtgG4AmAOwO9AzAG43P0OyZR1AG4jXNnSuA1gLGkJSC3OIF6lD4qzyUpDxFxE+xW/Mq4kKRkZyj6kr/iVsbf1UrbIiLaABswD2KAtoss8gE3aIuqwRltADabQOfOsVD4AbERH06S2kNKZhn6TH4rp1krvnBdoVjGzAA5j+O3cWHebJw2P9SJKiclfJA9w+sUMml3mRgHcrHnsuQbHJT3UOfMPtKDjYA0dbAkaUvWan+Le/GpFTTcSaCqSCciTvARgfUJtY91jSvVNJdRWDNLkvtMSCODNEF0rg1TgC2RJfaglsId7kGmd1xKYG3shS+h9LYF9eACZ5qwfG6fCerM/iPfgpaAxlyDr8FnlF8L6L6mpywDJGZSyt1+V9cisFbA0GCSZaHEVwI+2hTTgB4Brgu3MTCqxNBwsOTMs6R1GNmWx0gKsE2xzsHUV8Tgs2EZSZjdIJnDmRqg8t/Sk2aPEZN1BBqY2cR1COBmj6Nxi5cQogJ+BbdTzb6EPsF2wTW6VD8ieV2xtXUUACwY4Gvj8aRIV7fAs8Hmo7C4IzfY5pCetMUcwvGwf9KTZIdRRyvknWZIng6qod0IQToIFjU0wXT4LfQCiCA3gHBrAOTSAc2gA59AAzqEBnEMDOIcGcA4N4BwawDk0gHNoAOfQAM6hAZxDAziHBnAODeCcFAY4D+Ar6s+Jk/za1nLULd9CN3fZ0nRhR8a/eF4x96osr+XLiB/mVxtL8cIG72FmbYGV8MxPF9Fagphz0n9H3BcJE6XuYt0FcE3c9ETpGMZqAXj262DiV1MXEL5mLQEY1xKYIeOQrUV8TktgL98QrnxSj5AJvupJ+0fIpZv1pGXPOML5bUSMa0hIhInrVMa0ml8OBjmHBnAODeAcGsA5NIBzaADn0ADOoQGcQwM4Z622ACUmAJwAsKP792t0VvfOeVlaNVp9Vh2REXTG0EN638LW42vz+TUvEMAxVJ92dUpF6WrM59e6wBnUn3t3N73cVVjPr2mBJ1G/8pfjZHLV/8Ph4JqMIN6LJtZAz8wcDq7Jy4j7KnbSa8ktQOwz1mo52AL0YVKwzSKAPd1YFGy/s5GigrHYCbwR0LTQ5zsLge9cb111f1rNb6ktwI7A5/v6/G9/w31mSakGIAkp5RKwGPhOkZeAGFgUOCHQtYD/O4Gh7bU6gXwQVBPeBgoouQ/wyui+TFFyC8BHwQJKbgFiDeQch5HOllUsdgJ7mUFY46DgcLAA8wJRb0KI9jDwMubza15gF04J60PJncBBUG8PJXcCiQAawDk0gHNoAOfQAM6hAZxDAziHBnAODeAcGsA5NIBzaADn0ADO8WiA6SGfaU39zppc5gP08hGrdX5SVTQY8/k1L3AAuwA8BvAIwG5lLcPghBDncEIIaQ8awDk0gHNoAOfQAM6hAZxDAziHBnAODeCcFAbgS6Prk0Xu+PLo9sji5dHnER6wWAKwRUtghmxBotfHxxqosTzqVzKN6y9WHyDmytxExvMYO4k5VMtWIC1R6i7mXcBUxH2R4UhWQ1fhNKqvxcOoFmfEtaHEJPSTVGpMVKgHdWahn7BSYrZi7k1xDsBn6Ccxt/iOCPf5If4Atv28HLr+0JQAAAAASUVORK5CYII="
+        />
+      </defs>
+      <g id="surface2">
+        <use xlinkHref="#image5" transform="matrix(0.1875,0,0,0.1875,0,0)" />
+      </g>
+    </svg>
+  );
+}

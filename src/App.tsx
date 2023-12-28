@@ -1,9 +1,10 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./router/router";
-import "./App.scss";
-import './theme/card.scss';
-import Footer from "./components/Footer/Footer";
 import { ConfigProvider, ThemeConfig } from "antd";
+import { BrowserRouter } from "react-router-dom";
+import "./App.scss";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import "./theme/card.scss";
+import AppRouter from "./router/router";
 
 const theme: ThemeConfig = {
   components: {
@@ -15,16 +16,19 @@ const theme: ThemeConfig = {
     Carousel: {
       dotHeight: 12,
       dotWidth: 12,
-      dotActiveWidth:12
-    }
+      dotActiveWidth: 12,
+    },
   },
 };
 
 function App() {
   return (
     <ConfigProvider theme={theme}>
-      <RouterProvider router={router} />
-      <Footer />
+      <BrowserRouter>
+        <Header />
+        <AppRouter />
+        <Footer />
+      </BrowserRouter>
     </ConfigProvider>
   );
 }

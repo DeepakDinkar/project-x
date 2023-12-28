@@ -1,23 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
-import About from "../pages/about/About";
-import Courses from "../pages/Courses";
-import Home from "../pages/home/Home";
+import { Route, Routes } from "react-router-dom";
 import RouteError from "../error/RouteError";
+import Courses from "../pages/Courses";
+import About from "../pages/about/About";
+import Home from "../pages/home/Home";
 
-const router = createBrowserRouter([
-  {
-    path: "/about",
-    element: <About />,
-  },
-  {
-    path: "/courses",
-    element: <Courses />,
-  },
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <RouteError />,
-  },
-]);
-
-export default router;
+export default function AppRouter() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} errorElement={<RouteError/>} />
+      <Route path="/about" element={<About/>} />
+      <Route path="/courses" element={<Courses/>} />
+    </Routes>
+  );
+}
