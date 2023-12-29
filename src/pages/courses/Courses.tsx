@@ -1,4 +1,4 @@
-import { Flex, Image, Input, Select, Tag } from "antd";
+import { Flex, Image, Input, Rate, Select, Tag } from "antd";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import styles from "./Courses.module.scss";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
@@ -193,7 +193,7 @@ function Courses() {
             <Image
               height={getLargeCardHeight()}
               width={"100%"}
-              src="https://s3-alpha-sig.figma.com/img/68b2/bf5d/cf8f6597a2d3d8ecde08aca46bd7302b?Expires=1702252800&Signature=R7SBA~eLFb9enUPeb0w9g9ZsmyLTmB5YTZP3o5zAVOQ1GweVtoaoo4Gf2e-SbHs4J6hTfIQL6Ue4ZLeTKkVhHkp3HsrtdJU~AnGfBWyzIyFFLpKRZeUdwMxeiisEnashOZy0hWIi9nb9yuIdcnFsHb~axG4mQXaphLtdseYVGFJO~2VwjGkUIUzRS7RBnBxQKYxpfwptbxnMs~QGqfEfALCFy98m0bupRdp-yvXkMVGWTlsfzaYoNZIuwbMfMv-3j9xfakovRXJOOhzdd-1OU0gmJqfPjOrVyW2KeGIrxoVQggNb~W3-eBaqocTqi7ljgCNCM1PDk4K-2rwvO4WW~w__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+              src="https://s3-alpha-sig.figma.com/img/e954/683e/0689f3012a24a815bbfb9046d19eb63d?Expires=1704672000&Signature=NwHKXHf4a~ZUvk2HY4xDMsfs5w6m67l72UlZf1DZaDF7k173mRemr6VXO3WWl0r8R4B0PS-Lk7N4XGpN5HQFt0Jdu77-I8Pjtus4gyozyOXjIAI26upH6CxFxyqizoUEX9cGky4h~YOplAD-kgAI~G9f6r-JQuLKhwPBOljQnXVz7iowHr4FacBrsnEVAG0bSALev41WahIePeUjf4t6oAn3c5~npUpe6EozR-1JtnuTySs1mx~dX0to0T1VDynd9iaFqTE48uu3Lknl8MiohK9~cfkKCWsdrZZTrtF0ICYTMvkOtVJvl1ETn3n8~SwT1V1lzaFb-Ktvv3NXE9q4KQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
             />
@@ -202,10 +202,19 @@ function Courses() {
                 vertical
                 className="h-100"
                 justify="space-between"
-                style={{ padding: "1.5rem" }}
+                style={{ padding: "2.5rem" }}
               >
                 <Flex>
                   <span className="card-chip font-bold">New Topic</span>
+                </Flex>
+                <Flex vertical gap={"1rem"}>
+                <Rate allowHalf disabled defaultValue={4.5} />
+                <div className="sub-header font-bold text-uppercase">FINANCE AND ACCOUNTING</div>
+                <div style={{ fontSize: '2.5rem'}} className="font-bold">Financial Reporting Mastery</div>
+                <p className="sub-header text-ellipsis">Get in the world of cooking with our beginner friendly basics of cooking 101. Join the class...</p>
+                  <button className="button primary-button text-uppercase">
+                    Register Now
+                  </button>
                 </Flex>
               </Flex>
             </div>
