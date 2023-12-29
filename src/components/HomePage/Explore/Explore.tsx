@@ -13,6 +13,38 @@ function Explore() {
   ];
   const breakPoints = useBreakPoint();
 
+  const getSmallCardHeight = (): number => {
+    if (breakPoints?.xl) {
+      return 300;
+    }
+    if (breakPoints?.lg) {
+      return 270;
+    }
+    if (breakPoints?.md) {
+      return 240;
+    }
+    if (breakPoints?.sm) {
+      return 210;
+    }
+    return 130;
+  };
+
+  const getLargeCardHeight = (): number => {
+    if (breakPoints?.xl) {
+      return 500;
+    }
+    if (breakPoints?.lg) {
+      return 450;
+    }
+    if (breakPoints?.md) {
+      return 400;
+    }
+    if (breakPoints?.sm) {
+      return 350;
+    }
+    return 200;
+  };
+
   return (
     <div
       className={`${styles.titleWrapper} ${styles.exploreWrapper} text-center`}
@@ -31,7 +63,7 @@ function Explore() {
             style={{
               flexFlow: "row wrap",
               justifyContent: "space-between",
-              gap: "1.5rem",
+              gap: "2.5rem",
             }}
           >
             <Input
@@ -73,7 +105,7 @@ function Explore() {
           </Flex>
         </div>
         <Flex
-          gap={breakPoints?.md ? "4rem" : "2rem"}
+          gap={"2rem"}
           style={{ margin: "2.5rem 0", maxWidth: "100%", flexFlow: "row wrap" }}
         >
           {courses.map((course, index) => (
@@ -82,8 +114,8 @@ function Explore() {
               key={index}
             >
               <Image
-                height={breakPoints?.md ? 380 : 160}
-                width={breakPoints?.md ? 380 : 160}
+                height={getSmallCardHeight()}
+                width={getSmallCardHeight()}
                 src={course}
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
@@ -109,7 +141,7 @@ function Explore() {
         <div>
           <div className="course-card large-card">
             <Image
-              height={breakPoints?.md ? 650 : 350}
+              height={getLargeCardHeight()}
               width={"100%"}
               src="https://s3-alpha-sig.figma.com/img/68b2/bf5d/cf8f6597a2d3d8ecde08aca46bd7302b?Expires=1702252800&Signature=R7SBA~eLFb9enUPeb0w9g9ZsmyLTmB5YTZP3o5zAVOQ1GweVtoaoo4Gf2e-SbHs4J6hTfIQL6Ue4ZLeTKkVhHkp3HsrtdJU~AnGfBWyzIyFFLpKRZeUdwMxeiisEnashOZy0hWIi9nb9yuIdcnFsHb~axG4mQXaphLtdseYVGFJO~2VwjGkUIUzRS7RBnBxQKYxpfwptbxnMs~QGqfEfALCFy98m0bupRdp-yvXkMVGWTlsfzaYoNZIuwbMfMv-3j9xfakovRXJOOhzdd-1OU0gmJqfPjOrVyW2KeGIrxoVQggNb~W3-eBaqocTqi7ljgCNCM1PDk4K-2rwvO4WW~w__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
@@ -131,8 +163,8 @@ function Explore() {
           {courses.map((course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={breakPoints?.md ? 380 : 160}
-                width={breakPoints?.md ? 380 : 160}
+                height={getSmallCardHeight()}
+                width={getSmallCardHeight()}
                 src={course}
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}

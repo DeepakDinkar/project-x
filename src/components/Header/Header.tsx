@@ -49,17 +49,17 @@ export default function Header() {
             >
               <Logo />
             </span>
+            <Input
+              placeholder="Search"
+              prefix={<SearchIcon />}
+              size="middle"
+              style={{
+                width: "auto",
+                flexGrow: 1,
+              }}
+            />
             {breakPoints?.md ? (
               <>
-                <Input
-                  placeholder="Search"
-                  prefix={<SearchIcon />}
-                  size="middle"
-                  style={{
-                    width: "auto",
-                    flexGrow: 1,
-                  }}
-                />
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${

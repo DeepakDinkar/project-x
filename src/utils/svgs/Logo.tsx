@@ -1,8 +1,13 @@
+import { useBreakPoint } from "../../hooks/useBreakPoint";
+
 export function Logo() {
+
+  const breakPoints = useBreakPoint();
+
   return (
     <svg
       width="143"
-      height="44"
+      height={breakPoints?.md ? 44 : 32}
       viewBox="0 0 143 44"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

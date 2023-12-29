@@ -14,6 +14,22 @@ function CoursesList() {
   ];
   const breakPoint = useBreakPoint();
 
+  const getSmallCardHeight = (): number => {
+    if (breakPoint?.xl) {
+      return 300;
+    }
+    if (breakPoint?.lg) {
+      return 270;
+    }
+    if (breakPoint?.md) {
+      return 240;
+    }
+    if (breakPoint?.sm) {
+      return 210;
+    }
+    return 130;
+  };
+
   return (
     <div
       className={`${styles.titleWrapper} text-center`}
@@ -37,8 +53,8 @@ function CoursesList() {
           {courses.map((course, index) => (
             <div className="course-card small-card" key={index}>
               <Image
-                height={breakPoint?.md ? 360 : 180}
-                width={breakPoint?.md ? 360 : 180}
+                height={getSmallCardHeight()}
+                width={getSmallCardHeight()}
                 src={course}
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
