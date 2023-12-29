@@ -1,38 +1,53 @@
 @import "../../theme/variables.scss";
 
 .header {
- background: $secondary;
- padding: 1.5rem 5.25rem 5.5rem;
- position: fixed;
- z-index: 99;
- width: 100%;
+  background: $secondary;
+  padding: 1.5rem 5.25rem 5.5rem;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
 
 .logoWrapper {
-    display: inline-flex;
-    flex: 1;
+  display: inline-flex;
+  flex: 1;
 }
 
 .linkButton {
-    font-family: $font-roboto-slab !important;
+  font-family: $font-roboto-slab !important;
 }
 
 .menuBtn {
-    padding: 0 !important;
-    font-size: 2.5rem !important;
-} 
+  padding: 0 !important;
+  font-size: 2.5rem !important;
+}
 
 .mobileLoginBtn {
-    height: 32px !important;
-    font-size: 1rem;
+  height: 32px !important;
+  font-size: 1.5rem !important;
+}
+
+.menu {
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-inline-end: 0 !important;
+  gap: 1.5rem;
+}
+
+.drawerMenuBtn {
+    font-size: 1.5rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
 }
 
 // Media queries
 
 @media screen and (max-width: $md) {
-    .header {
-        padding: 1.5rem 3rem 6.5rem;
-    }
-
-    
+  .header {
+    padding: 1.5rem 3rem 6.5rem;
+  }
 }

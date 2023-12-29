@@ -11,13 +11,13 @@ import Register from "./Register/Register";
 export type MenuMode = "horizontal" | "vertical" | "inline";
 
 export default function Header() {
-  const [visible, setVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const breakPoints = useBreakPoint();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(breakPoints);
+  const [visible, setVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNextStep, setIsNextStep] = useState<boolean>(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -25,10 +25,16 @@ export default function Header() {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsNextStep(false);
   };
 
   const showDrawer = () => {
     setVisible(!visible);
+  };
+
+  const mobileNavigate = (path: string) => {
+    navigate(path);
+    setVisible(false);
   };
 
   return (
@@ -36,9 +42,13 @@ export default function Header() {
       <Layout style={{ paddingBottom: "5rem" }}>
         <Layout.Header className={styles.header}>
           <Flex style={{ alignItems: "center", gap: "2.5rem" }}>
-            <div className={styles.logoWrapper} onClick={() => navigate("/")}>
+            <span
+              className={styles.logoWrapper}
+              onClick={() => navigate("/")}
+              role="button"
+            >
               <Logo />
-            </div>
+            </span>
             {breakPoints?.md ? (
               <>
                 <Input
@@ -94,8 +104,36 @@ export default function Header() {
               open={visible}
               style={{ zIndex: 99999 }}
             >
-              <LeftMenu mode={"inline"} />
-              <RightMenu mode={"inline"} />
+              <Menu mode="inline" className={styles.menu}>
+                <Button
+                  type="link"
+                  className={`${styles.drawerMenuBtn} ${styles.linkButton} ${
+                    location?.pathname.match("/courses") ? "active" : ""
+                  }`}
+                  onClick={() => mobileNavigate("/courses")}
+                >
+                  Courses
+                </Button>
+                <Button
+                  type="link"
+                  className={`${styles.drawerMenuBtn} ${styles.linkButton} ${
+                    location?.pathname.match("/about") ? "active" : ""
+                  }`}
+                  onClick={() => mobileNavigate("/about")}
+                >
+                  About Us
+                </Button>
+                <Button
+                  type="primary"
+                  className={`${styles.mobileLoginBtn} text-uppercase`}
+                  onClick={() => {
+                    showModal();
+                    showDrawer();
+                  }}
+                >
+                  Log in
+                </Button>
+              </Menu>
             </Drawer>
           </div>
           <Modal
@@ -106,7 +144,7 @@ export default function Header() {
             footer={null}
           >
             {/* <Login /> */}
-            <Register/>
+            <Register isNextStep={isNextStep} setIsNextStep={setIsNextStep} />
           </Modal>
         </Layout.Header>
       </Layout>
@@ -114,25 +152,8 @@ export default function Header() {
   );
 }
 
-function LeftMenu({ mode }: { mode: MenuMode }) {
-  return (
-    <Menu mode={mode} >
-      <Menu.Item key="courses">Courses</Menu.Item>
-      <Menu.Item key="about">About Us</Menu.Item>
-    </Menu>
-  );
-}
-
-function RightMenu({ mode }: { mode: MenuMode }) {
-  return (
-    <Menu mode={mode}>
-       <Button
-          type="primary"
-          className={`${styles.mobileLoginBtn} text-uppercase`}
-        >
-          Log in
-        </Button>
-      {/* <Menu.SubMenu
+{
+  /* <Menu.SubMenu
         title={
           <>
             <Avatar icon={<UserOutlined />} />
@@ -149,7 +170,5 @@ function RightMenu({ mode }: { mode: MenuMode }) {
         <Menu.Item key="log-out">
           <LogoutOutlined /> Logout
         </Menu.Item>
-      </Menu.SubMenu> */}
-    </Menu>
-  );
+      </Menu.SubMenu> */
 }
