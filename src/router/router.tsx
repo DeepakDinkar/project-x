@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import RouteError from "../error/RouteError";
-import Courses from "../pages/Courses";
+import Courses from "../pages/courses/Courses";
 import About from "../pages/about/About";
 import Home from "../pages/home/Home";
 

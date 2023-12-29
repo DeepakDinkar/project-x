@@ -1,0 +1,54 @@
+@import "../../theme/variables";
+
+.titleWrapper {
+    padding: 4rem 2.5rem;
+    .titleContent {
+      width: fit-content;
+      margin: auto;
+      padding: 2rem 3.5rem;
+      position: relative;
+    }
+    .subHeader {
+      padding-top: 1.25rem;
+    }
+
+    .mainCardWrapper {
+      margin-top: 2.5rem;
+    }
+  }
+
+  .exploreWrapper {
+
+    .exploreSearchWrapper {
+      padding-top: 2.5rem;
+    }
+
+    .exploreCard:hover {
+      transform: scale(1.025);
+      z-index: 1;
+      transform-origin: top left;
+      transition: all 0.3s ease-in;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+  }
+
+  .topicText {
+    font-weight: 700;
+    color: $brown-100;
+    padding-bottom: 1.5rem;
+  }
+
+  .courseBannerContainer {
+
+    .courseTitle, .courseSubTitle {
+        font-weight: 700;
+    }
+
+    .courseTitle {
+        font-size: 3.5rem;
+        font-family: $font-roboto-slab;
+    }
+    .courseSubTitle { 
+        font-size: 1.5rem;
+    }
+  }

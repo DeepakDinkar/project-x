@@ -1,11 +1,9 @@
-import { Flex, Image, Input, Select } from "antd";
-import styles from "../../../pages/home/Home.module.scss";
-import { useBreakPoint } from "../../../hooks/useBreakPoint";
-import { LeftCurve } from "../../../utils/LeftCurve";
-import { RightCurve } from "../../../utils/RightCurve";
-import { SearchIcon } from "../../../utils/svgs/SearchIcon";
+import { Flex, Image, Input, Select, Tag } from "antd";
+import { useBreakPoint } from "../../hooks/useBreakPoint";
+import styles from "./Courses.module.scss";
+import { SearchIcon } from "../../utils/svgs/SearchIcon";
 
-function Explore() {
+function Courses() {
   const courses = [
     "https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1702252800&Signature=MuKzrJ3QSg8Zcm1pk5caCReuFANOGVuOJPaI~YNIa2gPBrhW-pFEvQl1wmnwlLh2oKfWAyVY6RY3vwzDTYammeVB3DEwPLJNBFE7IEmC0SK~8HpDL1X-n~Iv8NJYhsdcexAPsO7efGujMAZscFeJDzIIUyGl25Rpb9X6-uSLagbO7HBgA3A4DFkXuv3rEGnQhZDHWrjofy44sSXKol~IHl0LRnmZUlYuksXsHIPaCZdvubeiOsI~vt9WHafhSoV1C5hJjXegwHnb5jJVjq3p8v2StDjkUIDIpg7LYQnoq-sa3C69bzZu9z5Nz~ctk7nZUaoVc4uFn~iP3oxZ6eVJmg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
     "https://s3-alpha-sig.figma.com/img/70f0/1df2/ddff25983b73d4379d1b71cdc76a3303?Expires=1702252800&Signature=QBVG9eVOWG~EMIeLYAGuuqUGfEKq838CZQyWfaUpaI3peMAtrtUVDc23cgi0xgGobYp7CK1IP05vQ3iZ7L81yq~TDtIxPRWldc5ojygQjMeo2oJQ9yRyEy9l-iS~s-O1vQY9QtfSVAv4isjzncApDS~LLiJbpfLI4dlQk-aLnH3YJwLLPzOjYLOjFqvsWhs7ZxB~d0O-HzZCXzrlREZ8vf8U7rMRcKBgkFvuOfEr9iV9aQeVcO4hKEo-1viuRbMwnbxiu7nux8q4ULf3dKLGGPEfwqzulZH1pFxg6ujPoHSsbVy7M55NcTJz1NQv7PLJsqJHNHFf9kypLNAU3GhZ8g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
@@ -44,24 +42,48 @@ function Explore() {
     }
     return 200;
   };
-
   return (
     <div
-      className={`${styles.titleWrapper} ${styles.exploreWrapper} text-center`}
+      className={`${styles.titleWrapper} ${styles.exploreWrapper} search-container`}
     >
-      <div className={styles.titleContent}>
-        <LeftCurve />
-        <p className="main-header font-bold color-primary">Explore</p>
-        <p className={`${styles.subHeader} sub-header font-bold color-white`}>
-          Curated for you. Latest and trending <br /> topics to explore!
-        </p>
-        <RightCurve />
-      </div>
       <div className="w-100">
-        <div className={`primary-container ${styles.exploreSearchWrapper}`}>
+        <div>
+          <div
+            className={`course-card large-card ${styles.courseBannerContainer}`}
+          >
+            <Image
+              height={breakPoints?.md ? 380 : 180}
+              width={"100%"}
+              src="https://s3-alpha-sig.figma.com/img/3aad/9e48/d040e2bdcfd23a58b785abb88960eb10?Expires=1704672000&Signature=q4vQ9IqSUxaBCYfa2qeKqnOkuIs263OYsy4X56DFiJEb~8eIH55pZCSgIK0oc9g5kChQZg1BlxrQgae5LHH4i5TUZHBrGbYClSuQQLzfu5PnAgejst9r0yibOrM3zAIakoA0Tr-DBhLimXdf2snform8gHJsUFPaRhOr0KhKxwfevkptBcgfG6Mlx~5XNpQH4g7rGeYrYjo~Zsy-nwTAusotiuXDvxK3YONBixm2PCL7DAG091~h71dJM31w7E6~BV3qnMN1Xkx5gjQ~dvdqDzmm~1kfne64i7HeWQ5S0uFP2CxVELcld8Ddz5bkJPIxvU1NIbKf4KUuoN~pcBzIcg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+              fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+              preview={false}
+            />
+            <div className="card-overlay-wrapper h-100" style={{ padding: 0 }}>
+              <Flex
+                vertical
+                className="h-100 text-center"
+                style={{
+                  padding: "1.5rem",
+                  justifyContent: "center",
+                  gap: ".5rem",
+                }}
+              >
+                <span className={styles.courseTitle}>
+                  Artificial Intelligence
+                </span>
+                <span className={styles.courseSubTitle}>
+                  Choose the latest topics offered curated by our professionals
+                </span>
+              </Flex>
+            </div>
+          </div>
+        </div>
+
+        <div className={`${styles.exploreSearchWrapper}`}>
+          <div className={styles.topicText}>20 Topics available</div>
           <Flex
+            vertical
             style={{
-              flexFlow: "row wrap",
               justifyContent: "space-between",
               gap: "2.5rem",
             }}
@@ -76,9 +98,9 @@ function Explore() {
                 maxWidth: "380px",
               }}
             />
-            <Flex flex={"row wrap"} gap={"1.5rem"}>
+            <Flex gap={"1.5rem"} style={{ flexFlow: "row wrap" }}>
               <Select
-                placeholder="Categories"
+                placeholder="Sort By"
                 options={[
                   { value: "jack", label: "Jack" },
                   { value: "lucy", label: "Lucy" },
@@ -86,7 +108,7 @@ function Explore() {
                 ]}
               />
               <Select
-                placeholder="Date"
+                placeholder="Filter by Dates"
                 options={[
                   { value: "jack", label: "Jack" },
                   { value: "lucy", label: "Lucy" },
@@ -94,13 +116,33 @@ function Explore() {
                 ]}
               />
               <Select
-                placeholder="Location"
+                placeholder="Filter by Delivery Modes"
                 options={[
                   { value: "jack", label: "Jack" },
                   { value: "lucy", label: "Lucy" },
                   { value: "Yiminghe", label: "yiminghe" },
                 ]}
               />
+              <Select
+                placeholder="Filter by Knowledge Area"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                ]}
+              />
+              <Select
+                placeholder="Filter by Location"
+                options={[
+                  { value: "jack", label: "Jack" },
+                  { value: "lucy", label: "Lucy" },
+                  { value: "Yiminghe", label: "yiminghe" },
+                ]}
+              />
+            </Flex>
+            <Flex gap={"1.5rem"} style={{ flexFlow: "row wrap" }}>
+              <Tag closeIcon>Next Week</Tag>
+              <Tag closeIcon>Dubai</Tag>
             </Flex>
           </Flex>
         </div>
@@ -120,8 +162,16 @@ function Explore() {
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
-              <div className="card-overlay-wrapper h-100">
-                <Flex vertical className="h-100" justify="space-between">
+              <div
+                className="card-overlay-wrapper h-100"
+                style={{ padding: 0 }}
+              >
+                <Flex
+                  vertical
+                  className="h-100"
+                  justify="space-between"
+                  style={{ padding: "1.5rem" }}
+                >
                   <Flex>
                     <span className="card-chip font-bold">New Topic</span>
                   </Flex>
@@ -147,8 +197,13 @@ function Explore() {
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
             />
-            <div className="card-overlay-wrapper h-100">
-              <Flex vertical className="h-100" justify="space-between">
+            <div className="card-overlay-wrapper h-100" style={{ padding: 0 }}>
+              <Flex
+                vertical
+                className="h-100"
+                justify="space-between"
+                style={{ padding: "1.5rem" }}
+              >
                 <Flex>
                   <span className="card-chip font-bold">New Topic</span>
                 </Flex>
@@ -169,8 +224,16 @@ function Explore() {
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
-              <div className="card-overlay-wrapper h-100">
-                <Flex vertical className="h-100" justify="space-between">
+              <div
+                className="card-overlay-wrapper h-100"
+                style={{ padding: 0 }}
+              >
+                <Flex
+                  vertical
+                  className="h-100"
+                  justify="space-between"
+                  style={{ padding: "1.5rem" }}
+                >
                   <Flex>
                     <span className="card-chip font-bold">New Topic</span>
                   </Flex>
@@ -192,4 +255,4 @@ function Explore() {
   );
 }
 
-export default Explore;
+export default Courses;
