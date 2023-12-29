@@ -1,4 +1,4 @@
-import { Flex, Image, Input, Select } from "antd";
+import { Flex, Image, Input, Rate, Select } from "antd";
 import styles from "../../../pages/home/Home.module.scss";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import { LeftCurve } from "../../../utils/LeftCurve";
@@ -143,7 +143,7 @@ function Explore() {
             <Image
               height={getLargeCardHeight()}
               width={"100%"}
-              src="https://s3-alpha-sig.figma.com/img/68b2/bf5d/cf8f6597a2d3d8ecde08aca46bd7302b?Expires=1702252800&Signature=R7SBA~eLFb9enUPeb0w9g9ZsmyLTmB5YTZP3o5zAVOQ1GweVtoaoo4Gf2e-SbHs4J6hTfIQL6Ue4ZLeTKkVhHkp3HsrtdJU~AnGfBWyzIyFFLpKRZeUdwMxeiisEnashOZy0hWIi9nb9yuIdcnFsHb~axG4mQXaphLtdseYVGFJO~2VwjGkUIUzRS7RBnBxQKYxpfwptbxnMs~QGqfEfALCFy98m0bupRdp-yvXkMVGWTlsfzaYoNZIuwbMfMv-3j9xfakovRXJOOhzdd-1OU0gmJqfPjOrVyW2KeGIrxoVQggNb~W3-eBaqocTqi7ljgCNCM1PDk4K-2rwvO4WW~w__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+              src="https://s3-alpha-sig.figma.com/img/9b61/0683/1876ff9c0ce280e6f2560575fdaa0064?Expires=1704672000&Signature=P-J9RNatJdCV9iXB27k52BDpHwzsf4n79V0xb-ZwZVH8em4g2~WsiV8TSYtLlPFPAX5HWHlhvh~p7gY6GtQqlltRhdo3-JPyIlBF-9Drb5Wo-fhLXjJwt6go52mL1WrUaxjh77YpKHTgbipXZxsHAotCsUHZj-tWTkdnY-0EhFY52Z0JdN2ghl8RYFPxOKYHrkrsWMN7546-YinlqBeAGYGSo1TOmvT3HkVq34XOIz~kSY8BJSYQRJNcHg0J-TE6X~4h5fGnkgXb2RoryGGb5ofYmVTTg8Hx7966eYxInZJWHvyc8biZSsdlYoLqyZULIcT4zj8k4aKSAKW7RNrmNw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
             />
@@ -151,6 +151,22 @@ function Explore() {
               <Flex vertical className="h-100" justify="space-between">
                 <Flex>
                   <span className="card-chip font-bold">New Topic</span>
+                </Flex>
+                <Flex vertical gap={"1rem"}>
+                  <Rate allowHalf disabled defaultValue={4.5} />
+                  <div className="sub-header font-bold text-uppercase">
+                    FINANCE AND ACCOUNTING
+                  </div>
+                  <div style={{ fontSize: "2.5rem" }} className="font-bold">
+                    Financial Reporting Mastery
+                  </div>
+                  <p className="sub-header text-ellipsis">
+                    Get in the world of cooking with our beginner friendly
+                    basics of cooking 101. Join the class...
+                  </p>
+                  <button className="button primary-button text-uppercase">
+                    Register Now
+                  </button>
                 </Flex>
               </Flex>
             </div>

@@ -208,10 +208,17 @@ function Courses() {
                   <span className="card-chip font-bold">New Topic</span>
                 </Flex>
                 <Flex vertical gap={"1rem"}>
-                <Rate allowHalf disabled defaultValue={4.5} />
-                <div className="sub-header font-bold text-uppercase">FINANCE AND ACCOUNTING</div>
-                <div style={{ fontSize: '2.5rem'}} className="font-bold">Financial Reporting Mastery</div>
-                <p className="sub-header text-ellipsis">Get in the world of cooking with our beginner friendly basics of cooking 101. Join the class...</p>
+                  <Rate allowHalf disabled defaultValue={4.5} />
+                  <div className="sub-header font-bold text-uppercase">
+                    FINANCE AND ACCOUNTING
+                  </div>
+                  <div style={{ fontSize: "2.5rem" }} className="font-bold">
+                    Financial Reporting Mastery
+                  </div>
+                  <p className="sub-header text-ellipsis">
+                    Get in the world of cooking with our beginner friendly
+                    basics of cooking 101. Join the class...
+                  </p>
                   <button className="button primary-button text-uppercase">
                     Register Now
                   </button>
