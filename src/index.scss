@@ -238,6 +238,36 @@ p {
   }
 }
 
+.ant-collapse {
+  .ant-collapse-header,
+  .ant-collapse-content-box {
+    padding: 0 !important;
+  }
+  .ant-collapse-header {
+    width: fit-content;
+  }
+}
+
+.green-dot {
+  margin: 0 2px;
+  bottom: 2px;
+  position: relative;
+  height: 4px;
+  width: 5px;
+  background: $green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mycourses {
+  .ant-collapse-header {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1rem 0;
+    text-transform: uppercase;
+  }
+}
+
 .ant-image-img {
   object-fit: cover;
 }
@@ -322,7 +352,6 @@ p {
 }
 
 .primary-container {
-
   .ant-select {
     &.active {
       .ant-select-selector {

@@ -77,7 +77,8 @@
 }
 
 .mentorWrapper {
-  overflow: hidden;
+  overflow: auto;
+  padding: 1.5rem 0 2.5rem;
   width: 100%;
   max-width: 100vw;
   margin-top: 2.5rem;
@@ -132,7 +133,6 @@
   }
 
   .mentorWrapper {
-
     .mentorCard {
       max-width: 130px;
     }
@@ -144,5 +144,4 @@
       }
     }
   }
-
 }

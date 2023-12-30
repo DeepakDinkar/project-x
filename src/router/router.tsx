@@ -4,6 +4,7 @@ import Courses from "../pages/courses/Courses";
 import About from "../pages/about/About";
 import Home from "../pages/home/Home";
 import CourseDetails from "../pages/courses/[courseId]/CourseDetails";
+import MyCourses from "../pages/mycourses/MyCourses";
 
 export default function AppRouter() {
   return (
@@ -12,6 +13,7 @@ export default function AppRouter() {
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetails />} />
+      <Route path="/mycourses" element={<MyCourses />} />
     </Routes>
   );
 }

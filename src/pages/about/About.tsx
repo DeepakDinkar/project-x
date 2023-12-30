@@ -72,6 +72,7 @@ function About() {
                 src="/images/about-us/idea 1.png"
                 width={breakPoint?.md ? 100 : 40}
                 height={breakPoint?.md ? 100 : 40}
+                preview={false}
               />
               <span className="standard-font-bold text-center">
                 We celebrate knowledge <br /> and Idea sharing
@@ -82,6 +83,7 @@ function About() {
                 src="/images/about-us/teacher.png"
                 width={breakPoint?.md ? 100 : 40}
                 height={breakPoint?.md ? 100 : 40}
+                preview={false}
               />
               <span className="standard-font-bold text-center">
                 We believe in quality <br /> teaching
@@ -111,6 +113,7 @@ function About() {
                   src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
                   height={breakPoint?.md ? 250 : 100}
                   width={breakPoint?.md ? 250 : 100}
+                  preview={false}
                 />
                 <div className={styles.mentorCardCircle}></div>
               </div>
