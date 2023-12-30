@@ -5,7 +5,11 @@ import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
 
-export default function Login() {
+type LoginProps = {
+  setIsLogin: (isLogin: boolean) => void;
+};
+
+export default function Login({ setIsLogin }: LoginProps) {
   return (
     <div className="modal-container">
       <Flex vertical className={styles.modalWrapper}>
@@ -47,8 +51,14 @@ export default function Login() {
         <div className={styles.signupContainer}>
           <span>Not a member?</span>
           <p>
-            <Button type="link" className={styles.signupBtn}>Sign up</Button> to get latest updates and
-            exciting offers on courses
+            <Button
+              type="link"
+              className={styles.signupBtn}
+              onClick={() => setIsLogin(false)}
+            >
+              Sign up
+            </Button>{" "}
+            to get latest updates and exciting offers on courses
           </p>
         </div>
       </Flex>

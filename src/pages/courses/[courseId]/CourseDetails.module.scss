@@ -1,0 +1,57 @@
+@import "../../../theme/variables";
+
+.titleWrapper {
+  padding: 4rem 2.5rem;
+  .titleContent {
+    width: fit-content;
+    margin: auto;
+    padding: 2rem 3.5rem;
+    position: relative;
+  }
+  .subHeader {
+    padding-top: 1.25rem;
+  }
+
+  .mainCardWrapper {
+    margin-top: 2.5rem;
+  }
+
+  .divider {
+    stroke-width: 1px;
+    border-block-start: 1px solid $brown;
+  }
+
+  .mentorImageWrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+
+    .mentorCardCircle {
+      background: $primary;
+      height: 250px;
+      width: 250px;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+}
+
+// Media queries
+@media only screen and (max-width: $md) {
+  .mentorCardCircle {
+    height: 110px !important;
+    width: 110px !important;
+   }
+ }
+
+ @media only screen and (max-width: $sm) {
+  .mentorCardCircle {
+    height: 100px !important;
+    width: 100px !important;
+   }
+ }
+

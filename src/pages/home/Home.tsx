@@ -6,9 +6,11 @@ import CoursesList from "../../components/HomePage/Courses/CoursesList";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { LeftCurve } from "../../utils/LeftCurve";
 import { RightCurve } from "../../utils/RightCurve";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const breakPoint = useBreakPoint();
+  const navigate = useNavigate();
 
   const getLargeCardHeight = (): number => {
     if (breakPoint?.xl) {
@@ -69,7 +71,12 @@ function Home() {
                 <Col span={breakPoint?.md ? 18 : 24}>
                   <div>
                     <Carousel effect="fade">
-                      <div className="course-card large-card">
+                      <div
+                        className="course-card large-card"
+                        onClick={() => navigate("/courses/123")}
+                        role="button"
+                        onKeyDown={() => {}}
+                      >
                         <Image
                           height={getLargeCardHeight()}
                           width={"100%"}
@@ -108,7 +115,12 @@ function Home() {
                           </Flex>
                         </div>
                       </div>
-                      <div className="course-card large-card">
+                      <div
+                        className="course-card large-card"
+                        onClick={() => navigate("/courses/123")}
+                        role="button"
+                        onKeyDown={() => {}}
+                      >
                         <Image
                           height={getLargeCardHeight()}
                           width={"100%"}
@@ -171,7 +183,12 @@ function Home() {
                         </Flex>
                       </div>
                     </div>
-                    <div className="course-card small-card">
+                    <div
+                      className="course-card small-card"
+                      onClick={() => navigate("/courses/123")}
+                      role="button"
+                      onKeyDown={() => {}}
+                    >
                       <Image
                         height={getSmallCardHeight()}
                         width={"100%"}

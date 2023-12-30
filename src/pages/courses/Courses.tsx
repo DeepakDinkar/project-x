@@ -101,6 +101,7 @@ function Courses() {
             <Flex gap={"1.5rem"} style={{ flexFlow: "row wrap" }}>
               <Select
                 placeholder="Sort By"
+                className="active"
                 options={[
                   { value: "jack", label: "Jack" },
                   { value: "lucy", label: "Lucy" },
@@ -140,7 +141,7 @@ function Courses() {
                 ]}
               />
             </Flex>
-            <Flex gap={"1.5rem"} style={{ flexFlow: "row wrap" }}>
+            <Flex gap={"0.5rem"} style={{ flexFlow: "row wrap" }}>
               <Tag closeIcon>Next Week</Tag>
               <Tag closeIcon>Dubai</Tag>
             </Flex>

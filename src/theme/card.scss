@@ -1,6 +1,7 @@
 @import "./variables";
 
 .course-card {
+  cursor: pointer;
   position: relative;
   &.large-card {
     .ant-image-img {
@@ -46,7 +47,7 @@
       background: $primary;
       text-transform: uppercase;
       padding: .5rem .75rem;
-      font-size: 1rem;
+      font-size: .875rem;
     }
 
     .card-course-title {

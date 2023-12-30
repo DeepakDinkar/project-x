@@ -79,6 +79,7 @@ function Explore() {
             <Flex flex={"row wrap"} gap={"1.5rem"}>
               <Select
                 placeholder="Categories"
+                className="active"
                 options={[
                   { value: "jack", label: "Jack" },
                   { value: "lucy", label: "Lucy" },

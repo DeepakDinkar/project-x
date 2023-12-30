@@ -7,6 +7,7 @@ import { Logo } from "../../utils/svgs/Logo";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
 import styles from "./Header.module.scss";
 import Register from "./Register/Register";
+import Login from "./Login/Login";
 
 export type MenuMode = "horizontal" | "vertical" | "inline";
 
@@ -18,6 +19,7 @@ export default function Header() {
   const [visible, setVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNextStep, setIsNextStep] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -26,6 +28,7 @@ export default function Header() {
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsNextStep(false);
+    setIsLogin(true);
   };
 
   const showDrawer = () => {
@@ -63,7 +66,7 @@ export default function Header() {
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${
-                    location?.pathname.match("/courses") ? "active" : ""
+                    RegExp(`/courses`).exec(location?.pathname) ? "active" : ""
                   }`}
                   onClick={() => navigate("/courses")}
                 >
@@ -143,8 +146,11 @@ export default function Header() {
             onCancel={() => handleCancel()}
             footer={null}
           >
-            {/* <Login /> */}
-            <Register isNextStep={isNextStep} setIsNextStep={setIsNextStep} />
+            {isLogin ? (
+              <Login setIsLogin={setIsLogin} />
+            ) : (
+              <Register isNextStep={isNextStep} setIsNextStep={setIsNextStep} />
+            )}
           </Modal>
         </Layout.Header>
       </Layout>

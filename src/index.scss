@@ -57,6 +57,10 @@ p {
   font-size: 4.25rem;
 }
 
+.common-header {
+  font-size: 2.5rem;
+}
+
 .sub-header {
   font-size: 1.5rem;
 }
@@ -195,6 +199,12 @@ p {
   padding: 0.875rem 3.5rem;
   display: flex;
   align-items: center;
+
+  &.outline-btn {
+    background: transparent;
+    border: 2px solid $brown-100;
+    color: $brown-100;
+  }
 }
 
 .ant-btn-link {
@@ -249,6 +259,7 @@ p {
 }
 
 .modal-container {
+  padding-bottom: 1rem;
   .ant-btn,
   .ant-input,
   .ant-select {
@@ -291,6 +302,15 @@ p {
 
 .search-container {
   .ant-select {
+    &.active {
+      .ant-select-selector {
+        background: $brown-100 !important;
+      }
+      .ant-select-selection-placeholder,
+      .anticon {
+        color: $white !important;
+      }
+    }
     .ant-select-selector {
       font-weight: 700;
       border: 2px solid $brown !important;
@@ -302,6 +322,18 @@ p {
 }
 
 .primary-container {
+
+  .ant-select {
+    &.active {
+      .ant-select-selector {
+        background: $primary !important;
+      }
+      .ant-select-selection-placeholder,
+      .anticon {
+        color: $white !important;
+      }
+    }
+  }
   .ant-select-selection-placeholder,
   .ant-select-arrow,
   .ant-select-selection-item {
