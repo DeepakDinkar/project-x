@@ -1,6 +1,7 @@
 export function Dustbin() {
   return (
     <svg
+      style={{ width: "20px" }}
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
       width="24.000000pt"

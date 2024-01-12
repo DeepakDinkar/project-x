@@ -166,6 +166,10 @@ p {
   .standard-font-bold {
     font-size: 1.3rem;
   }
+
+  .ant-drawer-content-wrapper {
+    min-width: 470px !important;
+  }
 }
 
 /* Large devices such as laptops (992px and up) */
@@ -244,6 +248,10 @@ p {
   .ant-tag-close-icon {
     color: $white;
   }
+}
+
+.ant-drawer-header {
+  padding-right: 8px !important;
 }
 
 .ant-collapse {

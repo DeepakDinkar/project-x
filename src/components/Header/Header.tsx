@@ -20,6 +20,7 @@ import Register from "./Register/Register";
 import Login from "./Login/Login";
 import { Cart } from "../../utils/svgs/Cart";
 import { Dustbin } from "../../utils/svgs/Dustbin";
+import { SearchIconHeader } from "../../utils/svgs/SearchIconHeader";
 
 export default function Header() {
   const location = useLocation();
@@ -60,6 +61,15 @@ export default function Header() {
       <Layout style={{ paddingBottom: "5rem" }}>
         <Layout.Header className={styles.header}>
           <Flex style={{ alignItems: "center", gap: "1.5rem" }}>
+            {!breakPoints?.md && (
+              <Button
+                className={styles.menuBtn}
+                type="text"
+                onClick={showDrawer}
+              >
+                <MenuOutlined height={100} width={100} />
+              </Button>
+            )}
             <span
               className={styles.logoWrapper}
               onClick={() => navigate("/")}
@@ -68,17 +78,17 @@ export default function Header() {
             >
               <Logo />
             </span>
-            <Input
-              placeholder="Search"
-              prefix={<SearchIcon />}
-              size="middle"
-              style={{
-                width: "auto",
-                flexGrow: 1,
-              }}
-            />
-            {breakPoints?.md ? (
+            {breakPoints?.md && (
               <>
+                <Input
+                  placeholder="Search"
+                  prefix={<SearchIcon />}
+                  size="middle"
+                  style={{
+                    width: "auto",
+                    flexGrow: 1,
+                  }}
+                />
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${
@@ -100,28 +110,24 @@ export default function Header() {
                 <Badge count={5} status="default">
                   <Cart onClick={showCartDrawer} />
                 </Badge>
-
-                <Button
-                  type="primary"
-                  className="text-uppercase"
-                  onClick={() => showModal()}
-                >
-                  Log in
-                </Button>
               </>
-            ) : (
-              <Button
-                className={styles.menuBtn}
-                type="text"
-                onClick={showDrawer}
-              >
-                <MenuOutlined height={100} width={100} />
-              </Button>
             )}
+            {
+               !breakPoints?.md && (
+                <SearchIconHeader/>
+               )
+            }
+            <Button
+              type="primary"
+              className="text-uppercase"
+              onClick={() => showModal()}
+            >
+              Log in
+            </Button>
           </Flex>
           <div>
             <Drawer
-              placement="right"
+              placement="left"
               closable={true}
               onClose={showDrawer}
               open={visible}
@@ -160,7 +166,7 @@ export default function Header() {
             </Drawer>
 
             <Drawer
-            size="large"
+              size="default"
               className="cart-drawer"
               placement="right"
               closable={true}
@@ -177,19 +183,32 @@ export default function Header() {
               }
             >
               <div>
-                <Flex vertical>
-                  <Flex>
+                <Flex vertical gap={"2.5rem"}>
+                  <Flex gap={"1.5rem"}>
                     <Image
+                      style={{ borderRadius: "10px" }}
                       width={56}
                       height={56}
                       preview={false}
-                      src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1704672000&Signature=P0~M-qXMsTa5ucFR-qM66Ye4vwtJbifupT10AOGgMDW0CYgkZQqhlZInSRX-TbNYzn5Ru3A785pvaz3A~C~DGk7rkTJypT01skDcOwVenzAoJ3l-dx7YpuCoDgXiUHKQ25gzELJJMnnPxyMMPz00snHWt9SRBJZWm4-46kWlxjpjuid5GFe80mBmOa8RtLsOiPUAxOATe0tYpb-ctfrG86yGMsTids9djD6oRO5jKiGypLcj78xC3P2XNIRM-8OPtRxAfsA0qT29SEiWh6Y~VevDjJs77xW2Gq7fQgB6EdNwhmHRvIpK6kqZPIoq7EhnzlVZ8AJ7ZwSyIz-neNLzoA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                      src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1705881600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GVbJStIOTTtQg6q4GqdJUWaqMNoEUpDqRn0MWPBMIF6rWWZYNlZEr20zcQK6NfVZsTrb-lJTwxouHUtVNtMjDQ6zjXposIB71hSlpOMuQL0aaQ6j0k4sKbgbFeMT-Z04FqShggkzZ9Tx8AENUO3hdeVFANeM-lH0shU3gOPhf4IksgWFTpvsf9FvbQDFB9mMeCpCV22fNn9QPwGVUwaGHychqN5x9W5QRSAlwBzULMfuivyK6dfJzU9TvAxBxQpj27Ks6Qb8I8VdjOfrzma7XDQLaEPZqVRxgKzzl3bxAWWyKsluiOifUQtiy5~Vzwh~vaCpEf6SGR86JIW-A1CG1Q__"
                     />
-                    <Flex vertical>
-                      <div className="font-sm text-uppercase">leadership and business management</div>
-                      <div className="font-default font-bold">International Leadership</div>
+                    <Flex
+                      vertical
+                      style={{ flex: 1, justifyContent: "space-evenly" }}
+                    >
+                      <div className="font-sm text-uppercase">
+                        leadership and business management
+                      </div>
+                      <div className="font-default font-bold">
+                        International Leadership
+                      </div>
                       <div>
-                        <span className="font-sm">Qty: 10</span>
+                        <span
+                          className="font-sm"
+                          style={{ paddingRight: "10px" }}
+                        >
+                          Qty: 10
+                        </span>
                         <span className="font-sm">Price: $400</span>
                       </div>
                     </Flex>
@@ -206,6 +225,7 @@ export default function Header() {
                   <Button
                     type="primary"
                     className="font-default font-bold text-uppercase"
+                    style={{ alignSelf: "self-end", width: "fit-content" }}
                   >
                     Checkout
                   </Button>
