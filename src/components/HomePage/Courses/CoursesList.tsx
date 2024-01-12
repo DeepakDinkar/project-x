@@ -1,8 +1,8 @@
 import { Flex, Image } from "antd";
 import styles from "../../../pages/home/Home.module.scss";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
-import { LeftCurve } from "../../../utils/LeftCurve";
-import { RightCurve } from "../../../utils/RightCurve";
+import { LeftCurve } from "../../../utils/svgs/LeftCurve";
+import { RightCurve } from "../../../utils/svgs/RightCurve";
 
 function CoursesList() {
   const courses = [

@@ -4,8 +4,8 @@ import Explore from "../../components/HomePage/Explore/Explore";
 import styles from "./Home.module.scss";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
-import { LeftCurve } from "../../utils/LeftCurve";
-import { RightCurve } from "../../utils/RightCurve";
+import { LeftCurve } from "../../utils/svgs/LeftCurve";
+import { RightCurve } from "../../utils/svgs/RightCurve";
 import { useNavigate } from "react-router-dom";
 
 function Home() {

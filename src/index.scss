@@ -65,8 +65,16 @@ p {
   font-size: 1.5rem;
 }
 
+.font-sm {
+  font-size: .75rem;
+}
+
 .font-default {
   font-size: 1rem;
+}
+
+.font-roboto-slab {
+  font-family: $font-roboto-slab;
 }
 
 .position-relative {
@@ -420,5 +428,21 @@ p {
   .ant-btn {
     height: 32px !important;
     font-size: 1rem;
+  }
+}
+
+.ant-badge-count {
+  background: $primary !important;
+}
+
+.cart-drawer {
+  .ant-drawer-header {
+    border: 0;
+  }
+  .ant-drawer-close {
+    order: 1;
+  }
+  .ant-drawer-title {
+    text-align: center;
   }
 }
