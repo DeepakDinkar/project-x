@@ -1,7 +1,8 @@
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 
 export function Logo() {
-  // const breakPoints = useBreakPoint();
+  const breakPoints = useBreakPoint();
+  console.log(breakPoints);
 
   return (
     <svg
