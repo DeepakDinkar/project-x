@@ -1,67 +1,113 @@
-import { Button, Divider, Flex, Input } from "antd";
+import { useGoogleLogin } from "@react-oauth/google";
+import { Button, Divider, Flex, Form, Input } from "antd";
+import { jwtDecode } from "jwt-decode";
+import { Dispatch, SetStateAction, useState } from "react";
+import emailValidator from "../../../error/Validations/emailValidator";
+import { LoginForm } from "../../../models/LoginForm";
 import { FacebookIcon } from "../../../utils/svgs/FacebookIcon";
 import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
 
-type LoginProps = {
-  setIsLogin: (isLogin: boolean) => void;
+type Props = {
+  setIsLogin: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Login({ setIsLogin }: LoginProps) {
+export default function Login({ setIsLogin }: Props) {
+  const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
+
+  const responseMessage = (response: any) => {
+    const details = jwtDecode(response.credential);
+    console.log(details);
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseMessage,
+  });
+
+  const onLoginSubmit = (values: LoginForm) => {
+    setIsLoginLoading(true);
+
+    setTimeout(() => {
+      console.log("Success:", values);
+      setIsLoginLoading(false);
+    }, 5000);
+  };
+
   return (
     <div className="modal-container">
-      <Flex vertical className={styles.modalWrapper}>
-        <h2>Log in</h2>
-        <Input
-          className={styles.input}
-          placeholder="Email ID"
-          prefix={<MailIcon />}
-          size="middle"
-          style={{
-            flexShrink: 0,
-          }}
-        />
-        <Input
-          className={styles.input}
-          placeholder="Password"
-          prefix={<PasswordIcon />}
-          size="middle"
-          style={{
-            flexShrink: 0,
-          }}
-        />
-        <Button
-          type="primary"
-          className={styles.btn}
-          style={{ margin: "1.5rem auto 0" }}
-        >
-          Log in
-        </Button>
-        <Divider className={styles.divider} />
-        <Button className={styles.outlineBtn}>
-          <GoogleIcon style={{ paddingRight: ".5rem" }} /> Continue with google
-        </Button>
-        <Button className={styles.outlineBtn}>
-          <FacebookIcon style={{ paddingRight: ".5rem" }} /> Continue with
-          facebook
-        </Button>
-        <Divider className={styles.divider} />
-        <div className={styles.signupContainer}>
-          <span>Not a member?</span>
-          <p>
-            <Button
-              type="link"
-              className={styles.signupBtn}
-              onClick={() => setIsLogin(false)}
-            >
-              Sign up
-            </Button>{" "}
-            to get latest updates and exciting offers on courses
-          </p>
-        </div>
-      </Flex>
+      <Form name="loginForm" onFinish={onLoginSubmit}>
+        <Flex vertical className={styles.modalWrapper}>
+          <h2>Log in</h2>
+          <Form.Item<LoginForm>
+            name="email"
+            rules={[
+              { required: true, message: "*Email is required" },
+              { validator: emailValidator, message: "Invalid email" },
+            ]}
+          >
+            <Input
+              className={styles.input}
+              placeholder="Email ID"
+              prefix={<MailIcon />}
+              size="middle"
+              style={{
+                flexShrink: 0,
+              }}
+            />
+          </Form.Item>
+          <Form.Item<LoginForm>
+            name="password"
+            rules={[{ required: true, message: "*Password is required" }]}
+          >
+            <Input
+              type="password"
+              className={styles.input}
+              placeholder="Password"
+              prefix={<PasswordIcon />}
+              size="middle"
+              style={{
+                flexShrink: 0,
+              }}
+            />
+          </Form.Item>
+
+          <Button
+            htmlType="submit"
+            type="primary"
+            className={styles.btn}
+            style={{ margin: "1.5rem auto 0" }}
+            loading={isLoginLoading}
+          >
+            Log in
+          </Button>
+
+          <Divider className={styles.divider} />
+          <Button className={styles.outlineBtn} onClick={() => googleLogin()}>
+            <GoogleIcon style={{ paddingRight: ".5rem" }} /> Continue with
+            google
+          </Button>
+          <Button className={styles.outlineBtn}>
+            <FacebookIcon style={{ paddingRight: ".5rem" }} /> Continue with
+            facebook
+          </Button>
+          <Divider className={styles.divider} />
+          <div className={styles.signupContainer}>
+            <span>Not a member?</span>
+            <p>
+              <Button
+                type="link"
+                className={styles.signupBtn}
+                onClick={() => setIsLogin(false)}
+              >
+                Sign up
+              </Button>{" "}
+              to get latest updates and exciting offers on courses
+            </p>
+          </div>
+        </Flex>
+      </Form>
     </div>
   );
 }

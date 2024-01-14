@@ -5,6 +5,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import "./theme/card.scss";
 import AppRouter from "./router/router";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const theme: ThemeConfig = {
   components: {
@@ -23,13 +24,15 @@ const theme: ThemeConfig = {
 
 function App() {
   return (
-    <ConfigProvider theme={theme}>
-      <BrowserRouter>
-        <Header />
-        <AppRouter />
-        <Footer />
-      </BrowserRouter>
-    </ConfigProvider>
+    <GoogleOAuthProvider clientId="471731862964-dkuur20m90phgklr5cq32pq2706qjc3c.apps.googleusercontent.com">
+      <ConfigProvider theme={theme}>
+        <BrowserRouter>
+          <Header />
+          <AppRouter />
+          <Footer />
+        </BrowserRouter>
+      </ConfigProvider>
+    </GoogleOAuthProvider>
   );
 }
 

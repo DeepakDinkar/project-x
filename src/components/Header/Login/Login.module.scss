@@ -25,7 +25,7 @@
 
 .outlineBtn,
 .input {
-  border: 1px solid $brown-100;
+  border: 1px solid $brown-300;
 }
 
 .outlineBtn {
@@ -58,6 +58,21 @@
         font-size: inherit;
         text-decoration: underline;
       }
+    }
+  }
+}
+
+// Media queries
+
+@media screen and (max-width: $md) {
+  .btn,
+  .outlineBtn {
+    font-size: 1.4rem !important;
+  }
+
+  .modalWrapper {
+    h2 {
+      font-size: 3rem;
     }
   }
 }

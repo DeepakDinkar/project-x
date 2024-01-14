@@ -1,15 +1,10 @@
 import { Button, Flex, Input, Select } from "antd";
 import styles from "../Login/Login.module.scss";
+import { useState } from "react";
 
-type RegisterProps = {
-  isNextStep: boolean;
-  setIsNextStep: (isNextStep: boolean) => void;
-};
+export default function Register() {
+  const [isNextStep, setIsNextStep] = useState<boolean>(false);
 
-export default function Register({
-  isNextStep,
-  setIsNextStep,
-}: Readonly<RegisterProps>) {
   return (
     <div className="modal-container">
       <Flex vertical className={styles.modalWrapper}>

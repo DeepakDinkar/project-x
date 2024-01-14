@@ -1,15 +1,17 @@
 type Props = {
   onClick?: React.MouseEventHandler;
+  className?: string;
 };
 
-export function Cart({ onClick }: Readonly<Props>) {
+export function Cart({ onClick, className }: Readonly<Props>) {
   return (
     <svg
       onClick={onClick}
+      className={className}
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
-      width="24.000000pt"
-      height="24.000000pt"
+      width="22.000000pt"
+      height="22.000000pt"
       viewBox="0 0 32.000000 32.000000"
       preserveAspectRatio="xMidYMid meet"
     >

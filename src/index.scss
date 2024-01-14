@@ -55,6 +55,7 @@ p {
 
 .main-header {
   font-size: 4.25rem;
+  font-family: $font-roboto-slab;
 }
 
 .common-header {
@@ -66,7 +67,7 @@ p {
 }
 
 .font-sm {
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 .font-default {
@@ -139,7 +140,7 @@ p {
 /* Small devices such as large phones (576px and up) */
 @media only screen and (min-width: $sm) {
   :root {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .ant-btn,
@@ -207,7 +208,7 @@ p {
 
 .ant-btn {
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   padding: 0.875rem 3.5rem;
   display: flex;
   align-items: center;
@@ -323,6 +324,12 @@ p {
   }
 }
 
+.ant-modal-content {
+  background: lightgray 50%, url("/images/owl.png") no-repeat;
+  background-size: 50%;
+  background-position: 250px 80px;
+}
+
 .ant-input,
 .ant-input-affix-wrapper {
   border-radius: 100px !important;
@@ -431,14 +438,6 @@ p {
 
 // Media queries
 
-@media screen and (max-width: $md) {
-  .button,
-  .ant-btn {
-    height: 32px !important;
-    font-size: 1rem;
-  }
-}
-
 .ant-badge-count {
   background: $primary !important;
 }
@@ -452,5 +451,24 @@ p {
   }
   .ant-drawer-title {
     text-align: center;
+  }
+}
+
+.ant-form-item-explain-error {
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.ant-form-item-explain {
+  padding: 4px 10px;
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: $md) {
+  .ant-form-item-explain-error {
+    font-size: 1.2rem !important;
   }
 }
