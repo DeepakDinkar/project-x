@@ -23,6 +23,7 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const responseMessage = (response: any) => {
     const details = jwtDecode(response.credential);
+    dispatch(login());
     console.log(details);
   };
 
