@@ -5,6 +5,7 @@ import About from "../pages/about/About";
 import Home from "../pages/home/Home";
 import CourseDetails from "../pages/courses/[courseId]/CourseDetails";
 import MyCourses from "../pages/mycourses/MyCourses";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export default function AppRouter() {
   return (
@@ -13,7 +14,9 @@ export default function AppRouter() {
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetails />} />
-      <Route path="/mycourses" element={<MyCourses />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/mycourses" element={<MyCourses />} />
+      </Route>
     </Routes>
   );
 }

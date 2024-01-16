@@ -65,6 +65,7 @@
 
 .globalSearchInput {
   border: none;
+  max-width: 380px;
   input {
     height: 40px !important;
     width: "auto";
@@ -72,9 +73,29 @@
   }
 }
 
-.cartIcon {
+.cartIcon, .userIcon {
   height: 22px;
   width: 22px;
+}
+
+.userDropdownWrapper {
+  gap: .5rem;
+  align-items: center;
+
+  .userName {
+    gap: .5rem;
+    svg {
+      font-size: 15px;
+    }
+  }
+}
+
+.userDropdown {
+  button {
+    font-size: 1rem !important;
+    height: auto !important;
+    font-family: $font-ubuntu !important;
+  }
 }
 
 // Media queries

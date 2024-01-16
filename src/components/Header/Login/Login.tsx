@@ -9,14 +9,18 @@ import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/reducers/userReducer";
 
 type Props = {
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Login({ setIsLogin }: Props) {
+export default function Login({ setIsLogin }: Readonly<Props>) {
   const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const responseMessage = (response: any) => {
     const details = jwtDecode(response.credential);
     console.log(details);
@@ -32,6 +36,7 @@ export default function Login({ setIsLogin }: Props) {
     setTimeout(() => {
       console.log("Success:", values);
       setIsLoginLoading(false);
+      dispatch(login());
     }, 5000);
   };
 

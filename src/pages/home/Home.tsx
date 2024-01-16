@@ -1,12 +1,11 @@
 import { Carousel, Col, Flex, Image, Layout, Row } from "antd";
-
-import Explore from "../../components/HomePage/Explore/Explore";
-import styles from "./Home.module.scss";
+import { useNavigate } from "react-router-dom";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
+import Explore from "../../components/HomePage/Explore/Explore";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { LeftCurve } from "../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../utils/svgs/RightCurve";
-import { useNavigate } from "react-router-dom";
+import styles from "./Home.module.scss";
 
 function Home() {
   const breakPoint = useBreakPoint();
@@ -14,23 +13,23 @@ function Home() {
 
   const getLargeCardHeight = (): number => {
     if (breakPoint?.xl) {
-      return 520;
+      return 560;
     }
     if (breakPoint?.lg) {
-      return 440;
+      return 460;
     }
     if (breakPoint?.md) {
       return 330;
     }
-    return 200;
+    return 225;
   };
 
   const getMediumCardHeight = (): number => {
     if (breakPoint?.xl) {
-      return 300;
+      return 320;
     }
     if (breakPoint?.lg) {
-      return 250;
+      return 265;
     }
     if (breakPoint?.md) {
       return 170;
@@ -40,15 +39,15 @@ function Home() {
 
   const getSmallCardHeight = (): number => {
     if (breakPoint?.xl) {
-      return 210;
+      return 230;
     }
     if (breakPoint?.lg) {
-      return 180;
+      return 187;
     }
     if (breakPoint?.md) {
       return 155;
     }
-    return 130;
+    return 145;
   };
 
   return (
@@ -70,7 +69,7 @@ function Home() {
               <Row>
                 <Col span={breakPoint?.md ? 18 : 24}>
                   <div>
-                    <Carousel effect="fade">
+                    <Carousel effect="scrollx">
                       <div
                         className="course-card large-card"
                         onClick={() => navigate("/courses/123")}
@@ -89,8 +88,8 @@ function Home() {
                             vertical
                             style={{
                               padding: breakPoint?.md
-                                ? "3.5rem"
-                                : "2.5rem 1.5rem",
+                                ? "1.5rem"
+                                : "2.5rem 0.5rem",
                               justifyContent: "flex-end",
                             }}
                             className="h-100"

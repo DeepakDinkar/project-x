@@ -6,6 +6,8 @@ import Header from "./components/Header/Header";
 import "./theme/card.scss";
 import AppRouter from "./router/router";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const theme: ThemeConfig = {
   components: {
@@ -24,15 +26,17 @@ const theme: ThemeConfig = {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="471731862964-dkuur20m90phgklr5cq32pq2706qjc3c.apps.googleusercontent.com">
-      <ConfigProvider theme={theme}>
-        <BrowserRouter>
-          <Header />
-          <AppRouter />
-          <Footer />
-        </BrowserRouter>
-      </ConfigProvider>
-    </GoogleOAuthProvider>
+    <Provider store={store}>
+      <GoogleOAuthProvider clientId="471731862964-dkuur20m90phgklr5cq32pq2706qjc3c.apps.googleusercontent.com">
+        <ConfigProvider theme={theme}>
+          <BrowserRouter>
+            <Header />
+            <AppRouter />
+            <Footer />
+          </BrowserRouter>
+        </ConfigProvider>
+      </GoogleOAuthProvider>
+    </Provider>
   );
 }
 
