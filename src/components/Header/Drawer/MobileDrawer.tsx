@@ -9,7 +9,11 @@ type Props = {
   openDrawer: () => void;
 };
 
-export default function MobileDrawer({ isDrawerVisible, closeDrawer, openDrawer }: Props) {
+export default function MobileDrawer({
+  isDrawerVisible,
+  closeDrawer,
+  openDrawer,
+}: Readonly<Props>) {
   const navigate = useNavigate();
 
   const routeToPath = (path: string) => {

@@ -1,11 +1,10 @@
-import { DownOutlined, MenuOutlined, SearchOutlined } from "@ant-design/icons";
+import { DownOutlined, MenuOutlined, } from "@ant-design/icons";
 import {
   Badge,
   Button,
   Dropdown,
   Flex,
   Image,
-  Input,
   Layout,
   MenuProps,
   Modal,
@@ -20,8 +19,9 @@ import { useDrawer } from "../../hooks/useDrawer";
 import { logout } from "../../redux/reducers/userReducer";
 import { axiosConfig } from "../../services/axios-config";
 import { Cart } from "../../utils/svgs/Cart";
-import { SearchIcon } from "../../utils/svgs/SearchIcon";
+
 import { UserIcon } from "../../utils/svgs/UserIcon";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import CartDrawer from "./Drawer/CartDrawer";
 import MobileDrawer from "./Drawer/MobileDrawer";
 import styles from "./Header.module.scss";
@@ -35,7 +35,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const user = useSelector((state: { user: { login: boolean } }) => state.user);
+  const user = useSelector((state: { user: { login: boolean, userName: string } }) => state.user);
 
   useEffect(() => {
     setIsModalOpen(false);
@@ -124,7 +124,7 @@ export default function Header() {
           <UserIcon className={styles.userIcon} />
           <Flex className={styles.userName}>
             <Button type="link" className={styles.linkButton}>
-              {breakPoints?.md && "Deepak"} <DownOutlined />
+              {breakPoints?.md && user?.userName} <DownOutlined />
             </Button>
           </Flex>
         </Flex>
@@ -145,7 +145,7 @@ export default function Header() {
     <nav>
       <Layout style={{ paddingBottom: "6rem" }}>
         <Layout.Header className={styles.header}>
-          <Flex style={{ alignItems: "center", gap: "1.5rem" }}>
+          <Flex style={{ alignItems: "center", gap: "1.2rem" }}>
             {!breakPoints?.md && (
               <Button
                 className={styles.menuBtn}
@@ -157,19 +157,15 @@ export default function Header() {
             )}
             <span className={styles.logoWrapper}>
               <Image
+                width={0}
                 src="/logo.png"
                 preview={false}
                 onClick={() => navigate("/")}
               />
             </span>
+            <GlobalSearch />
             {breakPoints?.md && (
               <>
-                <Input
-                  placeholder="Search"
-                  prefix={<SearchIcon />}
-                  size="middle"
-                  className={styles.globalSearchInput}
-                />
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${
@@ -197,9 +193,6 @@ export default function Header() {
                   />
                 </Badge>
               </>
-            )}
-            {!breakPoints?.md && (
-              <SearchOutlined className={styles.headerIcon} />
             )}
             {getUserInfo()}
           </Flex>

@@ -72,14 +72,14 @@ function Home() {
                     <Carousel effect="scrollx">
                       <div
                         className="course-card large-card"
-                        onClick={() => navigate("/courses/123")}
+                        onClick={() => navigate("/courses")}
                         role="button"
                         onKeyDown={() => {}}
                       >
                         <Image
                           height={getLargeCardHeight()}
                           width={"100%"}
-                          src="https://s3-alpha-sig.figma.com/img/c8c1/4bea/d0f0723266c0a364981ccf971f7c3c9c?Expires=1702252800&Signature=FLPaUjmBZxRIMKgVOXBfkGNNvBAj9X4a~P1t0cZWBswGemAxGn7je39ntVXiVI~4a7h5Bc5fggc0a8K2-VhAR0SZKdh~ktTEjIyoV82OoGm7hX0H1geiUSF3mVDHqUNapPVeEWMnZa1IyLpotEWMUH1nj8VknsJZKlhXVaBbAnuyf0pnvXyUo5GUBwx1FHUj8TtHjRfvb10YmnVsXIc-X1tTjER0tVytcFGeWwWBXxlq2Y-L7bf7F1480~4dIuME2PQg6rC2IdWEoKvS7CN33PGF-9GTVy7inF8dLY3Folen6Nqgx1L6vCca43H~eHVlqY~2DZ-om8MNfstMq8Vl6Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                          src="https://s3-alpha-sig.figma.com/img/70d5/28e6/8a810224ca31b17a40991db177bf1dfc?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gOnUTmG1mEtlAVhCya4oXUaFBi8eOVr5hLgVQbLu8Sbsn9uDKQ2zJYdJKEDr8HCl8wd8uVSc5kA-juZri0jeJr-Xuyz8kzDIS-3-idhqFEwiHlsefcwCwO~kBLYSAqrGCzRwgkxVFNeB4mx1G9g7f8dmQl3o5HLJv7E-zU700ww55UZC1pF3kBDStFf2~WfUARtX1Dsup-EkcJYbIA5DNvOtDHO1rHZn09xtRuMUAuk3f87pp21W-upVmY8EYrFYZOzdZ4tcDV-VqnHLX08SaxY1WECCbs6~ratAVprJ~UXEAdC6PU9KjZVZ8-9Pb~YMyxLFE7Nq8IO78Xq64is1Gg__"
                           fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                           preview={false}
                         />
@@ -101,9 +101,9 @@ function Home() {
                                 width={breakPoint?.md ? 36 : 22}
                               />
                               <span className="color-primary">
-                                Trending in{" "}
+                                Trending in &nbsp;
                               </span>
-                              <span> courses</span>
+                              <span> verticals</span>
                             </div>
                             <span className="card-primary-title">
                               TECHNOLOGY AND AI
@@ -116,7 +116,7 @@ function Home() {
                       </div>
                       <div
                         className="course-card large-card"
-                        onClick={() => navigate("/courses/123")}
+                        onClick={() => navigate("/courses")}
                         role="button"
                         onKeyDown={() => {}}
                       >
@@ -156,7 +156,7 @@ function Home() {
                       <Image
                         height={getMediumCardHeight()}
                         width={"100%"}
-                        src="https://s3-alpha-sig.figma.com/img/e954/683e/0689f3012a24a815bbfb9046d19eb63d?Expires=1702252800&Signature=pROpWE71ELLNXQddC7z277xXUVeLqPv9-xoBv3Qke8Vxa-QF5VICuLlgB6qPdg~WEJPkG9MRz2bT8u0AbJyLfiAWWPr4mOnSlnHE~RbwlSZRU6Yh3LVy9KBwow-tkadLtiVsM75hvGFqrb96G-58stvKnCJXSABsHEtGLSpufiGehdP6MPMmjC~w3zZGDhGaPB-gBIybTe3lWVkYTHQwMUlxOaQyKgts0f0P7Uta5k59C7D4dSEjjl0Q2puKipY7JaGF7YQMS0eW1CvySkGnvMWV-Usti6H5MUg6p4HbqN6TeWrdrND2yPqbHgwNSD-VncU-V3TsamttSIpUPa6CQg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                        src="https://s3-alpha-sig.figma.com/img/9436/2ae7/58db11aaafdacef50118de8cfe45816f?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=iiykxF~mnnbk59Xzng0C7sDgTqDSTL3MB0u4hWkXhFiNOxzPc1roir~9IP0ydGG2It1vwVyb96sZSPGiPKs0WfPeQ4GfWeB~DbqIIECSs-TWQxvaNEpQLl2I3VlgZ2Jl5LQ7K11EDj~a4DjSVC976cFqHt-MvUew29WXGWfTy4l5ZDp9GXUVqGPlFGl~U5LoLvNTSQza6zVSVdmn5RFKwNWzIv2JaZy2dXlxvReusKcOygPFRXy-fzyL5kH12sXxe0vUuGoK6Ytyh3qLZV08pzWTMlkV9u~MT-SJtBVUTKcTCdipOVC4IuTQuE8iFnPpl~enUNFsGuq9fQuro9yo4A__"
                         fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                         preview={false}
                       />
@@ -191,7 +191,7 @@ function Home() {
                       <Image
                         height={getSmallCardHeight()}
                         width={"100%"}
-                        src="https://s3-alpha-sig.figma.com/img/9b61/0683/1876ff9c0ce280e6f2560575fdaa0064?Expires=1702252800&Signature=bNPcJEeZMHf3aPoDTFh-703bogQIHKMW6ss4wnoYYuWqnv8Y70aLVDBT~psXF161kanMz-beLDL88bZgedRS-Q866UtpziNrlwsZt2RA7L~6wtHAxodgL7MFGRYGlsSOnYXwKon8qDb0cBS9VeeG6lc8Y6upDpWWsHNMtQdHEeJWHgHYFii7TuBDGh-HH9ez9fcbVr0pQHF54kcgC7XKbDjv1RJRAek1Il0Ufi6ULnSG9Y5O4Q4Z-jgKn6aZC2jE6kTPKPkmT8mcA1u4zhN17mA7AoB87Gd7anEbhArhxjLZD6zO9EcqHd9vWMwqQcwgsw9xHUSvt67wgb8IGZ7upg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                        src="https://s3-alpha-sig.figma.com/img/fd5f/c85d/6f261a6913460288a6252d2a7b95a442?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZeNQ42DIiuv6af9lzX8Y7CRNXr-NobebLsxOtBJlhgq6XPLL1T4t61xYlPcpKPaOnep~mCPZYLTPAyMcLpTPCIYvMDuS98rvxTJOHIyFRgCdq3b6jC2ZGoKG8eSRHhoK7lrvQUnV8ck4c76KdhQ5edzj5vHMfwoftJpTMrSRzBvnVxmTo9zt9YachrPCOyvmVKgKlS7uv6apAiEcXyOLc0F5lpCQ2oIYh4byiBAD6jZZReDrNedRmwQYckrTxgTIhIhNPekzMP8ycv77kJYI3KEmnDZf6pmz4~3ytru38sbeQwNstu3l18hjz9sEMDPNoDIKcNEYfkrRdH9PuuqzIw__"
                         fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                         preview={false}
                       />

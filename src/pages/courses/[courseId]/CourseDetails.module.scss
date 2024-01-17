@@ -40,6 +40,11 @@
   }
 }
 
+.courseDetailImage {
+  width: max(200px, 360px) !important;
+  height: 100% !important;
+}
+
 // Media queries
 @media only screen and (max-width: $md) {
   .mentorCardCircle {

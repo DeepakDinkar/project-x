@@ -22,14 +22,6 @@
     .exploreSearchWrapper {
       padding-top: 2.5rem;
     }
-
-    .exploreCard:hover {
-      transform: scale(1.025);
-      z-index: 1;
-      transform-origin: top left;
-      transition: all 0.3s ease-in;
-      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    }
   }
 
   .topicText {

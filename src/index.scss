@@ -63,11 +63,11 @@ p {
 }
 
 .sub-header {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .font-sm {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 .font-default {
@@ -121,12 +121,20 @@ p {
   -webkit-box-orient: vertical;
 }
 
+.course-card .ant-image {
+  width: 100%;
+}
+
+.course-card .ant-image .ant-image-img {
+  height: 100%;
+}
+
 /* ================================================================= */
 /* Media Queries */
 
-@media only screen and (min-width: $xs) {
+@media only screen and (min-width: $xs) and (max-width: $sm) {
   :root {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .ant-btn,
@@ -135,12 +143,22 @@ p {
   .button {
     height: 40px !important;
   }
+
+  .font-sm {
+    font-size: 1rem;
+  }
+
+  .course-card {
+    .ant-image {
+      height: 160px;
+    }
+  }
 }
 
 /* Small devices such as large phones (576px and up) */
-@media only screen and (min-width: $sm) {
+@media only screen and (min-width: $sm)and (max-width: $md) {
   :root {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .ant-btn,
@@ -149,12 +167,22 @@ p {
   .button {
     height: 44px !important;
   }
+
+  .font-sm {
+    font-size: 0.875rem;
+  }
+
+  .course-card {
+    .ant-image {
+      height: 210px;
+    }
+  }
 }
 
 /* Medium devices such as tablets (768px and up) */
-@media only screen and (min-width: $md) {
+@media only screen and (min-width: $md) and (max-width: $lg) {
   :root {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .ant-btn,
@@ -171,10 +199,16 @@ p {
   .ant-drawer-content-wrapper {
     min-width: 470px !important;
   }
+
+  .course-card {
+    .ant-image {
+      height: 240px;
+    }
+  }
 }
 
 /* Large devices such as laptops (992px and up) */
-@media only screen and (min-width: $lg) {
+@media only screen and (min-width: $lg)and (max-width: $xl) {
   :root {
     font-size: 14px;
   }
@@ -184,6 +218,12 @@ p {
   .ant-select,
   .button {
     height: 52px !important;
+  }
+
+  .course-card {
+    .ant-image {
+      height: 270px;
+    }
   }
 }
 
@@ -198,6 +238,12 @@ p {
   .ant-select,
   .button {
     height: 56px !important;
+  }
+
+  .course-card {
+    .ant-image {
+      height: 300px;
+    }
   }
 }
 
@@ -218,6 +264,11 @@ p {
     border: 2px solid $brown-100;
     color: $brown-100;
   }
+}
+
+.ant-select-dropdown {
+  border-radius: 30px;
+  padding: 12px;
 }
 
 .ant-btn-link {
@@ -360,7 +411,8 @@ p {
         background: $brown-100 !important;
       }
       .ant-select-selection-placeholder,
-      .anticon {
+      .anticon,
+      .ant-select-selection-item {
         color: $white !important;
       }
     }
@@ -381,7 +433,8 @@ p {
         background: $primary !important;
       }
       .ant-select-selection-placeholder,
-      .anticon {
+      .anticon,
+      .ant-select-selection-item {
         color: $white !important;
       }
     }

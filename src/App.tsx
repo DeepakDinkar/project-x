@@ -17,9 +17,9 @@ const theme: ThemeConfig = {
       algorithm: true,
     },
     Carousel: {
-      dotHeight: 12,
-      dotWidth: 12,
-      dotActiveWidth: 12,
+      dotHeight: 10,
+      dotWidth: 10,
+      dotActiveWidth: 10,
     },
   },
 };

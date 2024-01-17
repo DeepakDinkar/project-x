@@ -50,40 +50,24 @@
   text-transform: uppercase;
 }
 
-.headerIcon {
-  svg {
-    height: 24px;
-    width: 24px;
-  }
-}
-
 .loginBtn {
   font-size: 1.5rem !important;
   height: auto;
   text-transform: uppercase;
 }
 
-.globalSearchInput {
-  border: none;
-  max-width: 380px;
-  input {
-    height: 40px !important;
-    width: "auto";
-    flex-grow: 1;
-  }
-}
-
-.cartIcon, .userIcon {
-  height: 22px;
-  width: 22px;
+.cartIcon,
+.userIcon {
+  height: 24px;
+  width: 24px;
 }
 
 .userDropdownWrapper {
-  gap: .5rem;
+  gap: 0.5rem;
   align-items: center;
 
   .userName {
-    gap: .5rem;
+    gap: 0.5rem;
     svg {
       font-size: 15px;
     }
