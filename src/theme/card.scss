@@ -5,7 +5,7 @@
   max-width: 100%;
   height: 100%;
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(2, 1fr);
 
   .large-content {
@@ -68,6 +68,7 @@
       font-size: 1rem;
       font-weight: 500;
       text-transform: uppercase;
+      padding-bottom: 10px;
     }
   }
 }
@@ -84,6 +85,7 @@
 
 @media screen and (min-width: $xs) and (max-width: $md) {
   .grid-card-container {
+    gap: 1rem;
     .course-card:nth-child(5n) {
       grid-column: span 2;
       height: 300px;
@@ -162,6 +164,10 @@
 
     .card-overlay-wrapper {
       border-radius: 24px;
+
+      .card-course-title {
+        padding-bottom: 8px;
+      }
     }
   }
 }

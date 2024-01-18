@@ -14,7 +14,7 @@ export default function CourseDetails() {
         <div>
           <Flex vertical={!breakPoints?.md} gap={"2.5rem"}>
             <div
-              className={`course-card small-card ${styles.exploreCard}`}
+              className={`course-card small-card ${styles.exploreCard} h-100`}
               style={{ width: "fit-content" }}
             >
               <Image
@@ -60,24 +60,42 @@ export default function CourseDetails() {
           </Flex>
           <Flex
             style={{
-              flex: "row wrap",
+              flexFlow: "row wrap",
+              width: "100%",
               alignItems: "center",
               padding: "3.5rem 0",
             }}
+            justify={breakPoints?.md ? "start" : "center"}
             gap={"1.5rem"}
           >
             <span className="font-bold sub-header">Select Location & Date</span>
             <Select
               placeholder="Dubai, UAE | Nov 19 - 23, 2023"
               options={[
-                { value: "jack", label: "Jack" },
-                { value: "lucy", label: "Lucy" },
-                { value: "Yiminghe", label: "yiminghe" },
+                { value: "jack", label: "Dubai, UAE | Nov 19 - 23, 2023" },
+                { value: "lucy", label: "Nov 25 - 30, 2023" },
+                {
+                  value: "Yiminghe",
+                  label: "Abu Dhabi, UAE | Nov 27 - Dec 02, 2023",
+                },
+                { value: "Yiming", label: "Dec 01 - 06, 2023" },
               ]}
             />
+            <Flex gap={"1.5rem"} align="center">
+              <span className="font-bold sub-header">Qty</span>
+              <Select
+                placeholder="4"
+                options={[
+                  { value: "1", label: "1" },
+                  { value: "2", label: "2" },
+                  { value: "3", label: "3" },
+                  { value: "4", label: "4" },
+                ]}
+              />
+            </Flex>
           </Flex>
           <Flex
-            justify={breakPoints?.md ? "end" : "start"}
+            justify={breakPoints?.md ? "end" : "center"}
             style={{
               paddingBottom: "2rem",
               flexFlow: breakPoints?.md ? "row nowrap" : "row wrap",
@@ -91,30 +109,6 @@ export default function CourseDetails() {
               DOWNLOAD BROCHURE
             </Button>
           </Flex>
-          <div>
-            <Flex className={styles.mentorCard} gap={"2rem"}>
-              <div className={styles.mentorImageWrapper}>
-                <Image
-                  src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
-                  height={breakPoints?.md ? 250 : 100}
-                  width={breakPoints?.md ? 250 : 100}
-                />
-                <div className={styles.mentorCardCircle}></div>
-              </div>
-              <Flex
-                vertical
-                className="font-bold"
-                style={{ justifyContent: "center" }}
-                gap={"1rem"}
-              >
-                <span className="font-default text-uppercase">Trainer</span>
-                <span className="sub-header">Jo Doe</span>
-                <span className="sub-header">+971 4 447 57 11</span>
-                <span className="sub-header">jodoe@gmail.com</span>
-                <Button className="outline-btn">Reach Out</Button>
-              </Flex>
-            </Flex>
-          </div>
         </div>
         <Divider className={styles.divider} />
         <div>
@@ -149,6 +143,32 @@ export default function CourseDetails() {
                   commercial relationships. Get ready to embrace change and
                   innovation.
                 </p>
+                <div style={{ marginTop: "1.5rem" }}>
+                  <Flex className={styles.mentorCard} gap={"2rem"}>
+                    <div className={styles.mentorImageWrapper}>
+                      <Image
+                        src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
+                        height={breakPoints?.md ? 250 : 100}
+                        width={breakPoints?.md ? 250 : 100}
+                      />
+                      <div className={styles.mentorCardCircle}></div>
+                    </div>
+                    <Flex
+                      vertical
+                      className="font-bold"
+                      style={{ justifyContent: "center" }}
+                      gap={"1rem"}
+                    >
+                      <span className="font-default text-uppercase">
+                        Trainer
+                      </span>
+                      <span className="sub-header">Jo Doe</span>
+                      <span className="sub-header">+971 4 447 57 11</span>
+                      <span className="sub-header">jodoe@gmail.com</span>
+                      <Button className="outline-btn">Reach Out</Button>
+                    </Flex>
+                  </Flex>
+                </div>
               </Flex>
             </Flex>
             <Flex vertical flex={1} gap={"1.5rem"}>
@@ -192,6 +212,7 @@ export default function CourseDetails() {
         <div className="common-header font-bold">Similar Topics</div>
         <GridCard />
       </div>
+      {/* <Empty description="No courses found" /> */}
     </div>
   );
 }

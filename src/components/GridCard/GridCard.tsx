@@ -1,6 +1,9 @@
 import { Flex, Image, Rate } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function GridCard() {
+  const navigate = useNavigate();
+
   const courses = [
     "https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VRUV8dKcf0C-rPjFKCTXc7bZCtU7Ct5j6w3GLN7gGEv2Aad6TlMH0NqM-WIYzhQUMBvKnUfRKE4Le~WZumcfgWX0MjvX68YXdVSho7IUsTfFB0K1RJ8Bubaiq~u-UM8-XtptgLSHKQ9XpaXsYais~L0lLksOJZUPym1YWXHRMIpXkyPN2obuK3HR5xuNPfrawoALNs4A195HTQmmYQ3CGkBpvQIdIioEzS23pnZLdiU0QAbdliboPbAkODRYVIxRM6yLrpdvHcSlEVuYmj~zf7myCcZU~ikeQjlnQX0mECeRnwCjYO5T73r4MnMhRCmGtePRXMYisnpP7uNKD9FyjA__",
     "https://s3-alpha-sig.figma.com/img/7530/0eb8/071b4f3e67fed64422d6928dc595e8d0?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PD9DMIwxegDxAYJ~Qj2BsYAyyLcsHOc-qhhK9D8yEaiIhZcDnh0vuYAuszJldDqnxK5h9x~2Ou8DMevS8leKGwpBWvWjGpunuepNdzXueAEuLg0VHc9PEP-aJcFuErX-LFPH9GmDhqo-g2~LlDeg7jqXq7P~YBSg2fU9skI358bn7e0C7HW-e5wZn61lnmaqz9EWdNoMQHjEOGSt6eDti~eEL6IjAxs72HpnKP5tDYk43jiMB8YQw3c9TxTcLdKN2rwOZw05nY8iRixaeGsqn06LDO6BzA8gTcuZGnUEdWDWGMsVHk7JxPuxmXpwBsrng8iEJw7ly-Xi2vTN7iXOMw__",
@@ -92,7 +95,13 @@ export default function GridCard() {
   return (
     <div className="grid-card-container">
       {courses.map((course, index) => (
-        <div className={`course-card small-card explore-card`} key={index}>
+        <div
+          className={`course-card small-card explore-card`}
+          role="button"
+          key={index}
+          onClick={() => navigate("/courses/123")}
+          onKeyDown={() => {}}
+        >
           <Image
             width={"100%"}
             src={course}

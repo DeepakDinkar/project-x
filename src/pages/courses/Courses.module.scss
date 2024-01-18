@@ -44,3 +44,22 @@
         font-size: 1.5rem;
     }
   }
+
+  .outlineBtn {
+    font-size: 1rem !important;
+    text-transform: uppercase;
+    border: 1px solid $brown-300;
+    background: inherit
+  }
+
+  @media screen and (max-width: $md) {
+    .outlineBtn {
+      font-size: 1.4rem !important;
+    }
+  }
+  
+  @media screen and (max-width: $sm) {
+    .outlineBtn {
+      font-size: 1.2rem !important;
+    }
+  }

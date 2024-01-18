@@ -13,9 +13,9 @@ const drawerReducer = (
 ) => {
     switch (action.type) {
         case DRAWER.SHOW_MOBILE:
-            return { ...state, isMobileDrawer: action.payload };
+            return { ...state, isMobileDrawer: action.payload, isCartDrawer: false };
         case DRAWER.SHOW_CART:
-            return { ...state, isCartDrawer: action.payload };
+            return { ...state, isCartDrawer: action.payload, isMobileDrawer: false };
         default:
             return state;
     }

@@ -78,6 +78,10 @@ p {
   font-family: $font-roboto-slab;
 }
 
+.font-ubuntu {
+  font-family: $font-ubuntu;
+}
+
 .position-relative {
   position: relative;
 }
@@ -426,6 +430,10 @@ p {
   }
 }
 
+.ant-select-selection-item {
+  font-weight: bold !important;
+}
+
 .primary-container {
   .ant-select {
     &.active {
@@ -469,6 +477,10 @@ p {
       color: $brown-200;
     }
   }
+}
+
+.ant-tabs-tab {
+  font-weight: 700;
 }
 
 .button {
@@ -520,8 +532,37 @@ p {
   margin-bottom: 0;
 }
 
+// Radio select styles 
+.radio-select {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  .ant-radio-button-wrapper {
+    border: 0;
+    padding: 0;
+    &::before {
+      width: 0;
+    }
+  }
+
+  .ant-radio-button-wrapper-checked {
+    .tick {
+      display: block;
+    }
+  }
+  .tick {
+    display: none;
+  }
+}
+
 @media screen and (max-width: $md) {
   .ant-form-item-explain-error {
     font-size: 1.2rem !important;
+  }
+
+  .course-card {
+    .ant-image-img {
+      max-width: 100%;
+    }
   }
 }

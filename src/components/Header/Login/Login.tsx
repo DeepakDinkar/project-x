@@ -91,11 +91,11 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
 
           <Divider className={styles.divider} />
           <Button className={styles.outlineBtn} onClick={() => googleLogin()}>
-            <GoogleIcon style={{ paddingRight: ".5rem" }} /> Continue with
+            <GoogleIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} /> Continue with
             google
           </Button>
           <Button className={styles.outlineBtn}>
-            <FacebookIcon style={{ paddingRight: ".5rem" }} /> Continue with
+            <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} /> Continue with
             facebook
           </Button>
           <Divider className={styles.divider} />

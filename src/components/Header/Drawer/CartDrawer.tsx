@@ -1,14 +1,26 @@
 import { Badge, Button, Drawer, Flex, Image } from "antd";
 import { Dustbin } from "../../../utils/svgs/Dustbin";
+import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   isDrawerVisible: boolean;
   closeDrawer: () => void;
 };
 
-export default function CartDrawer({ isDrawerVisible, closeDrawer }: Props) {
+export default function CartDrawer({
+  isDrawerVisible,
+  closeDrawer,
+}: Readonly<Props>) {
+  const breakPoint = useBreakPoint();
+  const navigate = useNavigate();
   const getCartCount = (): number => {
     return 5;
+  };
+
+  const navigateToCheckout = () => {
+    navigate("/checkout");
+    closeDrawer();
   };
 
   return (
@@ -17,6 +29,7 @@ export default function CartDrawer({ isDrawerVisible, closeDrawer }: Props) {
       className="cart-drawer"
       placement="right"
       closable={true}
+      width={breakPoint?.md ? "500" : "auto"}
       onClose={() => closeDrawer()}
       open={isDrawerVisible}
       style={{ zIndex: 99999 }}
@@ -83,6 +96,7 @@ export default function CartDrawer({ isDrawerVisible, closeDrawer }: Props) {
             type="primary"
             className="font-default font-bold text-uppercase"
             style={{ alignSelf: "self-end", width: "fit-content" }}
+            onClick={() => navigateToCheckout()}
           >
             Checkout
           </Button>

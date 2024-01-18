@@ -1,0 +1,58 @@
+@import "../../theme/variables";
+
+.checkoutWrapper {
+  padding: 4rem 2.5rem;
+
+  .checkoutCourseContainer {
+    border-radius: 20px !important;
+    padding: 2.5rem 1rem;
+    background: $white;
+    margin: 0 2rem;
+  }
+
+  .divider {
+    stroke-width: 1px;
+    border-block-start: 1px solid $brown;
+  }
+
+  .totalWrapper {
+    justify-content: end;
+    font-weight: 700;
+    font-size: .875rem;
+    text-align: left;
+
+    td:nth-child(1) {
+      text-align: right;
+    }
+
+    td {
+      padding: .25rem .5rem;
+    }
+
+    .totalText {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+
+
+@media only screen and (max-width: $md) {
+  .checkoutCourseContainer {
+      border-radius: 16px !important;
+  }
+
+  .totalWrapper {
+    font-size: 1rem !important;
+  }
+
+  td {
+    padding: .125rem .35rem !important;
+  }
+}
+
+@media only screen and (max-width: $lg) { 
+  .checkoutCourseContainer {
+    margin: 0 !important;
+   }
+}

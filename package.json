@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "clean": "vite clean",
-    "build-dev": "tsc && vite build --mode development"
+    "build-dev": "tsc && vite build --mode development",
+    "host": "vite --host"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",

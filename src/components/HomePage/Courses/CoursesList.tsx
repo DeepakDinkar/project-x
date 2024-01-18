@@ -6,8 +6,11 @@ import styles from "../../../pages/home/Home.module.scss";
 import { getVerticals } from "../../../services/verticalsApi";
 import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
+import { useNavigate } from "react-router-dom";
 
 function CoursesList() {
+  const navigate = useNavigate();
+
   const courses: Vertical[] = [
     {
       title: "Technology and AI",
@@ -98,7 +101,13 @@ function CoursesList() {
           style={{ padding: "2.5rem 0", overflow: "auto", maxWidth: "100%" }}
         >
           {courses?.map((course, index) => (
-            <div className="course-card small-card" key={index}>
+            <div
+              className="course-card small-card"
+              role="button"
+              key={index}
+              onClick={() => navigate("/courses")}
+              onKeyDown={() => {}}
+            >
               <Image
                 height={getSmallCardHeight()}
                 width={getSmallCardHeight()}

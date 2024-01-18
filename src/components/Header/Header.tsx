@@ -1,4 +1,4 @@
-import { DownOutlined, MenuOutlined, } from "@ant-design/icons";
+import { DownOutlined, MenuOutlined } from "@ant-design/icons";
 import {
   Badge,
   Button,
@@ -35,7 +35,9 @@ export default function Header() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const user = useSelector((state: { user: { login: boolean, userName: string } }) => state.user);
+  const user = useSelector(
+    (state: { user: { login: boolean; userName: string } }) => state.user
+  );
 
   useEffect(() => {
     setIsModalOpen(false);
@@ -77,7 +79,7 @@ export default function Header() {
   const items: MenuProps["items"] = [
     {
       key: "myProfile",
-      label: <Button type="link">My Profile</Button>,
+      label: <Button type="link" onClick={() => navigate("/myprofile")}>My Profile</Button>,
     },
     {
       key: "myCourses",
@@ -197,14 +199,14 @@ export default function Header() {
             {getUserInfo()}
           </Flex>
           <div>
+            <CartDrawer
+              isDrawerVisible={state.isCartDrawer}
+              closeDrawer={() => closeDrawer(DRAWER.SHOW_CART)}
+            />
             <MobileDrawer
               isDrawerVisible={state.isMobileDrawer}
               openDrawer={() => openDrawer(DRAWER.SHOW_CART)}
               closeDrawer={() => closeDrawer(DRAWER.SHOW_MOBILE)}
-            />
-            <CartDrawer
-              isDrawerVisible={state.isCartDrawer}
-              closeDrawer={() => closeDrawer(DRAWER.SHOW_CART)}
             />
           </div>
         </Layout.Header>

@@ -76,3 +76,10 @@
     }
   }
 }
+
+@media screen and (max-width: $sm) {
+  .btn,
+  .outlineBtn {
+    font-size: 1.2rem !important;
+  }
+}

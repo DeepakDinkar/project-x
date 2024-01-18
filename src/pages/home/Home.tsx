@@ -67,7 +67,7 @@ function Home() {
             </div>
             <div className={styles.mainCardWrapper}>
               <Row>
-                <Col span={breakPoint?.md ? 18 : 24}>
+                <Col span={breakPoint?.md ? 17 : 24}>
                   <div>
                     <Carousel effect="scrollx">
                       <div
@@ -140,7 +140,7 @@ function Home() {
                     </Carousel>
                   </div>
                 </Col>
-                <Col span={breakPoint?.md ? 6 : 24}>
+                <Col span={breakPoint?.md ? 7 : 24}>
                   <Flex
                     vertical={breakPoint?.md}
                     gap={"1rem"}
@@ -151,7 +151,7 @@ function Home() {
                   >
                     <div
                       className="course-card small-card"
-                      style={{ flexGrow: 1 }}
+                      style={{ minWidth: "130px" }}
                     >
                       <Image
                         height={getMediumCardHeight()}
@@ -184,6 +184,7 @@ function Home() {
                     </div>
                     <div
                       className="course-card small-card"
+                      style={{ flexGrow: 2 }}
                       onClick={() => navigate("/courses/123")}
                       role="button"
                       onKeyDown={() => {}}

@@ -1,6 +1,6 @@
 import Props from "../../models/IconButtonProps";
 
-export function FacebookIcon(props: Props) {
+export function FacebookIcon(props: Readonly<Props>) {
   return (
     <svg
       {...props}
