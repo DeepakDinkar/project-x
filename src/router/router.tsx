@@ -19,8 +19,9 @@ export default function AppRouter() {
       <Route element={<ProtectedRoute />}>
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/myprofile" element={<MyProfile />} />
-        <Route path="/checkout" element={<Checkout />} />
+       
       </Route>
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 }

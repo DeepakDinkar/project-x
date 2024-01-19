@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Col,
   Collapse,
   CollapseProps,
@@ -8,8 +9,10 @@ import {
   Image,
   Input,
   Row,
+  Select,
 } from "antd";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { BillingIcon } from "../../utils/svgs/BillingIcon";
 import styles from "./Checkout.module.scss";
 
 export default function Checkout() {
@@ -17,112 +20,60 @@ export default function Checkout() {
 
   const items: CollapseProps["items"] = [
     {
-      key: "1",
-      label: "Previous",
+      key: "billingInfo",
+      label: (
+        <Flex className={styles.billingHeader} align="center">
+          <BillingIcon />
+          Billing Info
+        </Flex>
+      ),
       children: (
         <div>
-          <Form name="loginForm">
-          <Form.Item
-            name="email"
-            label="email"
-          >
-            <Input
-              className={styles.input}
-              placeholder="Email ID"
-              size="middle"
-              style={{
-                flexShrink: 0,
-              }}
-            />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="email"
-          >
-            <Input
-              className={styles.input}
-              placeholder="Email ID"
-              size="middle"
-           
-            />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="email"
-          >
-            <Input
-              className={styles.input}
-              placeholder="Email ID"
-              size="middle"
-            />
-          </Form.Item>
+          <Form name="billingForm" labelCol={{ span: 3 }}>
+            <Form.Item name="addressName" label="Address Name*">
+              <Input className={styles.input} placeholder="" />
+            </Form.Item>
+            <Form.Item label="Address">
+              <Form.Item name="address1">
+                <Input className={styles.input} placeholder="Street Name" />
+              </Form.Item>
+              <Form.Item name="address2">
+                <Input
+                  className={styles.input}
+                  placeholder="Apartment, Suite, Unit etc.*"
+                />
+              </Form.Item>
+            </Form.Item>
+            <Form.Item>
+              <Form.Item name="country" label="Country*">
+                <Select
+                  options={[
+                    { value: "jack", label: "Jack" },
+                    { value: "lucy", label: "Lucy" },
+                    { value: "Yiminghe", label: "yiminghe" },
+                  ]}
+                ></Select>
+              </Form.Item>
+              <Form.Item name="townCity" label="Town / City*">
+                <Select
+                  options={[
+                    { value: "jack", label: "Jack" },
+                    { value: "lucy", label: "Lucy" },
+                    { value: "Yiminghe", label: "yiminghe" },
+                  ]}
+                ></Select>
+              </Form.Item>
+              <Form.Item name="zipCode" label="Zip Code*">
+                <Input className={styles.input} placeholder="" />
+              </Form.Item>
+            </Form.Item>
+            <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>Abu Dhabi, UAE | Nov 25 - 30, 2023</Checkbox>
+            </Form.Item>
+            <Button htmlType="submit" className={styles.formSubmitBtn}>
+              Save Address
+            </Button>
           </Form>
-          <Flex vertical gap={"1.5rem"}>
-            <Flex
-              justify="space-around"
-              style={{ alignItems: "center" }}
-              className={styles.myCourseContainer}
-            >
-              <div className={styles.dateWrapper}>
-                <span className={`${styles.dateText} font-bold common-header`}>
-                  20
-                </span>
-                <span className="font-default font-bold text-uppercase">
-                  Nov
-                </span>
-              </div>
-              <Flex vertical>
-                <div
-                  className={`${styles.courseTitle} text-uppercase font-bold`}
-                >
-                  leadership and business management
-                </div>
-                <div className={`${styles.courseSubTitle} font-bold`}>
-                  International Leadership
-                </div>
-              </Flex>
-              <div className={`${styles.courseSubTitle}`}>
-                Dubai, UAE | Nov 20, 2023
-              </div>
-              <div>
-                <Button type="link" className={styles.locationBtn}>
-                  See Location
-                </Button>
-              </div>
-            </Flex>
-            <Flex
-              justify="space-around"
-              style={{ alignItems: "center" }}
-              className={styles.myCourseContainer}
-            >
-              <div className={styles.dateWrapper}>
-                <span className={`${styles.dateText} font-bold common-header`}>
-                  20
-                </span>
-                <span className="font-default font-bold text-uppercase">
-                  Nov
-                </span>
-              </div>
-              <Flex vertical>
-                <div
-                  className={`${styles.courseTitle} text-uppercase font-bold`}
-                >
-                  leadership and business management
-                </div>
-                <div className={`${styles.courseSubTitle} font-bold`}>
-                  International Leadership
-                </div>
-              </Flex>
-              <div className={`${styles.courseSubTitle}`}>
-                Dubai, UAE | Nov 20, 2023
-              </div>
-              <div>
-                <Button type="link" className={styles.locationBtn}>
-                  See Location
-                </Button>
-              </div>
-            </Flex>
-          </Flex>
         </div>
       ),
     },
@@ -135,51 +86,18 @@ export default function Checkout() {
           <div className="main-header font-bold font-ubuntu">Checkout</div>
           <div className="w-100">
             <Row>
-              <Col
-                span={breakPoint?.lg ? 12 : 24}
-                order={breakPoint?.lg ? 1 : 2}
-              >
-                <div>
+              <Col span={breakPoint?.lg ? 12 : 24}>
+                <div className={styles.billingFormWrapper}>
                   <Collapse
-                    className="mycourses"
-                    defaultActiveKey={["1"]}
+                    className={styles.billingFormCollapse}
+                    defaultActiveKey={["billingInfo"]}
                     ghost
                     items={items}
                     expandIconPosition="end"
                   />
-                  <Flex vertical className={styles.modalWrapper}>
-                    <>
-                      <Input
-                        className={styles.input}
-                        placeholder="Enter Password"
-                        size="middle"
-                        style={{
-                          flexShrink: 0,
-                        }}
-                      />
-                      <Input
-                        className={styles.input}
-                        placeholder="Confirm Password"
-                        size="middle"
-                        style={{
-                          flexShrink: 0,
-                        }}
-                      />
-                      <Button
-                        type="primary"
-                        className={styles.btn}
-                        style={{ margin: "1.5rem auto 0" }}
-                      >
-                        Sign Up
-                      </Button>
-                    </>
-                  </Flex>
                 </div>
               </Col>
-              <Col
-                span={breakPoint?.lg ? 12 : 24}
-                order={breakPoint?.lg ? 2 : 1}
-              >
+              <Col span={breakPoint?.lg ? 12 : 24}>
                 <div className={styles.checkoutCourseContainer}>
                   <Flex vertical gap={"1.5rem"}>
                     <Flex justify="space-between" align="center">
@@ -284,6 +202,10 @@ export default function Checkout() {
                       </Flex>
                       <div className="font-sm font-bold">$4000</div>
                     </Flex>
+                  </Flex>
+                  <Flex className={styles.couponCodeWrapper}>
+                    <Input />
+                    <Button>Apply Code</Button>
                   </Flex>
                   <Flex className={styles.totalWrapper}>
                     <table>

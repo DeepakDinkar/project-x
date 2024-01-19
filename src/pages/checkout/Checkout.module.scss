@@ -6,7 +6,7 @@
   .checkoutCourseContainer {
     border-radius: 20px !important;
     padding: 2.5rem 1rem;
-    background: $white;
+    background: rgba(255, 255, 255, 0.7);
     margin: 0 2rem;
   }
 
@@ -18,7 +18,7 @@
   .totalWrapper {
     justify-content: end;
     font-weight: 700;
-    font-size: .875rem;
+    font-size: 0.875rem;
     text-align: left;
 
     td:nth-child(1) {
@@ -26,20 +26,105 @@
     }
 
     td {
-      padding: .25rem .5rem;
+      padding: 0.25rem 0.5rem;
     }
 
     .totalText {
       font-size: 1.2rem;
     }
   }
+
+  .couponCodeWrapper {
+    gap: 1rem;
+    padding: 2.5rem 0;
+    input {
+      border: 1px dashed $green-100;
+      border-radius: 15px !important;
+      max-width: 280px;
+      background: $white;
+    }
+    button {
+      padding: 0;
+      border: 0;
+      text-decoration: underline;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      background: inherit;
+      box-shadow: none;
+    }
+  }
 }
 
+.billingFormWrapper {
 
+  padding: 0 1rem;
+
+  .formSubmitBtn {
+    margin: 1rem 0;
+    text-transform: uppercase;
+    width: fit-content;
+    border: 1px solid;
+    background: inherit;
+  }
+
+  :global {
+    .ant-collapse-header {
+      align-items: center !important;
+    }
+
+    #billingForm {
+      display: flex;
+      flex-flow: column;
+      gap: 1rem;
+      padding: 1rem 0;
+
+      .ant-select {
+        min-width: 100px;
+      }
+
+      .ant-select-selector {
+        background: $white !important;
+        border: 0 !important;
+      }
+    }
+
+    .ant-form-item-row {
+      display: flex;
+      align-items: center;
+      gap:1rem;
+
+      .ant-form-item-label {
+        label {
+          font-weight: 600;
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .ant-form-item-control-input-content {
+      flex-flow: row wrap;
+      display: flex;
+      gap: 1rem;
+
+      .ant-form-item:nth-child(1) {
+        flex: 1;
+      }
+    }
+  }
+  .billingHeader {
+    font-size: 2rem;
+    font-weight: 700;
+    gap: 1rem;
+  }
+
+
+}
 
 @media only screen and (max-width: $md) {
   .checkoutCourseContainer {
-      border-radius: 16px !important;
+    border-radius: 16px !important;
   }
 
   .totalWrapper {
@@ -47,12 +132,30 @@
   }
 
   td {
-    padding: .125rem .35rem !important;
+    padding: 0.125rem 0.35rem !important;
+  }
+
+  .couponCodeWrapper {
+    input {
+      max-width: 180px !important;
+    }
+  }
+
+  .billingFormWrapper { 
+    :global {
+       .ant-form-item-row  {
+        gap: 0 !important;
+       }
+    }
   }
 }
 
-@media only screen and (max-width: $lg) { 
+@media only screen and (max-width: $lg) {
   .checkoutCourseContainer {
     margin: 0 !important;
-   }
+  }
+
+  .billingFormWrapper {
+    padding: 0 1rem 2.5rem;
+  }
 }
