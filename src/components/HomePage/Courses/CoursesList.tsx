@@ -65,6 +65,10 @@ function CoursesList() {
   }, []);
 
   const getSmallCardHeight = (): number => {
+
+    if(breakPoint?.xxl) {
+      return 330;
+    }
     if (breakPoint?.xl) {
       return 300;
     }

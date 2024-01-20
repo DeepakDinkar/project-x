@@ -20,6 +20,7 @@ import { logout } from "../../redux/reducers/userReducer";
 import { axiosConfig } from "../../services/axios-config";
 import { Cart } from "../../utils/svgs/Cart";
 
+import { googleLogout } from "@react-oauth/google";
 import { UserIcon } from "../../utils/svgs/UserIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import CartDrawer from "./Drawer/CartDrawer";
@@ -38,6 +39,11 @@ export default function Header() {
   const user = useSelector(
     (state: { user: { login: boolean; userName: string } }) => state.user
   );
+
+  const logOut = () => {
+    dispatch(logout());
+    googleLogout();
+  }
 
   useEffect(() => {
     setIsModalOpen(false);
@@ -92,7 +98,7 @@ export default function Header() {
     {
       key: "logOut",
       label: (
-        <Button type="link" onClick={() => dispatch(logout())}>
+        <Button type="link" onClick={() => logOut()}>
           Log Out
         </Button>
       ),
