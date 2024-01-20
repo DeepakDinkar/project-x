@@ -1,10 +1,4 @@
-import {
-  Button,
-  Collapse,
-  CollapseProps,
-  Divider,
-  Flex
-} from "antd";
+import { Button, Collapse, CollapseProps, Divider, Flex } from "antd";
 import GridCard from "../../components/GridCard/GridCard";
 import styles from "./MyCourses.module.scss";
 
@@ -313,14 +307,16 @@ export default function MyCourses() {
               </Flex>
             </Flex>
           </div>
-          <div style={{ padding: "1.5rem 0" }} className="w-100">
-            <Collapse
-              className="mycourses"
-              defaultActiveKey={["1"]}
-              ghost
-              items={items}
-              expandIconPosition="end"
-            />
+          <div style={{ padding: "1.5rem 0" }}>
+            <Flex>
+              <Collapse
+                className="mycourses"
+                defaultActiveKey={["1"]}
+                ghost
+                items={items}
+                expandIconPosition="end"
+              />
+            </Flex>
           </div>
 
           <p className="sub-header font-bol">
