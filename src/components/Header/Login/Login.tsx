@@ -1,16 +1,16 @@
-import { useGoogleLogin,  } from "@react-oauth/google";
+import { useGoogleLogin, } from "@react-oauth/google";
 import { Button, Divider, Flex, Form, Input } from "antd";
 import { jwtDecode } from "jwt-decode";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useDispatch } from "react-redux";
 import emailValidator from "../../../error/Validations/emailValidator";
 import { LoginForm } from "../../../models/LoginForm";
+import { login } from "../../../redux/reducers/userReducer";
 import { FacebookIcon } from "../../../utils/svgs/FacebookIcon";
 import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
-import { useDispatch } from "react-redux";
-import { login } from "../../../redux/reducers/userReducer";
 
 type Props = {
   setIsLogin: Dispatch<SetStateAction<boolean>>;
@@ -22,13 +22,21 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const responseMessage = (response: any) => {
-    const details = jwtDecode(response.credential);
-    dispatch(login({ userName: "John Doe" }));
+    console.log(response);
+    const details = jwtDecode(response.access_token);
     console.log(details);
+    dispatch(login({ userName: "John Doe" }));
+   
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onError = (response: any) => {
+    console.log("error", response);
+   };
 
   const googleLogin = useGoogleLogin({
     onSuccess: responseMessage,
+    onError: onError
   });
 
   const onLoginSubmit = (values: LoginForm) => {
