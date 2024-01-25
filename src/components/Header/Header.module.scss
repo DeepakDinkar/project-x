@@ -2,7 +2,7 @@
 
 .header {
   background: $secondary;
-  padding: 1.5rem 5.25rem 6rem;
+  padding: 1.5rem 2.5rem 6rem;
   position: fixed;
   z-index: 99;
   width: 100%;
@@ -86,7 +86,7 @@
 
 @media screen and (max-width: $md) {
   .header {
-    padding: 1.5rem 2rem 6rem;
+    padding: 1rem 2rem 5rem;
   }
 }
 
@@ -103,6 +103,6 @@
   }
 
   .header {
-    padding: 1rem 2rem 8.5rem;
+    padding: 1rem 2rem 7rem;
   }
 }

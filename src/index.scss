@@ -54,7 +54,7 @@ p {
 }
 
 .main-header {
-  font-size: 4.25rem;
+  font-size: 3rem;
   font-family: $font-roboto-slab;
 }
 
@@ -133,6 +133,36 @@ p {
   height: 100%;
 }
 
+.ant-input-status-error, .ant-input-affix-wrapper:focus-within, .ant-input:focus, .ant-input-number:focus-within, .ant-input-affix-wrapper-status-error, .ant-input-number-status-error  {
+  border-width: 3px !important;
+}
+
+.ant-input::placeholder {
+  color: inherit;
+}
+
+.ant-input-number {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ant-input-number-input-wrap {
+  flex: 1;
+}
+
+.ant-select-status-error {
+  border-color: #ff4d4f !important;
+}
+
+.ant-input-password {
+  padding: 0 1rem !important;
+
+  .ant-input-prefix {
+    padding: 0.5rem;
+  }
+}
+
 /* ================================================================= */
 /* Media Queries */
 
@@ -143,6 +173,7 @@ p {
 
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select,
   .button {
     height: 40px !important;
@@ -167,6 +198,7 @@ p {
 
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select,
   .button {
     height: 44px !important;
@@ -191,6 +223,7 @@ p {
 
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select,
   .button {
     height: 48px !important;
@@ -219,6 +252,7 @@ p {
 
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select,
   .button {
     height: 52px !important;
@@ -239,6 +273,7 @@ p {
 
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select,
   .button {
     height: 56px !important;
@@ -364,6 +399,7 @@ p {
   padding-bottom: 1rem;
   .ant-btn,
   .ant-input,
+  .ant-input-number,
   .ant-select {
     height: 44px !important;
 
@@ -371,6 +407,25 @@ p {
       font-size: 14px;
       text-align: left;
     }
+    &.ant-select-status-error {
+      .ant-select-selector {
+        border:3px solid #ff4d4f !important;
+      }
+    } 
+
+    &:focus {
+      .ant-select-selector {
+        border-width: 3px !important;
+      }
+    }
+
+    .ant-select-selection-item {
+      text-align: left;
+      font-size: 14px;
+      font-weight: 400 !important;
+    }
+
+  
 
     .ant-select-selector {
       border: 1px solid $black !important;
@@ -386,6 +441,7 @@ p {
 }
 
 .ant-input,
+.ant-input-number,
 .ant-input-affix-wrapper {
   border-radius: 100px !important;
 }
@@ -468,7 +524,7 @@ p {
     background: $brown;
   }
 
-  .ant-input {
+  .ant-input, .ant-input-number {
     background: $brown;
     color: $brown-200;
     border: 0;

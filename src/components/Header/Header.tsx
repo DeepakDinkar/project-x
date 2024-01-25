@@ -9,7 +9,7 @@ import {
   MenuProps,
   Modal,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DRAWER } from "../../constants/drawer.constants";
@@ -21,12 +21,14 @@ import { axiosConfig } from "../../services/axios-config";
 import { Cart } from "../../utils/svgs/Cart";
 
 import { googleLogout } from "@react-oauth/google";
+import { closeModal, openModal } from "../../redux/reducers/loginModalReducer";
 import { UserIcon } from "../../utils/svgs/UserIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import CartDrawer from "./Drawer/CartDrawer";
 import MobileDrawer from "./Drawer/MobileDrawer";
 import styles from "./Header.module.scss";
 import LoginWrapper from "./LoginWrapper";
+import LoginModalReducerProps from "../../models/reducers/LoginModalReducerProps";
 
 export default function Header() {
   const location = useLocation();
@@ -34,7 +36,10 @@ export default function Header() {
   const breakPoints = useBreakPoint();
   const { state, dispatch: drawerDispatch } = useDrawer();
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const isModalOpen =
+    useSelector(
+      (state: { loginModal: LoginModalReducerProps }) => state?.loginModal
+    )?.isModalOpen || false;
 
   const user = useSelector(
     (state: { user: { login: boolean; userName: string } }) => state.user
@@ -43,11 +48,9 @@ export default function Header() {
   const logOut = () => {
     dispatch(logout());
     googleLogout();
-  }
+  };
 
-  useEffect(() => {
-    setIsModalOpen(false);
-  }, [user, user.login]);
+  useEffect(() => {}, [user, user.login]);
 
   useEffect(() => {
     axiosConfig
@@ -61,11 +64,11 @@ export default function Header() {
   }, []);
 
   const showModal = () => {
-    setIsModalOpen(true);
+    dispatch(openModal());
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    dispatch(closeModal());
   };
 
   const openDrawer = (type: string): void => {
@@ -85,7 +88,11 @@ export default function Header() {
   const items: MenuProps["items"] = [
     {
       key: "myProfile",
-      label: <Button type="link" onClick={() => navigate("/myprofile")}>My Profile</Button>,
+      label: (
+        <Button type="link" onClick={() => navigate("/myprofile")}>
+          My Profile
+        </Button>
+      ),
     },
     {
       key: "myCourses",
@@ -151,7 +158,7 @@ export default function Header() {
 
   return (
     <nav>
-      <Layout style={{ paddingBottom: "6rem" }}>
+      <Layout style={{ paddingBottom: "5rem" }}>
         <Layout.Header className={styles.header}>
           <Flex style={{ alignItems: "center", gap: "1.2rem" }}>
             {!breakPoints?.md && (
