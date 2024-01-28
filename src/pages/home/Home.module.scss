@@ -32,7 +32,66 @@
       z-index: 1;
       transform-origin: top left;
       transition: all 0.3s ease-in;
-      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+        rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+  }
+}
+
+.exploreCoursesException {
+  padding: 4rem;
+  :global {
+    .ant-result-subtitle {
+      color: $white;
+    }
+  }
+}
+
+.exploreFilterSelect {
+  :global {
+    .ant-select-clear {
+      background: $primary;
+    }
+  }
+}
+
+.exploreDateFilter {
+  :global {
+    .ant-picker {
+      background: transparent;
+      border-radius: 100px;
+      border: 2px solid $primary;
+      width: 200px;
+
+      &.active {
+        background: $primary;
+        color: $white;
+
+        input,
+        input::placeholder,
+        .ant-picker-suffix {
+          color: $white !important;
+        }
+
+        .ant-picker-clear {
+          background: $white;
+        }
+      }
+
+      input,
+      input::placeholder,
+      .ant-picker-suffix {
+        color: $primary;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .ant-picker-clear {
+        background: $black;
+        .anticon-close-circle {
+          color: $primary;
+        }
+      }
     }
   }
 }

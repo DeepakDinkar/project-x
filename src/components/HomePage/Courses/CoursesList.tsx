@@ -113,8 +113,7 @@ function CoursesList() {
         <LeftCurve />
         <p className="main-header font-bold">Verticals</p>
         <p className={`${styles.subHeader} sub-header font-bold`}>
-          Choose the latest courses offered
-          <br /> curated by our professionals
+          Our {verticals?.length || 0} Business Verticals
         </p>
         <RightCurve />
       </div>

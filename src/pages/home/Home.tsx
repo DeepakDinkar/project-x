@@ -67,7 +67,7 @@ function Home() {
             </div>
             <div className={styles.mainCardWrapper}>
               <Row>
-                <Col span={breakPoint?.md ? 17 : 24}>
+              <Col span={breakPoint?.md ? 17 : 24}>
                   <div>
                     <Carousel effect="scrollx">
                       <div

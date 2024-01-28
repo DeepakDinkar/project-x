@@ -4,7 +4,8 @@ type ExceptionProps = {
     status: Status;
     subTitle: string;
     title?: string;
-    extra?: ReactNode
+    extra?: ReactNode;
+    className?: string;
 }
 
 export enum Status {

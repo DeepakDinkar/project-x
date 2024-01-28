@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 
-const useFetchOnLoad = (fetchFunction: (...args: any) => any) => {
+const useFetchOnLoad = (fetchFunction: (...args: any) => any, ...args: any) => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState<any>();
     const [error, setError] = useState<Error>();
@@ -9,7 +9,7 @@ const useFetchOnLoad = (fetchFunction: (...args: any) => any) => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const result = await fetchFunction();
+                const result = await fetchFunction(...args);
                 setData(result);
             } catch(err: any) {
                 setError(new Error(err.message));
