@@ -210,7 +210,7 @@ export default function CourseDetails() {
         </div>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Similar Topics</div>
-        <GridCard />
+        <GridCard courses={[]} />
       </div>
       {/* <Empty description="No courses found" /> */}
     </div>

@@ -233,7 +233,7 @@ function Courses() {
             </Button>
           </Flex>
         </Drawer>
-        <GridCard />
+        <GridCard courses={[]} />
       </div>
     </div>
   );

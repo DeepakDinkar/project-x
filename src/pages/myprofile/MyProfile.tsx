@@ -69,7 +69,7 @@ export default function MyProfile() {
         </Flex>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Trending Topics</div>
-        <GridCard />
+        <GridCard courses={[]} />
       </div>
     </div>
   );
