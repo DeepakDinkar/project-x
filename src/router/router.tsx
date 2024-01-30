@@ -14,7 +14,7 @@ export default function AppRouter() {
     <Routes>
       <Route path="/" element={<Home />} errorElement={<RouteError />} />
       <Route path="/about" element={<About />} />
-      <Route path="/courses" element={<Courses />} />
+      <Route path="/verticals/:slug" element={<Courses />} />
       <Route path="/courses/:courseId" element={<CourseDetails />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/mycourses" element={<MyCourses />} />

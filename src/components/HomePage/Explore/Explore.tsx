@@ -26,10 +26,10 @@ enum FilterType {
 }
 
 type FilterOptions = {
-  search?: string | undefined;
-  vertical?: string | undefined;
-  location?: string | undefined;
-  date?: string | undefined;
+  search?: string;
+  vertical?: string;
+  location?: string;
+  date?: string;
 };
 
 function Explore() {
@@ -88,7 +88,7 @@ function Explore() {
           course.campaignTemplateCourseName
             ?.toLowerCase()
             .includes(filters?.search || "") &&
-          course.slug?.includes(filters?.vertical || "")
+          course.slug?.includes(filters?.vertical ?? "")
         );
       }) || [];
     setFilteredCourses(filterCourses);
@@ -130,7 +130,6 @@ function Explore() {
 
   const disabledDate = (current: dayjs.Dayjs) => {
     const currentYear = new Date().getFullYear();
-    // const currentMonth = new Date().getMonth();
     return current && current.year() !== currentYear;
   };
 

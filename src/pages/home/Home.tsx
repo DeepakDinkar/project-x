@@ -1,8 +1,12 @@
 import { Carousel, Col, Flex, Image, Layout, Row } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
 import Explore from "../../components/HomePage/Explore/Explore";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
+import { VerticalCourse } from "../../models/VerticalCourse";
+import { getTrendingCourses } from "../../services/courseApi";
 import { LeftCurve } from "../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../utils/svgs/RightCurve";
 import styles from "./Home.module.scss";
@@ -10,6 +14,13 @@ import styles from "./Home.module.scss";
 function Home() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
+  const { data: trendingCourses }: { data: VerticalCourse[] } =
+    useFetchOnLoad(getTrendingCourses);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+
+  const onCarouselChange = (currentSlide: number) => {
+    setCurrentSlide(currentSlide);
+  };
 
   const getLargeCardHeight = (): number => {
     if (breakPoint?.xl) {
@@ -60,83 +71,67 @@ function Home() {
               <p className="main-header font-bold">Want to upskill at work?</p>
               <p className={`${styles.subHeader} sub-header font-bold`}>
                 Get started with our
-                <span className="color-primary"> curated skill courses </span>
+                <span className="color-primary">
+                  &nbsp;curated skill courses{" "}
+                </span>
                 based on your work needs and Scale up compared to your peers.
               </p>
               <RightCurve />
             </div>
             <div className={styles.mainCardWrapper}>
               <Row>
-              <Col span={breakPoint?.md ? 17 : 24}>
+                <Col span={breakPoint?.md ? 17 : 24}>
                   <div>
-                    <Carousel effect="scrollx">
-                      <div
-                        className="course-card large-card"
-                        onClick={() => navigate("/courses")}
-                        role="button"
-                        onKeyDown={() => {}}
-                      >
-                        <Image
-                          height={getLargeCardHeight()}
-                          width={"100%"}
-                          src="https://s3-alpha-sig.figma.com/img/70d5/28e6/8a810224ca31b17a40991db177bf1dfc?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=gOnUTmG1mEtlAVhCya4oXUaFBi8eOVr5hLgVQbLu8Sbsn9uDKQ2zJYdJKEDr8HCl8wd8uVSc5kA-juZri0jeJr-Xuyz8kzDIS-3-idhqFEwiHlsefcwCwO~kBLYSAqrGCzRwgkxVFNeB4mx1G9g7f8dmQl3o5HLJv7E-zU700ww55UZC1pF3kBDStFf2~WfUARtX1Dsup-EkcJYbIA5DNvOtDHO1rHZn09xtRuMUAuk3f87pp21W-upVmY8EYrFYZOzdZ4tcDV-VqnHLX08SaxY1WECCbs6~ratAVprJ~UXEAdC6PU9KjZVZ8-9Pb~YMyxLFE7Nq8IO78Xq64is1Gg__"
-                          fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                          preview={false}
-                        />
-                        <div className="card-overlay-wrapper h-100">
-                          <Flex
-                            vertical
-                            style={{
-                              padding: breakPoint?.md
-                                ? "1.5rem"
-                                : "2.5rem 0.5rem",
-                              justifyContent: "flex-end",
-                            }}
-                            className="h-100"
-                          >
-                            <div className="text-uppercase sub-header font-bold align-center d-flex">
-                              <Image
-                                src="/images/icons/trending.png"
-                                height={breakPoint?.md ? 36 : 22}
-                                width={breakPoint?.md ? 36 : 22}
-                              />
-                              <span className="color-primary">
-                                Trending in &nbsp;
+                    <Carousel effect="scrollx" afterChange={onCarouselChange}>
+                      {trendingCourses?.map((vertical: VerticalCourse) => (
+                        <div
+                          key={vertical.slug}
+                          className="course-card large-card"
+                          onClick={() =>
+                            navigate(`/verticals/${vertical.slug}`)
+                          }
+                          role="button"
+                          onKeyDown={() => {}}
+                        >
+                          <Image
+                            height={getLargeCardHeight()}
+                            width={"100%"}
+                            src={vertical.imageUrl}
+                            fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+                            preview={false}
+                          />
+                          <div className="card-overlay-wrapper h-100">
+                            <Flex
+                              vertical
+                              style={{
+                                padding: breakPoint?.md
+                                  ? "1.5rem"
+                                  : "2.5rem 0.5rem",
+                                justifyContent: "flex-end",
+                              }}
+                              className="h-100"
+                            >
+                              <div className="text-uppercase sub-header font-bold align-center d-flex">
+                                <Image
+                                  src="/images/icons/trending.png"
+                                  height={breakPoint?.md ? 36 : 22}
+                                  width={breakPoint?.md ? 36 : 22}
+                                />
+                                <span className="color-primary">
+                                  Trending in &nbsp;
+                                </span>
+                                <span> verticals</span>
+                              </div>
+                              <span className="card-primary-title">
+                                {vertical.title}
                               </span>
-                              <span> verticals</span>
-                            </div>
-                            <span className="card-primary-title">
-                              TECHNOLOGY AND AI
-                            </span>
-                            <button className="button primary-button text-uppercase">
-                              Explore Now
-                            </button>
-                          </Flex>
+                              <button className="button primary-button text-uppercase">
+                                Explore Now
+                              </button>
+                            </Flex>
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        className="course-card large-card"
-                        onClick={() => navigate("/courses")}
-                        role="button"
-                        onKeyDown={() => {}}
-                      >
-                        <Image
-                          height={getLargeCardHeight()}
-                          width={"100%"}
-                          src="https://s3-alpha-sig.figma.com/img/e954/683e/0689f3012a24a815bbfb9046d19eb63d?Expires=1702252800&Signature=pROpWE71ELLNXQddC7z277xXUVeLqPv9-xoBv3Qke8Vxa-QF5VICuLlgB6qPdg~WEJPkG9MRz2bT8u0AbJyLfiAWWPr4mOnSlnHE~RbwlSZRU6Yh3LVy9KBwow-tkadLtiVsM75hvGFqrb96G-58stvKnCJXSABsHEtGLSpufiGehdP6MPMmjC~w3zZGDhGaPB-gBIybTe3lWVkYTHQwMUlxOaQyKgts0f0P7Uta5k59C7D4dSEjjl0Q2puKipY7JaGF7YQMS0eW1CvySkGnvMWV-Usti6H5MUg6p4HbqN6TeWrdrND2yPqbHgwNSD-VncU-V3TsamttSIpUPa6CQg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-                          fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                          preview={false}
-                        />
-                      </div>
-                      <div className="course-card large-card">
-                        <Image
-                          height={getLargeCardHeight()}
-                          width={"100%"}
-                          src="https://s3-alpha-sig.figma.com/img/3aad/9e48/d040e2bdcfd23a58b785abb88960eb10?Expires=1702252800&Signature=h-EFBEMpW0WqkT3yfiQZQbqK97~qlCV2oWt24pnm0FlUiCFnPFOszVzBIWr8dmQnWvhwjt0jv7cq5za5k4insvzEJIDfZ2akPmkr1g~ws-pp19X0NNIvhWubi4mNxOAyuA5B17hW3ViZhUc6fgL2ex8SDJFK~12YFvhD760KJtJSRkqbIb1SupG1XiHZA5GvKRNkIBlgu6Z3D~8PO8zwRhYAQMowBB5Oj62F0biWHGIqr0c~UOsNyNLFJz88O5XWR3NbtsDvN3j73~7MjTNQZGt5ycsK0JnWz3kW~aHEYY8RUxfdSvl~uCiyOvh6JRP3XURfzPP7LNPTDAoIda-KRw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-                          fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                          preview={false}
-                        />
-                      </div>
+                      ))}
                     </Carousel>
                   </div>
                 </Col>
@@ -152,11 +147,12 @@ function Home() {
                     <div
                       className="course-card small-card"
                       style={{ minWidth: "130px" }}
+                      onClick={() => navigate(`/courses/${trendingCourses?.[currentSlide]?.courses[0]?.id}`)}
                     >
                       <Image
                         height={getMediumCardHeight()}
                         width={"100%"}
-                        src="https://s3-alpha-sig.figma.com/img/9436/2ae7/58db11aaafdacef50118de8cfe45816f?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=iiykxF~mnnbk59Xzng0C7sDgTqDSTL3MB0u4hWkXhFiNOxzPc1roir~9IP0ydGG2It1vwVyb96sZSPGiPKs0WfPeQ4GfWeB~DbqIIECSs-TWQxvaNEpQLl2I3VlgZ2Jl5LQ7K11EDj~a4DjSVC976cFqHt-MvUew29WXGWfTy4l5ZDp9GXUVqGPlFGl~U5LoLvNTSQza6zVSVdmn5RFKwNWzIv2JaZy2dXlxvReusKcOygPFRXy-fzyL5kH12sXxe0vUuGoK6Ytyh3qLZV08pzWTMlkV9u~MT-SJtBVUTKcTCdipOVC4IuTQuE8iFnPpl~enUNFsGuq9fQuro9yo4A__"
+                        src={trendingCourses ? trendingCourses[currentSlide]?.courses[0]?.imageUrl : ''}
                         fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                         preview={false}
                       />
@@ -173,10 +169,10 @@ function Home() {
                           </Flex>
                           <Flex vertical align="baseline">
                             <span className="card-course-title">
-                              Leadership and Business Management
+                              {trendingCourses?.[currentSlide].slug}
                             </span>
                             <span className="sub-header font-bold">
-                              International Leadership
+                            {trendingCourses?.[currentSlide]?.courses[0]?.campaignTemplateCourseName}
                             </span>
                           </Flex>
                         </Flex>
@@ -185,14 +181,14 @@ function Home() {
                     <div
                       className="course-card small-card"
                       style={{ flexGrow: 2 }}
-                      onClick={() => navigate("/courses/123")}
+                      onClick={() => navigate(`/courses/${trendingCourses?.[currentSlide]?.courses[1]?.id}`)}
                       role="button"
                       onKeyDown={() => {}}
                     >
                       <Image
                         height={getSmallCardHeight()}
                         width={"100%"}
-                        src="https://s3-alpha-sig.figma.com/img/fd5f/c85d/6f261a6913460288a6252d2a7b95a442?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ZeNQ42DIiuv6af9lzX8Y7CRNXr-NobebLsxOtBJlhgq6XPLL1T4t61xYlPcpKPaOnep~mCPZYLTPAyMcLpTPCIYvMDuS98rvxTJOHIyFRgCdq3b6jC2ZGoKG8eSRHhoK7lrvQUnV8ck4c76KdhQ5edzj5vHMfwoftJpTMrSRzBvnVxmTo9zt9YachrPCOyvmVKgKlS7uv6apAiEcXyOLc0F5lpCQ2oIYh4byiBAD6jZZReDrNedRmwQYckrTxgTIhIhNPekzMP8ycv77kJYI3KEmnDZf6pmz4~3ytru38sbeQwNstu3l18hjz9sEMDPNoDIKcNEYfkrRdH9PuuqzIw__"
+                        src={trendingCourses ? trendingCourses[currentSlide]?.courses[1]?.imageUrl : ''}
                         fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                         preview={false}
                       />
@@ -209,10 +205,10 @@ function Home() {
                           </Flex>
                           <Flex vertical align="baseline">
                             <span className="card-course-title">
-                              Leadership and Business Management
+                            {trendingCourses?.[currentSlide]?.slug}
                             </span>
                             <span className="sub-header font-bold">
-                              International Leadership
+                            {trendingCourses?.[currentSlide]?.courses[1]?.campaignTemplateCourseName}
                             </span>
                           </Flex>
                         </Flex>

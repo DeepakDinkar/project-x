@@ -8,7 +8,7 @@ type GridCardProps = {
   courses: Course[] | undefined;
 };
 
-export default function GridCard({ courses = [] }: GridCardProps) {
+export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
   const navigate = useNavigate();
 
   const verticals = useSelector(
@@ -17,7 +17,7 @@ export default function GridCard({ courses = [] }: GridCardProps) {
 
   const getVerticalTitle = (slug: string) => {
     return (
-      verticals?.find((vertical) => vertical.slug === slug)?.title ||
+      verticals?.find((vertical) => vertical.slug === slug)?.title ??
       "Slug not found"
     );
   };
@@ -91,7 +91,7 @@ export default function GridCard({ courses = [] }: GridCardProps) {
           className={`course-card small-card explore-card`}
           role="button"
           key={course.id}
-          onClick={() => navigate(`/courses/${course.slug}`)}
+          onClick={() => navigate(`/courses/${course.id}`)}
           onKeyDown={() => {}}
         >
           <Image

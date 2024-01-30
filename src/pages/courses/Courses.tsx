@@ -15,12 +15,30 @@ import GridCard from "../../components/GridCard/GridCard";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
 import styles from "./Courses.module.scss";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { VerticalCourse } from "../../models/VerticalCourse";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
+import { getVerticalCourses, getVerticals } from "../../services/verticalsApi";
+import { useDispatch } from "react-redux";
+import { VerticalData } from "../../models/Vertical";
+import { setVerticals } from "../../redux/reducers/verticalsReducer";
 
 function Courses() {
   const breakPoints = useBreakPoint();
   const [isFilterDrawerVisible, setIsFilterDrawerVisible] =
     useState<boolean>(false);
+  const { slug } = useParams();
+  const dispatch = useDispatch();
+  const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+  const { data: verticalCourse }: { data: VerticalCourse } = useFetchOnLoad(
+    getVerticalCourses,
+    slug
+  );
+
+  useEffect(() => {
+    verticals && dispatch(setVerticals(verticals));
+  }, [dispatch, verticals]);
 
   useLayoutEffect(() => {
     setIsFilterDrawerVisible(false);
@@ -150,7 +168,7 @@ function Courses() {
             <Image
               height={breakPoints?.md ? 380 : 150}
               width={"100%"}
-              src="https://s3-alpha-sig.figma.com/img/3aad/9e48/d040e2bdcfd23a58b785abb88960eb10?Expires=1704672000&Signature=q4vQ9IqSUxaBCYfa2qeKqnOkuIs263OYsy4X56DFiJEb~8eIH55pZCSgIK0oc9g5kChQZg1BlxrQgae5LHH4i5TUZHBrGbYClSuQQLzfu5PnAgejst9r0yibOrM3zAIakoA0Tr-DBhLimXdf2snform8gHJsUFPaRhOr0KhKxwfevkptBcgfG6Mlx~5XNpQH4g7rGeYrYjo~Zsy-nwTAusotiuXDvxK3YONBixm2PCL7DAG091~h71dJM31w7E6~BV3qnMN1Xkx5gjQ~dvdqDzmm~1kfne64i7HeWQ5S0uFP2CxVELcld8Ddz5bkJPIxvU1NIbKf4KUuoN~pcBzIcg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+              src={verticalCourse?.imageUrl}
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
             />
@@ -165,7 +183,7 @@ function Courses() {
                 }}
               >
                 <span className={styles.courseTitle}>
-                  Artificial Intelligence
+                  {verticalCourse?.title}
                 </span>
                 {breakPoints?.md && (
                   <span className={styles.courseSubTitle}>
@@ -179,7 +197,7 @@ function Courses() {
         </div>
 
         <div className={`${styles.exploreSearchWrapper}`}>
-          <div className={styles.topicText}>20 Topics available</div>
+          <div className={styles.topicText}>{verticalCourse?.courses?.length || 0} Topics available</div>
           <Flex vertical gap={"2rem"}>
             <Flex
               vertical={breakPoints?.md}
@@ -233,7 +251,7 @@ function Courses() {
             </Button>
           </Flex>
         </Drawer>
-        <GridCard courses={[]} />
+        <GridCard courses={verticalCourse?.courses || []} />
       </div>
     </div>
   );

@@ -2,9 +2,18 @@ import { Button, Divider, Flex, Image, Rate, Select } from "antd";
 import GridCard from "../../../components/GridCard/GridCard";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import styles from "./CourseDetails.module.scss";
+import { Course } from "../../../models/Course";
+import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
+import { getCourseByCourseId } from "../../../services/courseApi";
+import { useParams } from "react-router-dom";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
+  const { courseId } = useParams();
+  const { data: courseDetails }: { data: Course } = useFetchOnLoad(
+    getCourseByCourseId,
+    courseId
+  );
 
   return (
     <div
@@ -19,7 +28,7 @@ export default function CourseDetails() {
             >
               <Image
                 className={styles.courseDetailImage}
-                src="https://s3-alpha-sig.figma.com/img/9b61/0683/1876ff9c0ce280e6f2560575fdaa0064?Expires=1704672000&Signature=P-J9RNatJdCV9iXB27k52BDpHwzsf4n79V0xb-ZwZVH8em4g2~WsiV8TSYtLlPFPAX5HWHlhvh~p7gY6GtQqlltRhdo3-JPyIlBF-9Drb5Wo-fhLXjJwt6go52mL1WrUaxjh77YpKHTgbipXZxsHAotCsUHZj-tWTkdnY-0EhFY52Z0JdN2ghl8RYFPxOKYHrkrsWMN7546-YinlqBeAGYGSo1TOmvT3HkVq34XOIz~kSY8BJSYQRJNcHg0J-TE6X~4h5fGnkgXb2RoryGGb5ofYmVTTg8Hx7966eYxInZJWHvyc8biZSsdlYoLqyZULIcT4zj8k4aKSAKW7RNrmNw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                src={courseDetails?.imageUrl}
                 fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                 preview={false}
               />
@@ -43,19 +52,12 @@ export default function CourseDetails() {
             <Flex vertical gap={"1rem"}>
               <Rate allowHalf disabled defaultValue={4.5} />
               <div className="sub-header font-bold text-uppercase">
-                Procurement and Contracting
+                {courseDetails?.slug}
               </div>
               <div style={{ fontSize: "2.5rem" }} className="font-bold">
-                Advanced Negotiations Mastery
+                {courseDetails?.campaignTemplateCourseName}
               </div>
-              <p className="sub-header">
-                People enter Contract and Commercial Management discipline from
-                a wide variety of backgrounds, often with little or no specific
-                training. They may be financial or legal professionals, they may
-                have come from sales or from a market intelligence function. A
-                key value offered is that the World CC learning provides
-                everyone with a consistent base level of knowledge.
-              </p>
+              <p className="sub-header">{courseDetails?.courseContent}</p>
             </Flex>
           </Flex>
           <Flex
@@ -81,18 +83,6 @@ export default function CourseDetails() {
                 { value: "Yiming", label: "Dec 01 - 06, 2023" },
               ]}
             />
-            <Flex gap={"1.5rem"} align="center">
-              <span className="font-bold sub-header">Qty</span>
-              <Select
-                placeholder="4"
-                options={[
-                  { value: "1", label: "1" },
-                  { value: "2", label: "2" },
-                  { value: "3", label: "3" },
-                  { value: "4", label: "4" },
-                ]}
-              />
-            </Flex>
           </Flex>
           <Flex
             justify={breakPoints?.md ? "end" : "center"}
@@ -174,36 +164,20 @@ export default function CourseDetails() {
             <Flex vertical flex={1} gap={"1.5rem"}>
               <div className="common-header font-bold">Key Take Aways</div>
               <Flex vertical gap={".5rem"}>
-                <Flex style={{ alignItems: "center" }} gap={"1rem"}>
-                  <span className="color-primary font-bold main-header">1</span>
-                  <span className="sub-header font-bold">
-                    World Commerce And Contracting Association
-                  </span>
-                </Flex>
-                <Flex style={{ alignItems: "center" }} gap={"1rem"}>
-                  <span className="color-primary font-bold main-header">2</span>
-                  <span className="sub-header font-bold">
-                    World Commerce And Contracting Association
-                  </span>
-                </Flex>
-                <Flex style={{ alignItems: "center" }} gap={"1rem"}>
-                  <span className="color-primary font-bold main-header">3</span>
-                  <span className="sub-header font-bold">
-                    World Commerce And Contracting Association
-                  </span>
-                </Flex>
-                <Flex style={{ alignItems: "center" }} gap={"1rem"}>
-                  <span className="color-primary font-bold main-header">4</span>
-                  <span className="sub-header font-bold">
-                    World Commerce And Contracting Association
-                  </span>
-                </Flex>
-                <Flex style={{ alignItems: "center" }} gap={"1rem"}>
-                  <span className="color-primary font-bold main-header">5</span>
-                  <span className="sub-header font-bold">
-                    World Commerce And Contracting Association
-                  </span>
-                </Flex>
+                {courseDetails?.keyTakeAway.map(
+                  (key: string, index: number) => (
+                    <Flex
+                      key={key}
+                      style={{ alignItems: "center" }}
+                      gap={"1rem"}
+                    >
+                      <span className="color-primary font-bold main-header" style={{ minWidth: '25px'}}>
+                        {index + 1}
+                      </span>
+                      <span className="sub-header font-bold">{key}</span>
+                    </Flex>
+                  )
+                )}
               </Flex>
             </Flex>
           </Flex>

@@ -1,18 +1,19 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ConfigProvider, ThemeConfig } from "antd";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
-import "./theme/card.scss";
-import AppRouter from "./router/router";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Provider } from "react-redux";
-import store from "./redux/store";
 import { useBreakPoint } from "./hooks/useBreakPoint";
+import store from "./redux/store";
+import AppRouter from "./router/router";
+import "./theme/card.scss";
 import ScrollToTop from "./utils/ScrollTop/ScrollTop";
 
 function App() {
   const breakPoints = useBreakPoint();
+
 
   const theme: ThemeConfig = {
     components: {

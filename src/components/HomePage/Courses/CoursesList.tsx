@@ -60,8 +60,9 @@ function CoursesList() {
             className="course-card small-card"
             role="button"
             key={vertical.id}
-            onClick={() => navigate("/courses")}
+            onClick={() => navigate(`/verticals/${vertical.slug}`)}
             onKeyDown={() => {}}
+            tabIndex={0}
           >
             <Image
               height={getSmallCardHeight()}
