@@ -17,9 +17,9 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import useFetch from "../../hooks/useFetch";
 import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 import { VerticalData } from "../../models/Vertical";
-import { VerticalCourse } from "../../models/VerticalCourse";
 import { setVerticals } from "../../redux/reducers/verticalsReducer";
 import { getVerticalCourses, getVerticals } from "../../services/verticalsApi";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
@@ -31,12 +31,15 @@ function Courses() {
     useState<boolean>(false);
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const { data: verticals, loading: isLoading }: VerticalData =
+  const { data: verticals, }: VerticalData =
     useFetchOnLoad(getVerticals);
-  const { data: verticalCourse }: { data: VerticalCourse } = useFetchOnLoad(
-    getVerticalCourses,
-    slug
-  );
+  const { data: verticalCourse, fetch, loading: isLoading } = useFetch(getVerticalCourses);
+
+  useEffect(() => {
+    fetch(slug);
+  }, [fetch, slug]);
+
+  console.log(isLoading);
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));

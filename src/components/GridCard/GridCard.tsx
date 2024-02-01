@@ -1,7 +1,7 @@
-import { Flex, Image, Rate } from "antd";
+import { Flex, Image } from "antd";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Course } from "../../models/Course";
-import { useSelector } from "react-redux";
 import { Vertical } from "../../models/Vertical";
 
 type GridCardProps = {
@@ -45,38 +45,6 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
               <span className="sub-header font-bold">
                 {getVerticalTitle(course.slug)}
               </span>
-            </Flex>
-          </Flex>
-        </div>
-        <div
-          className="card-overlay-wrapper large-content h-100"
-          style={{ padding: 0 }}
-        >
-          <Flex
-            vertical
-            className="h-100"
-            justify="space-between"
-            style={{ padding: "1.5rem" }}
-          >
-            <Flex>
-              <span className="card-chip font-bold">New Topic</span>
-            </Flex>
-            <Flex vertical gap={"1rem"}>
-              <Rate
-                allowHalf
-                disabled
-                defaultValue={course.campaignTemplateRating}
-              />
-              <div className="font-sm font-bold text-uppercase">
-                {course.campaignTemplateCourseName}
-              </div>
-              <div style={{ fontSize: "2rem" }} className="font-bold">
-                {getVerticalTitle(course.slug)}
-              </div>
-              <p className="sub-header text-ellipsis">{course.courseContent}</p>
-              <button className="button primary-button text-uppercase">
-                Register Now
-              </button>
             </Flex>
           </Flex>
         </div>

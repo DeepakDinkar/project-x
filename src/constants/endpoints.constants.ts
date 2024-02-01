@@ -8,7 +8,6 @@ export const USER = Object.freeze({
 export const COURSES = Object.freeze({
   All: "/courses",
   TRENDING: "/courses/trending",
-  EXPLORE: "/courses/explore",
 });
 
 // Verticals Endpoints
@@ -18,6 +17,7 @@ export const VERTICALS = Object.freeze({
 
 export const SEARCH = Object.freeze({
   ALL: "/search",
+  EXPLORE: "/search/explore",
 });
 
 // Checkout Endpoints

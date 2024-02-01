@@ -1,17 +1,23 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { DatePicker, DatePickerProps, Flex, Input, Select } from "antd";
+import {
+  DatePicker,
+  DatePickerProps,
+  Flex,
+  Input,
+  Select,
+  Space,
+  Spin,
+} from "antd";
 import dayjs from "dayjs";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { STATUS } from "../../../constants/messages.constants";
-import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
-import { Course } from "../../../models/Course";
+import useFetch from "../../../hooks/useFetch";
 import { Status } from "../../../models/ExceptionProps";
 import { Vertical } from "../../../models/Vertical";
 import styles from "../../../pages/home/Home.module.scss";
 import { getExploreCourses } from "../../../services/exploreCoursesApi";
 import Exception from "../../../utils/Exception/Exception";
-import Loader from "../../../utils/Loader/Loader";
 import debounce from "../../../utils/debounceSearch";
 import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
@@ -19,34 +25,32 @@ import { SearchIcon } from "../../../utils/svgs/SearchIcon";
 import GridCard from "../../GridCard/GridCard";
 
 enum FilterType {
-  SEARCH = "search",
-  VERTICAL = "vertical",
+  SEARCH = "query",
+  SLUG = "slug",
   LOCATION = "location",
   DATE = "date",
 }
 
 type FilterOptions = {
-  search?: string;
-  vertical?: string;
+  query?: string;
+  slug?: string;
   location?: string;
   date?: string;
 };
 
 function Explore() {
-  const [courses, setCourses] = useState<Course[]>();
-  const [filteredCourses, setFilteredCourses] = useState<Course[]>();
   const filterOptions = useRef<FilterOptions>();
 
   const {
     loading: isCoursesLoading,
-    data: coursesPayload,
+    data: courses,
     error: isCoursesError,
-  } = useFetchOnLoad(getExploreCourses, 1);
+    fetch,
+  } = useFetch(getExploreCourses);
 
   useEffect(() => {
-    setCourses(coursesPayload?.content);
-    setFilteredCourses(coursesPayload?.content);
-  }, [coursesPayload?.content]);
+    fetch();
+  }, [fetch]);
 
   const verticals = useSelector(
     (state: { verticals: { verticals: Vertical[] } }) => state.verticals
@@ -60,14 +64,14 @@ function Explore() {
   };
 
   const getCoursesList = () => {
-    return <GridCard courses={filteredCourses} />;
+    return <GridCard courses={courses} />;
   };
 
-  const searchCourses = (query: string) => {
-    query = query.trim().toLowerCase();
+  const searchCourses = (searchQuery: string) => {
+    searchQuery = searchQuery.trim().toLowerCase();
     filterOptions.current = {
       ...filterOptions.current,
-      [FilterType.SEARCH]: query,
+      [FilterType.SEARCH]: searchQuery,
     };
     updateFilterOptions();
   };
@@ -81,17 +85,7 @@ function Explore() {
 
   const updateFilterOptions = () => {
     const filters = filterOptions.current;
-
-    const filterCourses =
-      courses?.filter((course) => {
-        return (
-          course.campaignTemplateCourseName
-            ?.toLowerCase()
-            .includes(filters?.search || "") &&
-          course.slug?.includes(filters?.vertical ?? "")
-        );
-      }) || [];
-    setFilteredCourses(filterCourses);
+    fetch(filters);
   };
 
   const onSelectionChange = (value: string, key: string) => {
@@ -104,7 +98,11 @@ function Explore() {
 
   const getRenderer = () => {
     if (isCoursesLoading) {
-      return <Loader />;
+      return (
+        <Space style={{ padding: "3rem 0"}}>
+          <Spin size="large" />
+        </Space>
+      );
     }
     if (isCoursesError) {
       return (
@@ -115,7 +113,7 @@ function Explore() {
       );
     }
 
-    if (filteredCourses?.length == 0 || courses?.length == 0) {
+    if (courses?.length == 0 || courses?.length == 0) {
       return (
         <Exception
           status={Status.NOT_FOUND}
@@ -133,7 +131,9 @@ function Explore() {
     return current && current.year() !== currentYear;
   };
 
-  const onDateChange: DatePickerProps['onChange'] = (date: dayjs.Dayjs | null) => {
+  const onDateChange: DatePickerProps["onChange"] = (
+    date: dayjs.Dayjs | null
+  ) => {
     filterOptions.current = {
       ...filterOptions.current,
       [FilterType.DATE]: date?.format(),
@@ -181,14 +181,12 @@ function Explore() {
               <Select
                 placeholder="Verticals"
                 options={getVerticalOptions()}
-                onChange={(value) =>
-                  onSelectionChange(value, FilterType.VERTICAL)
-                }
+                onChange={(value) => onSelectionChange(value, FilterType.SLUG)}
                 allowClear={{ clearIcon: <CloseCircleOutlined /> }}
                 listHeight={150}
-                className={`${
-                  filterOptions.current?.vertical ? "active" : ""
-                } ${styles.exploreFilterSelect}`}
+                className={`${filterOptions.current?.slug ? "active" : ""} ${
+                  styles.exploreFilterSelect
+                }`}
               />
               <DatePicker
                 picker="month"
@@ -197,9 +195,9 @@ function Explore() {
                 format={"MMM, YYYY"}
                 disabledDate={disabledDate}
                 onChange={onDateChange}
-                className={`${
-                  filterOptions.current?.date ? "active" : ""
-                } ${styles.exploreFilterSelect}`}
+                className={`${filterOptions.current?.date ? "active" : ""} ${
+                  styles.exploreFilterSelect
+                }`}
               />
               <Select
                 placeholder="Location"
