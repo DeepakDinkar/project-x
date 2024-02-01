@@ -134,11 +134,11 @@ p {
 }
 
 .ant-input-status-error, .ant-input-affix-wrapper:focus-within, .ant-input:focus, .ant-input-number:focus-within, .ant-input-affix-wrapper-status-error, .ant-input-number-status-error  {
-  border-width: 3px !important;
+  border-width: 2px !important;
 }
 
-.ant-input::placeholder {
-  color: inherit;
+.ant-input::placeholder, .ant-select-selection-search-input::placeholder, .ant-input-number-input::placeholder {
+  color: inherit !important;
 }
 
 .ant-input-number {
@@ -276,7 +276,7 @@ p {
   .ant-input-number,
   .ant-select,
   .button {
-    height: 56px !important;
+    height: 56px;
   }
 
   .course-card {
@@ -409,13 +409,13 @@ p {
     }
     &.ant-select-status-error {
       .ant-select-selector {
-        border:3px solid #ff4d4f !important;
+        border:2px solid #ff4d4f !important;
       }
     } 
 
     &:focus {
       .ant-select-selector {
-        border-width: 3px !important;
+        border-width: 2px !important;
       }
     }
 
@@ -620,5 +620,16 @@ p {
     .ant-image-img {
       max-width: 100%;
     }
+  }
+}
+
+
+.global-search {
+  .ant-select-selector {
+    padding: 0 !important;
+    border: 0 !important;
+  }
+  .ant-select-selection-search {
+    display: flex;
   }
 }

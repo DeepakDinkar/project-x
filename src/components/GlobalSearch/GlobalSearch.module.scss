@@ -17,10 +17,18 @@
   }
 }
 
+.globalAutoComplete {
+  flex-grow: 1;
+  max-width: 380px;
+  height: 40px !important;
+  &.mobileAutoComplete {
+    max-width: 100%;
+  }
+}
+
 .searchText {
   padding: 1rem 0;
   font-size: 13px;
-
 }
 
 .headerIcon {

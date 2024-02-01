@@ -18,7 +18,7 @@ const useFetchOnLoad = (fetchFunction: (...args: any) => any, ...args: any) => {
             }
         };
         fetch();
-    }, [fetchFunction]);
+    }, []);
 
 
 

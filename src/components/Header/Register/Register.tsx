@@ -1,11 +1,13 @@
-import { Button, Flex, Form, Input, InputNumber, Select } from "antd";
+import { Button, Flex, Form, Input, InputNumber } from "antd";
 import { ReactNode, useState } from "react";
 import { useDispatch } from "react-redux";
+import countryValidator from "../../../error/Validations/countryValidator";
 import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
 import { RegisterForm } from "../../../models/RegisterForm";
 import { closeModal } from "../../../redux/reducers/loginModalReducer";
-import styles from "../Login/Login.module.scss";
 import { login } from "../../../redux/reducers/userReducer";
+import Country from "../../../utils/Country/Country";
+import styles from "../Login/Login.module.scss";
 
 export default function Register() {
   const [isNextStep, setIsNextStep] = useState<boolean>(false);
@@ -89,20 +91,16 @@ export default function Register() {
         </Form.Item>
         <Form.Item<RegisterForm>
           name="location"
-          rules={[{ required: true, message: "*Location is required" }]}
+          rules={[
+            { required: true, message: "*Location is required" },
+            { validator: countryValidator, message: "Invalid country" },
+          ]}
         >
-          <Select
-            placeholder="Location (City, Country)"
-            options={[
-              { value: "jack", label: "Jack" },
-              { value: "lucy", label: "Lucy" },
-              { value: "Yiminghe", label: "yiminghe" },
-            ]}
-          />
+          <Country form={form} fieldKey="location" />
         </Form.Item>
         <Button
           className={styles.btn}
-          style={{ margin: "1.5rem auto 0" }}
+          style={{ margin: "1.5rem auto 0", border: '1px solid' }}
           onClick={() => onNextClick()}
         >
           Next

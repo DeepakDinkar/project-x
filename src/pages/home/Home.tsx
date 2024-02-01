@@ -1,4 +1,4 @@
-import { Carousel, Col, Flex, Image, Layout, Row } from "antd";
+import { Carousel, Col, Flex, Image, Layout, Row, Spin } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
@@ -14,7 +14,10 @@ import styles from "./Home.module.scss";
 function Home() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
-  const { data: trendingCourses }: { data: VerticalCourse[] } =
+  const {
+    data: trendingCourses,
+    loading: isLoading,
+  }: { data: VerticalCourse[]; loading: boolean } =
     useFetchOnLoad(getTrendingCourses);
   const [currentSlide, setCurrentSlide] = useState<number>(0);
 
@@ -32,7 +35,7 @@ function Home() {
     if (breakPoint?.md) {
       return 330;
     }
-    return 225;
+    return 250;
   };
 
   const getMediumCardHeight = (): number => {
@@ -45,7 +48,7 @@ function Home() {
     if (breakPoint?.md) {
       return 170;
     }
-    return 130;
+    return 145;
   };
 
   const getSmallCardHeight = (): number => {
@@ -79,144 +82,172 @@ function Home() {
               <RightCurve />
             </div>
             <div className={styles.mainCardWrapper}>
-              <Row>
-                <Col span={breakPoint?.md ? 17 : 24}>
-                  <div>
-                    <Carousel effect="scrollx" afterChange={onCarouselChange}>
-                      {trendingCourses?.map((vertical: VerticalCourse) => (
-                        <div
-                          key={vertical.slug}
-                          className="course-card large-card"
-                          onClick={() =>
-                            navigate(`/verticals/${vertical.slug}`)
-                          }
-                          role="button"
-                          onKeyDown={() => {}}
-                        >
-                          <Image
-                            height={getLargeCardHeight()}
-                            width={"100%"}
-                            src={vertical.imageUrl}
-                            fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                            preview={false}
-                          />
-                          <div className="card-overlay-wrapper h-100">
-                            <Flex
-                              vertical
-                              style={{
-                                padding: breakPoint?.md
-                                  ? "1.5rem"
-                                  : "2.5rem 0.5rem",
-                                justifyContent: "flex-end",
-                              }}
-                              className="h-100"
-                            >
-                              <div className="text-uppercase sub-header font-bold align-center d-flex">
-                                <Image
-                                  src="/images/icons/trending.png"
-                                  height={breakPoint?.md ? 36 : 22}
-                                  width={breakPoint?.md ? 36 : 22}
-                                />
-                                <span className="color-primary">
-                                  Trending in &nbsp;
+              {isLoading ? (
+                <Spin size="large" />
+              ) : (
+                <Row>
+                  <Col span={breakPoint?.md ? 17 : 24}>
+                    <div>
+                      <Carousel effect="scrollx" afterChange={onCarouselChange}>
+                        {trendingCourses?.map((vertical: VerticalCourse) => (
+                          <div
+                            key={vertical.slug}
+                            className="course-card large-card"
+                            onClick={() =>
+                              navigate(`/verticals/${vertical.slug}`)
+                            }
+                            role="button"
+                            onKeyDown={() => {}}
+                          >
+                            <Image
+                              height={getLargeCardHeight()}
+                              width={"100%"}
+                              src={vertical.imageUrl}
+                              fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+                              preview={false}
+                            />
+                            <div className="card-overlay-wrapper h-100">
+                              <Flex
+                                vertical
+                                style={{
+                                  padding: breakPoint?.md
+                                    ? "1.5rem"
+                                    : "2.5rem 0.5rem",
+                                  justifyContent: "flex-end",
+                                }}
+                                className="h-100"
+                              >
+                                <div className="text-uppercase sub-header font-bold align-center d-flex">
+                                  <Image
+                                    src="/images/icons/trending.png"
+                                    height={breakPoint?.md ? 36 : 22}
+                                    width={breakPoint?.md ? 36 : 22}
+                                  />
+                                  <span className="color-primary">
+                                    Trending in &nbsp;
+                                  </span>
+                                  <span> verticals</span>
+                                </div>
+                                <span className="card-primary-title">
+                                  {vertical.title}
                                 </span>
-                                <span> verticals</span>
-                              </div>
-                              <span className="card-primary-title">
-                                {vertical.title}
-                              </span>
-                              <button className="button primary-button text-uppercase">
-                                Explore Now
-                              </button>
-                            </Flex>
+                                <button className="button primary-button text-uppercase">
+                                  Explore Now
+                                </button>
+                              </Flex>
+                            </div>
                           </div>
+                        ))}
+                      </Carousel>
+                    </div>
+                  </Col>
+                  <Col span={breakPoint?.md ? 7 : 24}>
+                    <Flex
+                      vertical={breakPoint?.md}
+                      gap={"1rem"}
+                      style={{
+                        paddingLeft: breakPoint?.md ? "1rem" : 0,
+                        paddingTop: breakPoint?.md ? 0 : "1rem",
+                      }}
+                    >
+                      <div
+                        className="course-card small-card"
+                        style={{ minWidth: "130px" }}
+                        onClick={() =>
+                          navigate(
+                            `/courses/${trendingCourses?.[currentSlide]?.courses[0]?.id}`
+                          )
+                        }
+                      >
+                        <Image
+                          height={getMediumCardHeight()}
+                          width={"100%"}
+                          src={
+                            trendingCourses
+                              ? trendingCourses[currentSlide]?.courses[0]
+                                  ?.imageUrl
+                              : ""
+                          }
+                          fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+                          preview={false}
+                        />
+                        <div className="card-overlay-wrapper h-100">
+                          <Flex
+                            vertical
+                            className="h-100"
+                            justify="space-between"
+                          >
+                            <Flex>
+                              <span className="card-chip font-bold">
+                                New Topic
+                              </span>
+                            </Flex>
+                            <Flex vertical align="baseline">
+                              <span className="card-course-title">
+                                {trendingCourses?.[currentSlide].slug}
+                              </span>
+                              <span className="sub-header font-bold">
+                                {
+                                  trendingCourses?.[currentSlide]?.courses[0]
+                                    ?.campaignTemplateCourseName
+                                }
+                              </span>
+                            </Flex>
+                          </Flex>
                         </div>
-                      ))}
-                    </Carousel>
-                  </div>
-                </Col>
-                <Col span={breakPoint?.md ? 7 : 24}>
-                  <Flex
-                    vertical={breakPoint?.md}
-                    gap={"1rem"}
-                    style={{
-                      paddingLeft: breakPoint?.md ? "1rem" : 0,
-                      paddingTop: breakPoint?.md ? 0 : "1rem",
-                    }}
-                  >
-                    <div
-                      className="course-card small-card"
-                      style={{ minWidth: "130px" }}
-                      onClick={() => navigate(`/courses/${trendingCourses?.[currentSlide]?.courses[0]?.id}`)}
-                    >
-                      <Image
-                        height={getMediumCardHeight()}
-                        width={"100%"}
-                        src={trendingCourses ? trendingCourses[currentSlide]?.courses[0]?.imageUrl : ''}
-                        fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                        preview={false}
-                      />
-                      <div className="card-overlay-wrapper h-100">
-                        <Flex
-                          vertical
-                          className="h-100"
-                          justify="space-between"
-                        >
-                          <Flex>
-                            <span className="card-chip font-bold">
-                              New Topic
-                            </span>
-                          </Flex>
-                          <Flex vertical align="baseline">
-                            <span className="card-course-title">
-                              {trendingCourses?.[currentSlide].slug}
-                            </span>
-                            <span className="sub-header font-bold">
-                            {trendingCourses?.[currentSlide]?.courses[0]?.campaignTemplateCourseName}
-                            </span>
-                          </Flex>
-                        </Flex>
                       </div>
-                    </div>
-                    <div
-                      className="course-card small-card"
-                      style={{ flexGrow: 2 }}
-                      onClick={() => navigate(`/courses/${trendingCourses?.[currentSlide]?.courses[1]?.id}`)}
-                      role="button"
-                      onKeyDown={() => {}}
-                    >
-                      <Image
-                        height={getSmallCardHeight()}
-                        width={"100%"}
-                        src={trendingCourses ? trendingCourses[currentSlide]?.courses[1]?.imageUrl : ''}
-                        fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-                        preview={false}
-                      />
-                      <div className="card-overlay-wrapper h-100">
-                        <Flex
-                          vertical
-                          className="h-100"
-                          justify="space-between"
-                        >
-                          <Flex>
-                            <span className="card-chip font-bold">
-                              New Topic
-                            </span>
+                      <div
+                        className="course-card small-card"
+                        style={{ flexGrow: 2 }}
+                        onClick={() =>
+                          navigate(
+                            `/courses/${trendingCourses?.[currentSlide]?.courses[1]?.id}`
+                          )
+                        }
+                        role="button"
+                        onKeyDown={() => {}}
+                      >
+                        <Image
+                          height={getSmallCardHeight()}
+                          width={"100%"}
+                          src={
+                            trendingCourses
+                              ? trendingCourses[currentSlide]?.courses[1]
+                                  ?.imageUrl
+                              : ""
+                          }
+                          fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+                          preview={false}
+                        />
+                        <div className="card-overlay-wrapper h-100">
+                          <Flex
+                            vertical
+                            className="h-100"
+                            justify="space-between"
+                          >
+                            <Flex>
+                              <span className="card-chip font-bold">
+                                New Topic
+                              </span>
+                            </Flex>
+                            <Flex vertical align="baseline">
+                              <span className="card-course-title">
+                                {trendingCourses?.[currentSlide]?.slug}
+                              </span>
+                              <span className="sub-header font-bold">
+                                {
+                                  trendingCourses?.[currentSlide]?.courses[1]
+                                    ?.campaignTemplateCourseName
+                                }
+                              </span>
+                            </Flex>
                           </Flex>
-                          <Flex vertical align="baseline">
-                            <span className="card-course-title">
-                            {trendingCourses?.[currentSlide]?.slug}
-                            </span>
-                            <span className="sub-header font-bold">
-                            {trendingCourses?.[currentSlide]?.courses[1]?.campaignTemplateCourseName}
-                            </span>
-                          </Flex>
-                        </Flex>
+                        </div>
                       </div>
-                    </div>
-                  </Flex>
-                </Col>
-              </Row>
+                    </Flex>
+                  </Col>
+                </Row>
+              )}
             </div>
           </div>
           <CoursesList />

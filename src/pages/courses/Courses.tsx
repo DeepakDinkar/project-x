@@ -1,4 +1,4 @@
-import { DownOutlined, CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, DownOutlined } from "@ant-design/icons";
 import {
   Button,
   Drawer,
@@ -7,22 +7,23 @@ import {
   Input,
   Radio,
   Select,
+  Spin,
   Tabs,
   TabsProps,
   Tag,
 } from "antd";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
+import { VerticalData } from "../../models/Vertical";
+import { VerticalCourse } from "../../models/VerticalCourse";
+import { setVerticals } from "../../redux/reducers/verticalsReducer";
+import { getVerticalCourses, getVerticals } from "../../services/verticalsApi";
 import { SearchIcon } from "../../utils/svgs/SearchIcon";
 import styles from "./Courses.module.scss";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { VerticalCourse } from "../../models/VerticalCourse";
-import useFetchOnLoad from "../../hooks/useFetchOnLoad";
-import { getVerticalCourses, getVerticals } from "../../services/verticalsApi";
-import { useDispatch } from "react-redux";
-import { VerticalData } from "../../models/Vertical";
-import { setVerticals } from "../../redux/reducers/verticalsReducer";
 
 function Courses() {
   const breakPoints = useBreakPoint();
@@ -30,7 +31,8 @@ function Courses() {
     useState<boolean>(false);
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+  const { data: verticals, loading: isLoading }: VerticalData =
+    useFetchOnLoad(getVerticals);
   const { data: verticalCourse }: { data: VerticalCourse } = useFetchOnLoad(
     getVerticalCourses,
     slug
@@ -160,99 +162,109 @@ function Courses() {
     <div
       className={`${styles.titleWrapper} ${styles.exploreWrapper} search-container`}
     >
-      <div className="w-100">
-        <div>
-          <div
-            className={`course-card large-card ${styles.courseBannerContainer}`}
-          >
-            <Image
-              height={breakPoints?.md ? 380 : 150}
-              width={"100%"}
-              src={verticalCourse?.imageUrl}
-              fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
-              preview={false}
-            />
-            <div className="card-overlay-wrapper h-100" style={{ padding: 0 }}>
-              <Flex
-                vertical
-                className="h-100 text-center"
-                style={{
-                  padding: "1.5rem",
-                  justifyContent: "center",
-                  gap: ".5rem",
-                }}
+      {isLoading ? (
+        <Flex align="center" justify="center" className="w-100">
+          <Spin size="large" />
+        </Flex>
+      ) : (
+        <div className="w-100">
+          <div>
+            <div
+              className={`course-card large-card ${styles.courseBannerContainer}`}
+            >
+              <Image
+                height={breakPoints?.md ? 380 : 150}
+                width={"100%"}
+                src={verticalCourse?.imageUrl}
+                fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
+                preview={false}
+              />
+              <div
+                className="card-overlay-wrapper h-100"
+                style={{ padding: 0 }}
               >
-                <span className={styles.courseTitle}>
-                  {verticalCourse?.title}
-                </span>
-                {breakPoints?.md && (
-                  <span className={styles.courseSubTitle}>
-                    Choose the latest topics offered curated by our
-                    professionals
+                <Flex
+                  vertical
+                  className="h-100 text-center"
+                  style={{
+                    padding: "1.5rem",
+                    justifyContent: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  <span className={styles.courseTitle}>
+                    {verticalCourse?.title}
                   </span>
-                )}
-              </Flex>
+                  {breakPoints?.md && (
+                    <span className={styles.courseSubTitle}>
+                      Choose the latest topics offered curated by our
+                      professionals
+                    </span>
+                  )}
+                </Flex>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className={`${styles.exploreSearchWrapper}`}>
-          <div className={styles.topicText}>{verticalCourse?.courses?.length || 0} Topics available</div>
-          <Flex vertical gap={"2rem"}>
-            <Flex
-              vertical={breakPoints?.md}
-              style={{
-                justifyContent: "space-between",
-                gap: breakPoints?.md ? "2.5rem" : "1.5rem ",
-              }}
-            >
-              <Input
-                placeholder="Search topics"
-                prefix={<SearchIcon />}
-                size="middle"
+          <div className={`${styles.exploreSearchWrapper}`}>
+            <div className={styles.topicText}>
+              {verticalCourse?.courses?.length || 0} Topics available
+            </div>
+            <Flex vertical gap={"2rem"}>
+              <Flex
+                vertical={breakPoints?.md}
                 style={{
-                  width: "auto",
-                  flexGrow: 1,
-                  maxWidth: "380px",
+                  justifyContent: "space-between",
+                  gap: breakPoints?.md ? "2.5rem" : "1.5rem ",
                 }}
-              />
-              {!breakPoints?.md && (
-                <Button
-                  className={styles.outlineBtn}
-                  onClick={() => setIsFilterDrawerVisible(true)}
-                >
-                  Filter <DownOutlined />
-                </Button>
-              )}
+              >
+                <Input
+                  placeholder="Search topics"
+                  prefix={<SearchIcon />}
+                  size="middle"
+                  style={{
+                    width: "auto",
+                    flexGrow: 1,
+                    maxWidth: "380px",
+                  }}
+                />
+                {!breakPoints?.md && (
+                  <Button
+                    className={styles.outlineBtn}
+                    onClick={() => setIsFilterDrawerVisible(true)}
+                  >
+                    Filter <DownOutlined />
+                  </Button>
+                )}
+              </Flex>
+              {getFilters()}
             </Flex>
-            {getFilters()}
-          </Flex>
-        </div>
+          </div>
 
-        <Drawer
-          size="default"
-          className="cart-drawer"
-          placement="bottom"
-          destroyOnClose={true}
-          closable={true}
-          styles={{ header: { display: "none" } }}
-          onClose={() => setIsFilterDrawerVisible(false)}
-          open={isFilterDrawerVisible}
-          style={{ zIndex: 99999 }}
-        >
-          <Flex vertical className="h-100" justify="space-between">
-            <Tabs defaultActiveKey="1" items={items} />
-            <Button
-              type="primary"
-              style={{ justifyContent: "center" }}
-              onClick={() => setIsFilterDrawerVisible(false)}
-            >
-              Apply
-            </Button>
-          </Flex>
-        </Drawer>
-        <GridCard courses={verticalCourse?.courses || []} />
-      </div>
+          <Drawer
+            size="default"
+            className="cart-drawer"
+            placement="bottom"
+            destroyOnClose={true}
+            closable={true}
+            styles={{ header: { display: "none" } }}
+            onClose={() => setIsFilterDrawerVisible(false)}
+            open={isFilterDrawerVisible}
+            style={{ zIndex: 99999 }}
+          >
+            <Flex vertical className="h-100" justify="space-between">
+              <Tabs defaultActiveKey="1" items={items} />
+              <Button
+                type="primary"
+                style={{ justifyContent: "center" }}
+                onClick={() => setIsFilterDrawerVisible(false)}
+              >
+                Apply
+              </Button>
+            </Flex>
+          </Drawer>
+          <GridCard courses={verticalCourse?.courses || []} />
+        </div>
+      )}
     </div>
   );
 }

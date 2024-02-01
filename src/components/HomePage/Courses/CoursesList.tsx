@@ -1,4 +1,4 @@
-import { Flex, Image } from "antd";
+import { Flex, Image, Spin } from "antd";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,11 @@ import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { Status } from "../../../models/ExceptionProps";
 import { Vertical, VerticalData } from "../../../models/Vertical";
 import styles from "../../../pages/home/Home.module.scss";
+import { setVerticals } from "../../../redux/reducers/verticalsReducer";
 import { getVerticals } from "../../../services/verticalsApi";
 import Exception from "../../../utils/Exception/Exception";
-import Loader from "../../../utils/Loader/Loader";
 import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
-import { setVerticals } from "../../../redux/reducers/verticalsReducer";
 
 function CoursesList() {
   const navigate = useNavigate();
@@ -85,7 +84,7 @@ function CoursesList() {
 
   const getRenderer = () => {
     if (isVerticalsLoading) {
-      return <Loader />;
+      return <Spin size="large" />;
     }
     if (isVerticalsError) {
       return (

@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const useFetch = (fetchFunction: (...args: any) => Promise<any>) => {
+const useFetch = (fetchFunction: (...args: any) => any) => {
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<any>();
     const [error, setError] = useState<Error>();
 
-    const fetch = async () => {
+    const fetch = async (...args: any) => {
         try {
-            const result = await fetchFunction();
+            const result = await fetchFunction(...args);
             setData(result);
         } catch {
             setError(new Error());
