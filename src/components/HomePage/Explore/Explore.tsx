@@ -54,7 +54,7 @@ function Explore() {
 
 
   useEffect(() => {
-    if (data && data.content) {
+    if (data?.content) {
       setCourses(data?.content);
     }
   }, [data, data?.content]);
@@ -64,6 +64,7 @@ function Explore() {
 
     const getData = async () => {
       const value = await fetch(pageRef.current);
+      console.log(value);
     }
 
     getData();
