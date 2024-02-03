@@ -1,0 +1,10 @@
+@import "../../theme/variables";
+
+.myPurchasesWrapper {
+  padding: 4rem 2.5rem;
+
+  .divider {
+    stroke-width: 1px;
+    border-block-start: 1px solid $brown;
+  }
+}

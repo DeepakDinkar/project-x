@@ -1,74 +1,113 @@
-import { Divider, Flex, Image } from "antd";
-import styles from "./MyProfile.module.scss";
-import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { Button, Divider, Flex, Form, Input, InputNumber } from "antd";
 import GridCard from "../../components/GridCard/GridCard";
+import phoneNumberValidator from "../../error/Validations/phoneNumberValidator";
+import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { ProfileForm } from "../../models/ProfileForm";
+import styles from "./MyProfile.module.scss";
 
 export default function MyProfile() {
   const breakPoints = useBreakPoint();
+  const [form] = Form.useForm();
+
+  const onProfileSubmit = (values: ProfileForm) => {
+    console.log(values);
+  };
 
   return (
     <div className={styles.myprofileWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"4.5rem"}>
-          <div className="main-header font-bold font-ubuntu">My Purchases</div>
-          <Flex vertical gap={"1.5rem"}>
-            <Flex gap={"1.5rem"}>
-              <Image
-                style={{ borderRadius: "10px" }}
-                width={breakPoints?.md ? 132 : 64}
-                height={breakPoints?.md ? 132 : 64}
-                preview={false}
-                src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1705881600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GVbJStIOTTtQg6q4GqdJUWaqMNoEUpDqRn0MWPBMIF6rWWZYNlZEr20zcQK6NfVZsTrb-lJTwxouHUtVNtMjDQ6zjXposIB71hSlpOMuQL0aaQ6j0k4sKbgbFeMT-Z04FqShggkzZ9Tx8AENUO3hdeVFANeM-lH0shU3gOPhf4IksgWFTpvsf9FvbQDFB9mMeCpCV22fNn9QPwGVUwaGHychqN5x9W5QRSAlwBzULMfuivyK6dfJzU9TvAxBxQpj27Ks6Qb8I8VdjOfrzma7XDQLaEPZqVRxgKzzl3bxAWWyKsluiOifUQtiy5~Vzwh~vaCpEf6SGR86JIW-A1CG1Q__"
-              />
+          <div className="main-header font-bold font-ubuntu">My Profile</div>
+          <Form
+            className={styles.profileForm}
+            name="profileForm"
+            form={form}
+            onFinish={onProfileSubmit}
+          >
+            <Flex vertical gap={"1rem"}>
               <Flex
-                vertical
-                style={{ flex: 1, justifyContent: "space-evenly" }}
+                vertical={!breakPoints?.md}
+                style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
               >
-                <div className="font-sm text-uppercase">
-                  leadership and business management
-                </div>
-                <div className="font-default font-bold">
-                  International Leadership
-                </div>
-                <div>
-                  <span className="font-sm" style={{ paddingRight: "10px" }}>
-                    Qty: 10
-                  </span>
-                  <span className="font-sm">Price: $400</span>
-                </div>
-                <div className="font-sm">Dubai, UAE | Oct 7, 2023</div>
+                <Form.Item<ProfileForm> label="Name">
+                  <Form.Item<ProfileForm>
+                    name="firstName"
+                    style={{ flex: 1 }}
+                    rules={[
+                      { required: true, message: "*First Name is required" },
+                    ]}
+                  >
+                    <Input
+                      className={styles.input}
+                      placeholder="First Name*"
+                      size="middle"
+                    />
+                  </Form.Item>
+                  <Form.Item<ProfileForm>
+                    name="lastName"
+                    style={{ flex: 1 }}
+                    rules={[
+                      { required: true, message: "*Last Name is required" },
+                    ]}
+                  >
+                    <Input
+                      className={styles.input}
+                      placeholder="Last Name*"
+                      size="middle"
+                    />
+                  </Form.Item>
+                </Form.Item>
               </Flex>
-            </Flex>
-            <Flex gap={"1.5rem"}>
-              <Image
-                style={{ borderRadius: "10px" }}
-                width={breakPoints?.md ? 132 : 64}
-                height={breakPoints?.md ? 132 : 64}
-                preview={false}
-                src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1705881600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GVbJStIOTTtQg6q4GqdJUWaqMNoEUpDqRn0MWPBMIF6rWWZYNlZEr20zcQK6NfVZsTrb-lJTwxouHUtVNtMjDQ6zjXposIB71hSlpOMuQL0aaQ6j0k4sKbgbFeMT-Z04FqShggkzZ9Tx8AENUO3hdeVFANeM-lH0shU3gOPhf4IksgWFTpvsf9FvbQDFB9mMeCpCV22fNn9QPwGVUwaGHychqN5x9W5QRSAlwBzULMfuivyK6dfJzU9TvAxBxQpj27Ks6Qb8I8VdjOfrzma7XDQLaEPZqVRxgKzzl3bxAWWyKsluiOifUQtiy5~Vzwh~vaCpEf6SGR86JIW-A1CG1Q__"
-              />
               <Flex
-                vertical
-                style={{ flex: 1, justifyContent: "space-evenly" }}
+                vertical={!breakPoints?.md}
+                style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
               >
-                <div className="font-sm text-uppercase">
-                  leadership and business management
-                </div>
-                <div className="font-default font-bold">
-                  International Leadership
-                </div>
-                <div>
-                  <span className="font-sm" style={{ paddingRight: "10px" }}>
-                    Qty: 10
-                  </span>
-                  <span className="font-sm">Price: $400</span>
-                </div>
+                <Form.Item<ProfileForm>
+                  label="Phone Number"
+                  name="phoneNumber"
+                  style={{
+                    flex: 1,
+                  }}
+                  rules={[
+                    { required: true, message: "*Phone Number is required" },
+                    {
+                      validator: phoneNumberValidator,
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    className={styles.input}
+                    placeholder="Phone Number"
+                    size="middle"
+                  />
+                </Form.Item>
+                <Form.Item<ProfileForm>
+                  name="email"
+                  label="Email"
+                  rules={[
+                    { required: true, message: "*Email ID is required" },
+                    { type: "email", message: "Invalid email address" },
+                  ]}
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  <Input
+                    className={styles.input}
+                    placeholder="Email Address"
+                    size="middle"
+                  />
+                </Form.Item>
               </Flex>
+
+              <Button className={styles.requestSubmitBtn} htmlType="submit">
+                Send Request
+              </Button>
             </Flex>
-          </Flex>
+          </Form>
         </Flex>
         <Divider className={styles.divider} />
-        <div className="common-header font-bold">Trending Topics</div>
+        <div className="common-header font-bold">Recommended Courses</div>
         <GridCard courses={[]} />
       </div>
     </div>
