@@ -1,33 +1,197 @@
-@import '../../theme/variables';
+@import "../../theme/variables";
 
 .footerWrapper {
-    background: $primary;
+  background: $primary;
+  color: $white;
+  align-items: center;
+  gap: 1rem;
+  padding: 6.5rem 0;
+
+  p {
+    font-family: $font-roboto-slab, serif;
+    font-weight: 900;
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding-bottom: 1rem;
+  }
+
+  .signUp {
     color: $white;
-    align-items: center;
-    gap: 1rem;
-    padding: 6.5rem 0;
+    border: 1px solid $white;
+    font-size: 1.5rem;
+    padding: 0.75rem 3.5rem;
+    background: inherit;
+    border-radius: 100px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+}
 
-    p {
-        font-family: $font-roboto-slab, serif;
-        font-weight: 900;
-        font-size: 2.5rem;
-        text-align: center;
+// Request callback section
+
+.requestCallbackWrapper {
+  background: $white;
+  padding: 2.5rem 3rem;
+  .requestCallbackHeader {
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-align: center;
+  }
+  .requestCallbackForm {
+    padding-top: 3rem;
+    max-width: 600px;
+  }
+
+  :global {
+    .ant-form-item-control-input-content {
+      .ant-input,
+      .ant-input-number,
+      .ant-select {
+        height: 44px !important;
+        border-radius: 15px !important;
+        background: $grey-100;
+        font-size: 12px;
+        border: 0.5px solid $brown-300;
+      }
+
+      .ant-select {
+        .ant-select-selection-placeholder {
+          font-size: 12px;
+          color: $brown-300;
+        }
+
+        .ant-select-selector {
+          border-radius: 15px !important;
+          border: 0 !important;
+          padding: 0.5rem !important;
+
+          .ant-select-selection-item {
+            font-size: 12px;
+            font-weight: normal !important;
+          }
+        }
+      }
+
+      textarea.ant-input {
+        height: auto !important;
+      }
+    }
+  }
+
+  .requestSubmitBtn {
+    width: fit-content;
+    text-transform: uppercase;
+    height: 40px !important;
+    font-size: 16px;
+    border: 1px solid;
+  }
+}
+
+// Contact us section
+
+.officeAddressMobile {
+  padding: .5rem 0 0 1.5rem;
+  a {
+    color: $black;
+  }
+  span {
+    color: $brown;
+  }
+}
+
+.contactUsWrapper {
+  padding: 3rem 2.5rem;
+  .menuListContainer {
+    flex-flow: row wrap;
+    gap: 0.5rem;
+    flex-grow: 1;
+    justify-content: space-between;
+
+    .officeAddress {
+      max-width: 200px;
+      span {
+        font-size: 0.875rem;
+        color: $brown;
+      }
+    }
+  }
+
+  .listCollapseContainer {
+
+    .collapseItem {
+      padding-left: 1.5rem;
+      a {
+        font-size: 12px;
+        color: $black;
+        padding: .5rem 0 0;
+      }
+    }
+  }
+
+  :global {
+    .ant-list-item,
+    .ant-list,
+    .ant-list-header {
+      border: 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .ant-list-item {
+      font-weight: 500 !important;
+      a {
+        font-size: inherit;
+        color: inherit;
+      }
     }
 
-    span {
-        font-size: 1.5rem;
-        font-weight: 700;
-        padding-bottom: 1rem;
-    }
+    .ant-collapse {
+      border: 0;
+      background: inherit;
 
-    .signUp {
-        color: $white;
-        border: 1px solid $white;
-        font-size: 1.5rem;
-        padding: 0.75rem 3.5rem;
+      .ant-collapse-item {
+        border: 0;
+        padding: .5rem;
+      }
+
+      .ant-collapse-content {
         background: inherit;
-        border-radius: 100px;
-        text-transform: uppercase;
+        border: 0;
+      }
+
+      .ant-collapse-header {
+        width: 100%;
+      }
+
+      .ant-collapse-header-text {
         font-weight: 700;
+      }
     }
+  }
+
+  .logoWrapper {
+    padding-top: 0.5rem;
+    img {
+      height: 38px !important;
+      width: 144px !important;
+      object-fit: contain;
+    }
+  }
+}
+
+.trademark {
+  font-size: 12px;
+  text-align: center;
+  color: $brown-300;
+  padding: 3rem 0 0;
+}
+
+@media screen and (max-width: $md) {
+  .requestCallbackWrapper {
+    padding: 3rem;
+  }
 }

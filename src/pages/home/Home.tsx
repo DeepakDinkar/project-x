@@ -91,10 +91,10 @@ function Home() {
                       <Carousel effect="scrollx" afterChange={onCarouselChange}>
                         {trendingCourses?.map((vertical: VerticalCourse) => (
                           <div
-                            key={vertical.slug}
+                            key={vertical?.slug}
                             className="course-card large-card"
                             onClick={() =>
-                              navigate(`/verticals/${vertical.slug}`)
+                              navigate(`/verticals/${vertical?.slug}`)
                             }
                             role="button"
                             onKeyDown={() => {}}
@@ -102,7 +102,7 @@ function Home() {
                             <Image
                               height={getLargeCardHeight()}
                               width={"100%"}
-                              src={vertical.imageUrl}
+                              src={vertical?.imageUrl}
                               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                               preview={false}
                             />
@@ -184,7 +184,7 @@ function Home() {
                             </Flex>
                             <Flex vertical align="baseline">
                               <span className="card-course-title">
-                                {trendingCourses?.[currentSlide].slug}
+                                {trendingCourses?.[currentSlide]?.slug}
                               </span>
                               <span className="sub-header font-bold">
                                 {
