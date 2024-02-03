@@ -9,7 +9,7 @@ import {
   Spin,
 } from "antd";
 import dayjs from "dayjs";
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { STATUS } from "../../../constants/messages.constants";
 import useFetch from "../../../hooks/useFetch";
@@ -23,6 +23,7 @@ import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
 import { SearchIcon } from "../../../utils/svgs/SearchIcon";
 import GridCard from "../../GridCard/GridCard";
+import { Course } from "../../../models/Course";
 
 enum FilterType {
   SEARCH = "query",
@@ -40,16 +41,33 @@ type FilterOptions = {
 
 function Explore() {
   const filterOptions = useRef<FilterOptions>();
+  const pageRef = useRef<number>(1);
 
   const {
     loading: isCoursesLoading,
-    data: courses,
+    data,
     error: isCoursesError,
     fetch,
   } = useFetch(getExploreCourses);
 
+  const [courses, setCourses] = useState<Course[]>([]);
+
+
   useEffect(() => {
-    fetch();
+    if (data && data.content) {
+      setCourses(data?.content);
+    }
+  }, [data, data?.content]);
+
+
+  useEffect(() => {
+
+    const getData = async () => {
+      const value = await fetch(pageRef.current);
+    }
+
+    getData();
+    
   }, [fetch]);
 
   const verticals = useSelector(
@@ -85,7 +103,7 @@ function Explore() {
 
   const updateFilterOptions = () => {
     const filters = filterOptions.current;
-    fetch(filters);
+    fetch(pageRef.current, filters);
   };
 
   const onSelectionChange = (value: string, key: string) => {
@@ -99,7 +117,7 @@ function Explore() {
   const getRenderer = () => {
     if (isCoursesLoading) {
       return (
-        <Space style={{ padding: "3rem 0"}}>
+        <Space style={{ padding: "3rem 0" }}>
           <Spin size="large" />
         </Space>
       );
@@ -113,7 +131,7 @@ function Explore() {
       );
     }
 
-    if (courses?.length == 0 || courses?.length == 0) {
+    if (courses?.length == 0) {
       return (
         <Exception
           status={Status.NOT_FOUND}

@@ -11,6 +11,7 @@ const useFetch = (fetchFunction: (...args: any) => any) => {
     try {
       const result = await fetchFunction(...args);
       setData(result);
+      return result;
     } catch {
       setError(new Error());
     } finally {
