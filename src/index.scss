@@ -9,6 +9,10 @@
   margin: 0;
 }
 
+.ant-input, .ant-input-number-input {
+  font-family: $font-ubuntu;
+}
+
 html {
   scroll-behavior: smooth;
 }

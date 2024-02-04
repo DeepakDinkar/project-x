@@ -1,6 +1,9 @@
-export function Dustbin() {
+import Props from "../../models/IconButtonProps";
+
+export function Dustbin(props: Props) {
   return (
     <svg
+      {...props}
       style={{ width: "20px" }}
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"

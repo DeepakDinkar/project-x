@@ -6,7 +6,6 @@ type Drawer = {
     isCartDrawer: boolean;
 };
 
-
 const drawerReducer = (
     state: Drawer,
     action: { type: string; payload: boolean }

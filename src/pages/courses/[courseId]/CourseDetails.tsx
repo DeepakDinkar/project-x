@@ -6,14 +6,22 @@ import { Course } from "../../../models/Course";
 import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { getCourseByCourseId } from "../../../services/courseApi";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/reducers/cartReducer";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
   const { courseId } = useParams();
+  const dispatch = useDispatch();
   const { data: courseDetails }: { data: Course } = useFetchOnLoad(
     getCourseByCourseId,
     courseId
   );
+
+
+  const addCourseToCart = () => {
+    dispatch(addToCart(courseDetails));
+  }
 
   return (
     <div
@@ -92,7 +100,7 @@ export default function CourseDetails() {
             }}
             gap={"1rem"}
           >
-            <Button type="primary" className="text-uppercase">
+            <Button type="primary" className="text-uppercase" onClick={() => addCourseToCart()}>
               Add to cart
             </Button>
             <Button type="text" className="text-uppercase">

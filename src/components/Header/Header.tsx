@@ -29,6 +29,8 @@ import MobileDrawer from "./Drawer/MobileDrawer";
 import styles from "./Header.module.scss";
 import LoginWrapper from "./LoginWrapper";
 import LoginModalReducerProps from "../../models/reducers/LoginModalReducerProps";
+import { Course } from "../../models/Course";
+import { closeCartDrawer } from "../../redux/reducers/cartReducer";
 
 export default function Header() {
   const location = useLocation();
@@ -36,6 +38,9 @@ export default function Header() {
   const breakPoints = useBreakPoint();
   const { state, dispatch: drawerDispatch } = useDrawer();
   const dispatch = useDispatch();
+  const cartCourses: Course[] =
+    useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
+    [];
   const isModalOpen =
     useSelector(
       (state: { loginModal: LoginModalReducerProps }) => state?.loginModal
@@ -44,6 +49,8 @@ export default function Header() {
   const user = useSelector(
     (state: { user: { login: boolean; userName: string } }) => state.user
   );
+
+  const isDrawerVisible = useSelector((state: { cart: {isDrawerVisible: boolean}}) => state.cart)?.isDrawerVisible ?? false;
 
   const logOut = () => {
     dispatch(logout());
@@ -83,6 +90,7 @@ export default function Header() {
       type,
       payload: false,
     });
+    dispatch(closeCartDrawer());
   };
 
   const items: MenuProps["items"] = [
@@ -199,7 +207,7 @@ export default function Header() {
                 >
                   About us
                 </Button>
-                <Badge count={5} status="default">
+                <Badge count={cartCourses.length} status="default" showZero>
                   <Cart
                     onClick={() => {
                       openDrawer(DRAWER.SHOW_CART);
@@ -213,7 +221,7 @@ export default function Header() {
           </Flex>
           <div>
             <CartDrawer
-              isDrawerVisible={state.isCartDrawer}
+              isDrawerVisible={state.isCartDrawer || isDrawerVisible}
               closeDrawer={() => closeDrawer(DRAWER.SHOW_CART)}
             />
             <MobileDrawer

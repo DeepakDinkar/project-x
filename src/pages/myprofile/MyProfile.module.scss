@@ -7,4 +7,70 @@
     stroke-width: 1px;
     border-block-start: 1px solid $brown;
   }
+
+  :global {
+
+    .ant-upload-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem;
+    }
+
+    label::before, label::after {
+      display: none !important;
+    }
+
+    .ant-form-item-label {
+      display: flex;
+      align-items: baseline;
+    }
+
+    label {
+      padding: .5rem;
+    }
+
+    .ant-form-item-control-input-content {
+      .ant-input,
+      .ant-input-number,
+      .ant-select {
+        height: 44px !important;
+        border-radius: 15px !important;
+        background: $grey-100;
+        font-size: 12px;
+        border: 0;
+      }
+
+      .ant-select {
+        .ant-select-selection-placeholder {
+          font-size: 12px;
+          color: $brown-300;
+        }
+
+        .ant-select-selector {
+          border-radius: 15px !important;
+          border: 0 !important;
+          padding: 0.5rem !important;
+
+          .ant-select-selection-item {
+            font-size: 12px;
+            font-weight: normal !important;
+          }
+        }
+      }
+
+      textarea.ant-input {
+        height: auto !important;
+      }
+    }
+  }
+
+  .profileSubmitBtn {
+    width: fit-content;
+    text-transform: uppercase;
+    height: 40px !important;
+    font-size: 16px;
+    border: 1px solid;
+    margin: 1.5rem auto;
+  }
 }
