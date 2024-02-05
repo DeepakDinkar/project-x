@@ -159,7 +159,7 @@ function Footer() {
         Become a member now!
         </p>
         <span>Receive course updates and discount codes</span>
-        <span>o	Manage your profile </span>
+        <span>Manage your profile </span>
         <button className={styles.signUp}>Sign Up</button>
       </Flex>
       <RequestCallback />
