@@ -45,18 +45,37 @@
   height: 100% !important;
 }
 
+.dropdown {
+  font-family: $font-ubuntu;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  .face2face, .live {
+    font-size: 12px;
+    font-family: inherit;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .face2face {
+    color: $green-200;
+  }
+  .live {
+    color: $purple;
+  }
+}
+
 // Media queries
 @media only screen and (max-width: $md) {
   .mentorCardCircle {
     height: 110px !important;
     width: 110px !important;
-   }
- }
+  }
+}
 
- @media only screen and (max-width: $sm) {
+@media only screen and (max-width: $sm) {
   .mentorCardCircle {
     height: 100px !important;
     width: 100px !important;
-   }
- }
-
+  }
+}

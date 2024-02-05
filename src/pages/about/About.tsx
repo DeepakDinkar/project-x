@@ -5,15 +5,12 @@ import { useBreakPoint } from "../../hooks/useBreakPoint";
 function About() {
   const mentors = [...new Array(20)];
   const breakPoint = useBreakPoint();
-  
+
   return (
     <Flex vertical justify="center" className={styles.aboutUsWrapper}>
       <div className={styles.sectionHeaderWrapper}>
         <p className={styles.sectionHeader}>About Us</p>
-        <p className={styles.sectionSubHeader}>
-          We aim to set a new era of sustainable <br /> personal development and
-          corporate
-        </p>
+        <p className={styles.sectionSubHeader}>Your Success is Our Mission!”</p>
         <div className={styles.detailsWrapper}>
           <div className={styles.flexWrapper}>
             <div className={styles.detailsImageWrapper}>
@@ -34,29 +31,35 @@ function About() {
             </div>
             <div>
               <p>
-                Through instructor-led sessions, in-company training and
-                coaching, our faculty of experts deliver over 1200+ programs
-                annually, while 25,000+ professionals are equipped with
-                up-to-date relevant education and the latest tech solutions
-                across the EMEA region.
+                We are a growing international training and consulting company
+                with world-class trainers. Established in 2010, Qomo Institute
+                has been upskilling and rebranding organizations and individuals
+                through auditing and needs analysis services, and training
+                deliveries throughout the world.
               </p>
               <p>&nbsp;</p>
               <p>
-                We support our valued clients with a wide range of services,
-                including Training Needs Analysis, Competency Development and
-                Assessment, and custom-built e-Learning solutions that cater to
-                specific industries and knowledge areas.
+                We understand that the business community is highly competitive
+                and continuous learning delivered by world-class practitioners
+                to you/your organization will help brand success. Our services
+                are a great solution to creating a “5% culture!
               </p>
               <p>&nbsp;</p>
               <p>
-                The LEORON mission is boosting the competitiveness of our
-                clients worldwide through continuous learning, while stiving to
-                achieve our vision of becoming the best quality corporate
-                training and EdTech Company in the EMEA and the world. Whether
-                our clients are facing difficulties re-organising their brand,
-                equipping their workforce with an extra set of skills or aiming
-                to assess competencies within an existing structure, our
-                development planning is a great solution.
+                Years ago, an international study was performed, and it was
+                discovered that 95% of employees ranged from poor to adequate
+                [“meets expectations’]. The inverse of this demonstrates that
+                only 5% of us care to do more. These 5% will offer propositions
+                of value, that go above and beyond, in order to make the
+                company, the governmental agency, the department, the team, the
+                business unit, the individual better! Thus, it is our goal to
+                reach out to 5% CLUB members and make their brand strong
+              </p>
+              <p>&nbsp;</p>
+              <p>
+                Beyond training, our subject-matter experts within our 5
+                verticals, are available for: Consulting, Coaching, Mentoring, Auditing services. Please contact us if you
+                have project needs that fit within any of these service buckets.
               </p>
             </div>
           </div>
@@ -104,7 +107,7 @@ function About() {
       </div>
       <Divider className={styles.divider} />
       <div className="w-100">
-        <p className={styles.sectionHeader}>Key Mentors</p>
+        <p className={styles.sectionHeader}>Board of Advisors</p>
         <Flex className={styles.mentorWrapper}>
           {mentors.map((_mentor, index) => (
             <Flex vertical key={index} className={styles.mentorCard}>

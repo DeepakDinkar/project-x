@@ -156,9 +156,10 @@ function Footer() {
     <Layout>
       <Flex className={styles.footerWrapper} vertical>
         <p>
-          Get latest updates on <br /> new courses
+        Become a member now!
         </p>
-        <span>Become a member now!</span>
+        <span>Receive course updates and discount codes</span>
+        <span>o	Manage your profile </span>
         <button className={styles.signUp}>Sign Up</button>
       </Flex>
       <RequestCallback />

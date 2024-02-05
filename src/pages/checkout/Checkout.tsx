@@ -16,12 +16,22 @@ import { BillingIcon } from "../../utils/svgs/BillingIcon";
 import styles from "./Checkout.module.scss";
 import { useSelector } from "react-redux";
 import { Course } from "../../models/Course";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
+  const navigate = useNavigate();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
+
+  useEffect(() => {
+    if (!courses || courses?.length == 0) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [courses?.length, navigate]);
 
   const items: CollapseProps["items"] = [
     {
@@ -59,14 +69,17 @@ export default function Checkout() {
                   ]}
                 ></Select>
               </Form.Item>
-              <Form.Item name="townCity" label="Town / City*">
-                <Select
-                  options={[
-                    { value: "jack", label: "Jack" },
-                    { value: "lucy", label: "Lucy" },
-                    { value: "Yiminghe", label: "yiminghe" },
-                  ]}
-                ></Select>
+              <Form.Item
+                name="city"
+                label="City"
+                style={{ flex: 1 }}
+                rules={[{ required: true, message: "*City is required" }]}
+              >
+                <Input
+                  className={styles.input}
+                  placeholder="Town/City*"
+                  size="middle"
+                />
               </Form.Item>
               <Form.Item name="zipCode" label="Zip Code*">
                 <Input className={styles.input} placeholder="" />

@@ -34,7 +34,7 @@ export default function CartDrawer({
   const getRenderer = () => {
     if (!courses || courses.length == 0) {
       return (
-        <Exception status={Status.NOT_FOUND} subTitle={STATUS.NOT_FOUND} />
+        <Exception status={Status.NOT_FOUND} subTitle={STATUS.EMPTY_CART} />
       );
     }
 
@@ -45,8 +45,8 @@ export default function CartDrawer({
             <Flex gap={"1.5rem"} key={course.id}>
               <Image
                 style={{ borderRadius: "10px" }}
-                width={64}
-                height={64}
+                width={breakPoint?.md ? 86 : 64}
+                height={breakPoint?.md ? 86 : 64}
                 preview={false}
                 src={course.imageUrl}
               />
@@ -68,7 +68,7 @@ export default function CartDrawer({
           <Button
             type="primary"
             className="font-default font-bold text-uppercase"
-            style={{ alignSelf: "self-end", width: "fit-content" }}
+            style={{ alignSelf: "self-end", width: "fit-content", height: 44 }}
             onClick={() => navigateToCheckout()}
           >
             Checkout

@@ -59,7 +59,7 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
           className={`course-card small-card explore-card`}
           role="button"
           key={course.id}
-          onClick={() => navigate(`/courses/${course.id}`)}
+          onClick={() => navigate(`/course/${course.id}`)}
           onKeyDown={() => {}}
         >
           <Image

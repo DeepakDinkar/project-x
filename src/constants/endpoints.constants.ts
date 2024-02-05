@@ -18,6 +18,7 @@ export const VERTICALS = Object.freeze({
 export const SEARCH = Object.freeze({
   ALL: "/search",
   EXPLORE: "/search/explore",
+  VERTICAL_COURSES: '/search/verticals'
 });
 
 // Checkout Endpoints

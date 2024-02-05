@@ -27,7 +27,7 @@ const cartSlice = createSlice({
 
       const { id } = action.payload;
       if(getItemIndex(state.items, id) > -1) {
-        message.warning("Course already in the cart");
+        message.warning("Course already added to cart");
       } else {
         state.items = [...state.items, action.payload];
         message.success("Course add to cart");

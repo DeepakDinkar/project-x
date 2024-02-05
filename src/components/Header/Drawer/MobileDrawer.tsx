@@ -21,6 +21,10 @@ export default function MobileDrawer({
     closeDrawer();
   };
 
+  const isRouteActive = (pathName: string): boolean => {
+    return new RegExp(pathName).test(location?.pathname);
+  };
+
   return (
     <Drawer
       placement="left"
@@ -33,7 +37,7 @@ export default function MobileDrawer({
         <Button
           type="link"
           className={`${styles.drawerMenuBtn} ${styles.linkButton} ${
-            location?.pathname.match("/courses") ? "active" : ""
+            isRouteActive("/courses") ? "active" : ""
           }`}
           onClick={() => routeToPath("/courses")}
         >
@@ -42,7 +46,7 @@ export default function MobileDrawer({
         <Button
           type="link"
           className={`${styles.drawerMenuBtn} ${styles.linkButton} ${
-            location?.pathname.match("/about") ? "active" : ""
+            isRouteActive("/about") ? "active" : ""
           }`}
           onClick={() => routeToPath("/about")}
         >

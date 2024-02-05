@@ -13,14 +13,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DRAWER } from "../../constants/drawer.constants";
-import { USER } from "../../constants/endpoints.constants";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { useDrawer } from "../../hooks/useDrawer";
 import { logout } from "../../redux/reducers/userReducer";
-import { axiosConfig } from "../../services/axios-config";
 import { Cart } from "../../utils/svgs/Cart";
 
 import { googleLogout } from "@react-oauth/google";
+import { Course } from "../../models/Course";
+import LoginModalReducerProps from "../../models/reducers/LoginModalReducerProps";
+import { closeCartDrawer } from "../../redux/reducers/cartReducer";
 import { closeModal, openModal } from "../../redux/reducers/loginModalReducer";
 import { UserIcon } from "../../utils/svgs/UserIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
@@ -28,16 +29,13 @@ import CartDrawer from "./Drawer/CartDrawer";
 import MobileDrawer from "./Drawer/MobileDrawer";
 import styles from "./Header.module.scss";
 import LoginWrapper from "./LoginWrapper";
-import LoginModalReducerProps from "../../models/reducers/LoginModalReducerProps";
-import { Course } from "../../models/Course";
-import { closeCartDrawer } from "../../redux/reducers/cartReducer";
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const breakPoints = useBreakPoint();
-  const { state, dispatch: drawerDispatch } = useDrawer();
   const dispatch = useDispatch();
+  const { state, dispatch: drawerDispatch } = useDrawer();
   const cartCourses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
@@ -50,7 +48,9 @@ export default function Header() {
     (state: { user: { login: boolean; userName: string } }) => state.user
   );
 
-  const isDrawerVisible = useSelector((state: { cart: {isDrawerVisible: boolean}}) => state.cart)?.isDrawerVisible ?? false;
+  const isDrawerVisible =
+    useSelector((state: { cart: { isDrawerVisible: boolean } }) => state.cart)
+      ?.isDrawerVisible ?? false;
 
   const logOut = () => {
     dispatch(logout());
@@ -58,17 +58,6 @@ export default function Header() {
   };
 
   useEffect(() => {}, [user, user.login]);
-
-  useEffect(() => {
-    axiosConfig
-      .get(USER.LOGIN)
-      .then((response) => {
-        console.log("Response token", response);
-      })
-      .catch((error) => {
-        console.log("Response error", error);
-      });
-  }, []);
 
   const showModal = () => {
     dispatch(openModal());
@@ -99,6 +88,14 @@ export default function Header() {
       label: (
         <Button type="link" onClick={() => navigate("/myprofile")}>
           My Profile
+        </Button>
+      ),
+    },
+    {
+      key: "myPurchases",
+      label: (
+        <Button type="link" onClick={() => navigate("/mypurchases")}>
+          My Purchases
         </Button>
       ),
     },
@@ -164,9 +161,13 @@ export default function Header() {
     );
   };
 
+  const isRouteActive = (pathName: string): boolean => {
+    return new RegExp(pathName).test(location?.pathname);
+  };
+
   return (
     <nav>
-      <Layout style={{ paddingBottom: "5rem" }}>
+      <Layout style={{ paddingBottom: "4rem" }}>
         <Layout.Header className={styles.header}>
           <Flex style={{ alignItems: "center", gap: "1.2rem" }}>
             {!breakPoints?.md && (
@@ -192,7 +193,7 @@ export default function Header() {
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${
-                    RegExp(`/courses`).exec(location?.pathname) ? "active" : ""
+                    isRouteActive("/courses") ? "active" : ""
                   }`}
                   onClick={() => navigate("/courses")}
                 >
@@ -201,7 +202,7 @@ export default function Header() {
                 <Button
                   type="link"
                   className={`${styles.linkButton} ${
-                    location?.pathname.match("/about") ? "active" : ""
+                    isRouteActive("/about") ? "active" : ""
                   }`}
                   onClick={() => navigate("/about")}
                 >

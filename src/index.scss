@@ -3,13 +3,14 @@
 :root {
   background: $secondary;
   font-family: $font-ubuntu, serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: $brown-100;
   margin: 0;
 }
 
-.ant-input, .ant-input-number-input {
+.ant-input,
+.ant-input-number-input {
   font-family: $font-ubuntu;
 }
 
@@ -137,11 +138,18 @@ p {
   height: 100%;
 }
 
-.ant-input-status-error, .ant-input-affix-wrapper:focus-within, .ant-input:focus, .ant-input-number:focus-within, .ant-input-affix-wrapper-status-error, .ant-input-number-status-error  {
+.ant-input-status-error,
+.ant-input-affix-wrapper:focus-within,
+.ant-input:focus,
+.ant-input-number:focus-within,
+.ant-input-affix-wrapper-status-error,
+.ant-input-number-status-error {
   border-width: 2px !important;
 }
 
-.ant-input::placeholder, .ant-select-selection-search-input::placeholder, .ant-input-number-input::placeholder {
+.ant-input::placeholder,
+.ant-select-selection-search-input::placeholder,
+.ant-input-number-input::placeholder {
   color: inherit !important;
 }
 
@@ -165,6 +173,15 @@ p {
   .ant-input-prefix {
     padding: 0.5rem;
   }
+}
+
+.ant-radio-group {
+  div,
+  span {
+    font-family: $font-ubuntu;
+  }
+  max-height: 200px;
+  overflow: auto;
 }
 
 /* ================================================================= */
@@ -192,12 +209,16 @@ p {
       height: 160px;
     }
   }
+
+  .ant-select-selector {
+    max-width: 85vw;
+  }
 }
 
 /* Small devices such as large phones (576px and up) */
-@media only screen and (min-width: $sm)and (max-width: $md) {
+@media only screen and (min-width: $sm) and (max-width: $md) {
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .ant-btn,
@@ -222,7 +243,7 @@ p {
 /* Medium devices such as tablets (768px and up) */
 @media only screen and (min-width: $md) and (max-width: $lg) {
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .ant-btn,
@@ -249,9 +270,9 @@ p {
 }
 
 /* Large devices such as laptops (992px and up) */
-@media only screen and (min-width: $lg)and (max-width: $xl) {
+@media only screen and (min-width: $lg) and (max-width: $xl) {
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .ant-btn,
@@ -272,7 +293,7 @@ p {
 /* Largest devices such as desktops (1200px and up) */
 @media only screen and (min-width: $xl) {
   :root {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .ant-btn,
@@ -413,9 +434,9 @@ p {
     }
     &.ant-select-status-error {
       .ant-select-selector {
-        border:2px solid #ff4d4f !important;
+        border: 2px solid #ff4d4f !important;
       }
-    } 
+    }
 
     &:focus {
       .ant-select-selector {
@@ -428,8 +449,6 @@ p {
       font-size: 14px;
       font-weight: 400 !important;
     }
-
-  
 
     .ant-select-selector {
       border: 1px solid $black !important;
@@ -528,7 +547,8 @@ p {
     background: $brown;
   }
 
-  .ant-input, .ant-input-number {
+  .ant-input,
+  .ant-input-number {
     background: $brown;
     color: $brown-200;
     border: 0;
@@ -592,7 +612,7 @@ p {
   margin-bottom: 0;
 }
 
-// Radio select styles 
+// Radio select styles
 .radio-select {
   display: flex;
   flex-flow: column;
@@ -626,7 +646,6 @@ p {
     }
   }
 }
-
 
 .global-search {
   .ant-select-selector {

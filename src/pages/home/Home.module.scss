@@ -25,6 +25,12 @@
 
     .exploreSearchWrapper {
       padding-top: 4.5rem;
+
+      :global {
+        .ant-result-subtitle {
+          color: $white;
+        }
+      }
     }
 
     .exploreCard:hover {

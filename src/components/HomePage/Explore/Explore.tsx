@@ -1,5 +1,6 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import {
+  Badge,
   DatePicker,
   DatePickerProps,
   Flex,
@@ -13,6 +14,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { STATUS } from "../../../constants/messages.constants";
 import useFetch from "../../../hooks/useFetch";
+import { Course } from "../../../models/Course";
 import { Status } from "../../../models/ExceptionProps";
 import { Vertical } from "../../../models/Vertical";
 import styles from "../../../pages/home/Home.module.scss";
@@ -23,7 +25,6 @@ import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
 import { SearchIcon } from "../../../utils/svgs/SearchIcon";
 import GridCard from "../../GridCard/GridCard";
-import { Course } from "../../../models/Course";
 
 enum FilterType {
   SEARCH = "query",
@@ -52,23 +53,19 @@ function Explore() {
 
   const [courses, setCourses] = useState<Course[]>([]);
 
-
   useEffect(() => {
     if (data?.content) {
       setCourses(data?.content);
     }
   }, [data, data?.content]);
 
-
   useEffect(() => {
-
     const getData = async () => {
       const value = await fetch(pageRef.current);
       console.log(value);
-    }
+    };
 
     getData();
-    
   }, [fetch]);
 
   const verticals = useSelector(
@@ -182,7 +179,7 @@ function Explore() {
             }}
           >
             <Input
-              placeholder="Search topics"
+              placeholder="Search courses"
               onInput={(event) => inputSearch(event)}
               prefix={<SearchIcon />}
               size="middle"
@@ -221,9 +218,66 @@ function Explore() {
               <Select
                 placeholder="Location"
                 options={[
-                  { value: "jack", label: "Jack" },
-                  { value: "lucy", label: "Lucy" },
-                  { value: "Yiminghe", label: "yiminghe" },
+                  {
+                    value: "dubai",
+                    label: (
+                      <>
+                        Dubai{" "}
+                        <Badge
+                          color="blue"
+                          className={styles.autoSearchBadge}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    value: "abudhabi",
+                    label: (
+                      <>
+                        Abu Dhabi {" "}
+                        <Badge
+                          color="blue"
+                          className={styles.autoSearchBadge}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    value: "sharjah",
+                    label: (
+                      <>
+                        Sharjah{" "}
+                        <Badge
+                          color="blue"
+                          className={styles.autoSearchBadge}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    value: "kalba",
+                    label: (
+                      <>
+                        Kalba{" "}
+                        <Badge
+                          color="blue"
+                          className={styles.autoSearchBadge}
+                        />
+                      </>
+                    ),
+                  },
+                  {
+                    value: "virtual",
+                    label: (
+                      <>
+                        Virtual{" "}
+                        <Badge
+                          color="green"
+                          className={styles.autoSearchBadge}
+                        />
+                      </>
+                    ),
+                  },
                 ]}
               />
             </Flex>

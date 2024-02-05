@@ -1,32 +1,48 @@
-import { Button, Divider, Flex, Image, Rate, Select } from "antd";
-import GridCard from "../../../components/GridCard/GridCard";
-import { useBreakPoint } from "../../../hooks/useBreakPoint";
-import styles from "./CourseDetails.module.scss";
-import { Course } from "../../../models/Course";
-import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
-import { getCourseByCourseId } from "../../../services/courseApi";
-import { useParams } from "react-router-dom";
+import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import GridCard from "../../../components/GridCard/GridCard";
+import { STATUS } from "../../../constants/messages.constants";
+import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
+import { Status } from "../../../models/ExceptionProps";
 import { addToCart } from "../../../redux/reducers/cartReducer";
+import { getCourseByCourseId } from "../../../services/courseApi";
+import Exception from "../../../utils/Exception/Exception";
+import styles from "./CourseDetails.module.scss";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
   const { courseId } = useParams();
   const dispatch = useDispatch();
-  const { data: courseDetails }: { data: Course } = useFetchOnLoad(
-    getCourseByCourseId,
-    courseId
-  );
-
+  const {
+    data: courseDetails,
+    loading: isLoading,
+    error: isCourseDetailsError,
+  } = useFetchOnLoad(getCourseByCourseId, courseId);
 
   const addCourseToCart = () => {
     dispatch(addToCart(courseDetails));
-  }
+  };
 
-  return (
-    <div
-      className={`${styles.titleWrapper} ${styles.exploreWrapper} search-container`}
-    >
+  const getRenderer = () => {
+    if (isLoading) {
+      return (
+        <Flex style={{ padding: "3rem 0" }} justify="center">
+          <Spin size="large" />
+        </Flex>
+      );
+    }
+    if (isCourseDetailsError) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
+      );
+    }
+
+    return (
       <div className="w-100">
         <div>
           <Flex vertical={!breakPoints?.md} gap={"2.5rem"}>
@@ -82,13 +98,54 @@ export default function CourseDetails() {
             <Select
               placeholder="Dubai, UAE | Nov 19 - 23, 2023"
               options={[
-                { value: "jack", label: "Dubai, UAE | Nov 19 - 23, 2023" },
-                { value: "lucy", label: "Nov 25 - 30, 2023" },
+                {
+                  value: "jack",
+                  label: (
+                    <Flex className={styles.dropdown}>
+                      Dubai, UAE | Nov 19 - 23, 2023
+                      <Flex className={styles.face2face}>
+                        <Badge color="green" />
+                        Live Virtual Training
+                      </Flex>
+                    </Flex>
+                  ),
+                },
+                {
+                  value: "lucy",
+                  label: (
+                    <Flex className={styles.dropdown}>
+                      Nov 25 - 30, 2023
+                      <Flex className={styles.live}>
+                        <Badge color="purple" />
+                        Face 2 Face
+                      </Flex>
+                    </Flex>
+                  ),
+                },
                 {
                   value: "Yiminghe",
-                  label: "Abu Dhabi, UAE | Nov 27 - Dec 02, 2023",
+                  label: (
+                    <Flex className={styles.dropdown}>
+                      Abu Dhabi, UAE | Nov 27 - Dec 02, 2023
+                      <Flex className={styles.face2face}>
+                        <Badge color="green" />
+                        Live Virtual Training
+                      </Flex>
+                    </Flex>
+                  ),
                 },
-                { value: "Yiming", label: "Dec 01 - 06, 2023" },
+                {
+                  value: "Yiming",
+                  label: (
+                    <Flex className={styles.dropdown}>
+                      Dec 01 - 06, 2023
+                      <Flex className={styles.live}>
+                        <Badge color="purple" />
+                        Face 2 Face
+                      </Flex>
+                    </Flex>
+                  ),
+                },
               ]}
             />
           </Flex>
@@ -100,7 +157,11 @@ export default function CourseDetails() {
             }}
             gap={"1rem"}
           >
-            <Button type="primary" className="text-uppercase" onClick={() => addCourseToCart()}>
+            <Button
+              type="primary"
+              className="text-uppercase"
+              onClick={() => addCourseToCart()}
+            >
               Add to cart
             </Button>
             <Button type="text" className="text-uppercase">
@@ -179,7 +240,10 @@ export default function CourseDetails() {
                       style={{ alignItems: "center" }}
                       gap={"1rem"}
                     >
-                      <span className="color-primary font-bold main-header" style={{ minWidth: '25px'}}>
+                      <span
+                        className="color-primary font-bold main-header"
+                        style={{ minWidth: "25px" }}
+                      >
                         {index + 1}
                       </span>
                       <span className="sub-header font-bold">{key}</span>
@@ -194,7 +258,14 @@ export default function CourseDetails() {
         <div className="common-header font-bold">Similar Topics</div>
         <GridCard courses={[]} />
       </div>
-      {/* <Empty description="No courses found" /> */}
+    );
+  };
+
+  return (
+    <div
+      className={`${styles.titleWrapper} ${styles.exploreWrapper} search-container`}
+    >
+      {getRenderer()}
     </div>
   );
 }

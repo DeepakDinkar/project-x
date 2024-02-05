@@ -52,6 +52,47 @@
     background: inherit
   }
 
+  .courseWrapper {
+    :global {
+      .ant-picker {
+        background: transparent;
+        border-radius: 100px;
+        border: 2px solid $brown;
+        width: 160px;
+  
+        &.active {
+          background: $brown;
+          color: $white;
+  
+          input,
+          input::placeholder,
+          .ant-picker-suffix {
+            color: $white !important;
+          }
+  
+          .ant-picker-clear {
+            background: $white;
+          }
+        }
+  
+        input,
+        input::placeholder,
+        .ant-picker-suffix {
+          color: $brown;
+          font-size: 1.5rem;
+          font-weight: 700;
+        }
+  
+        .ant-picker-clear {
+          background: $black;
+          .anticon-close-circle {
+            color: $brown;
+          }
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: $md) {
     .outlineBtn {
       font-size: 1.4rem !important;
