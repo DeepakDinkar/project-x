@@ -73,7 +73,7 @@ export default function GlobalSearch() {
           <button
             key={course.id}
             className={styles.autoSearchButton}
-            onClick={() => routeToVerticalOrCourse(`/courses/${course.id}`, course.campaignTemplateCourseName)}
+            onClick={() => routeToVerticalOrCourse(`/course/${course.id}`, course.campaignTemplateCourseName)}
           >
             {course.campaignTemplateCourseName}{" "}
             <Badge color="cyan" className={styles.autoSearchBadge} />

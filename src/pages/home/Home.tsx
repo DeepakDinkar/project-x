@@ -157,7 +157,7 @@ function Home() {
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
                   <Flex>
-                    <span className="card-chip font-bold">New Topic</span>
+                    <span className="card-chip font-bold">New Course</span>
                   </Flex>
                   <Flex vertical align="baseline">
                     <span className="card-course-title">
@@ -198,7 +198,7 @@ function Home() {
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
                   <Flex>
-                    <span className="card-chip font-bold">New Topic</span>
+                    <span className="card-chip font-bold">New Course</span>
                   </Flex>
                   <Flex vertical align="baseline">
                     <span className="card-course-title">

@@ -21,16 +21,22 @@
 
 .linkButton {
   font-family: $font-roboto-slab !important;
+  span {
+    font-size: 1.2rem !important;
+  }
 }
 
 .menuBtn {
   padding: 0 !important;
   font-size: 2.5rem !important;
+  span {
+    font-size: 2.5rem !important;
+  }
 }
 
 .mobileLoginBtn {
   height: 32px !important;
-  font-size: 1.5rem !important;
+  font-size: 1rem !important;
 }
 
 .menu {
@@ -51,7 +57,7 @@
 }
 
 .loginBtn {
-  font-size: 1.5rem !important;
+  font-size: 1rem !important;
   height: auto;
   text-transform: uppercase;
 }

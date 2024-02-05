@@ -36,7 +36,7 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
             style={{ padding: "1.5rem" }}
           >
             <Flex>
-              <span className="card-chip font-bold">New Topic</span>
+              <span className="card-chip font-bold">New Course</span>
             </Flex>
             <Flex vertical align="baseline">
               <span className="card-course-title">

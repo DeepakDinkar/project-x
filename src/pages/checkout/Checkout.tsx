@@ -1,6 +1,5 @@
 import {
   Button,
-  Checkbox,
   Col,
   Collapse,
   CollapseProps,
@@ -9,15 +8,15 @@ import {
   Image,
   Input,
   Row,
-  Select,
+  Select
 } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { Course } from "../../models/Course";
 import { BillingIcon } from "../../utils/svgs/BillingIcon";
 import styles from "./Checkout.module.scss";
-import { useSelector } from "react-redux";
-import { Course } from "../../models/Course";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
@@ -85,9 +84,9 @@ export default function Checkout() {
                 <Input className={styles.input} placeholder="" />
               </Form.Item>
             </Form.Item>
-            <Form.Item name="remember" valuePropName="checked">
+            {/* <Form.Item name="remember" valuePropName="checked">
               <Checkbox>Abu Dhabi, UAE | Nov 25 - 30, 2023</Checkbox>
-            </Form.Item>
+            </Form.Item> */}
             <Button htmlType="submit" className={styles.formSubmitBtn}>
               Save Address
             </Button>
@@ -119,7 +118,7 @@ export default function Checkout() {
                 <div className={styles.checkoutCourseContainer}>
                   <Flex vertical gap={"1.5rem"}>
                     {courses.map((course: Course) => (
-                      <Flex justify="space-between" align="center">
+                      <Flex justify="space-between" align="center" key={course.id}>
                         <Flex gap={"1.5rem"}>
                           <Image
                             style={{ borderRadius: "10px" }}

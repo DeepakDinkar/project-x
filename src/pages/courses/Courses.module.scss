@@ -59,6 +59,13 @@
         border-radius: 100px;
         border: 2px solid $brown;
         width: 160px;
+        height: 40px;
+
+        .ant-picker-input {
+          input {
+            font-size: 1.2rem !important;
+          }
+        }
   
         &.active {
           background: $brown;
@@ -68,6 +75,7 @@
           input::placeholder,
           .ant-picker-suffix {
             color: $white !important;
+            
           }
   
           .ant-picker-clear {

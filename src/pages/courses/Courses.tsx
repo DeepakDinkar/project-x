@@ -211,8 +211,8 @@ function Courses() {
       ),
     },
     {
-      key: "filterByKnowledgeArea",
-      label: "Filter by Knowledge Area",
+      key: "filterByVerticals",
+      label: "Filter by Verticals",
       children: (
         <Radio.Group className="radio-select">
           {verticals?.map((vertical) => (
@@ -292,7 +292,7 @@ function Courses() {
               ]}
             />
             <Select
-              placeholder="Filter by Knowledge Area"
+              placeholder="Filter by Verticals"
               options={getVerticalOptions()}
             />
             <Select
@@ -415,7 +415,7 @@ function Courses() {
             className={`course-card large-card ${styles.courseBannerContainer}`}
           >
             <Image
-              height={breakPoints?.md ? 380 : 150}
+              height={breakPoints?.md ? 300 : 150}
               width={"100%"}
               src={verticalCourse?.imageUrl}
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
