@@ -24,31 +24,29 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
 
   const getCardContent = (course: Course) => {
     return (
-      <>
-        <div
-          className="card-overlay-wrapper h-100 small-content"
-          style={{ padding: 0 }}
+      <div
+        className="card-overlay-wrapper h-100 small-content"
+        style={{ padding: 0 }}
+      >
+        <Flex
+          vertical
+          className="h-100"
+          justify="space-between"
+          style={{ padding: "1.5rem" }}
         >
-          <Flex
-            vertical
-            className="h-100"
-            justify="space-between"
-            style={{ padding: "1.5rem" }}
-          >
-            <Flex>
-              <span className="card-chip font-bold">New Course</span>
-            </Flex>
-            <Flex vertical align="baseline">
-              <span className="card-course-title">
-                {course.campaignTemplateCourseName}
-              </span>
-              <span className="sub-header font-bold">
-                {getVerticalTitle(course.slug)}
-              </span>
-            </Flex>
+          <Flex>
+            <span className="card-chip font-bold">New Course</span>
           </Flex>
-        </div>
-      </>
+          <Flex vertical align="baseline">
+            <span className="card-course-title">
+              {course.campaignTemplateCourseName}
+            </span>
+            <span className="sub-header font-bold">
+              {getVerticalTitle(course.slug)}
+            </span>
+          </Flex>
+        </Flex>
+      </div>
     );
   };
 

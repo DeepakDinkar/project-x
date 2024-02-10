@@ -1,27 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Divider, Flex, Form, Input } from "antd";
 import { jwtDecode } from "jwt-decode";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import emailValidator from "../../../error/Validations/emailValidator";
+import useFetch from "../../../hooks/useFetch";
 import { LoginForm } from "../../../models/LoginForm";
+import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
+import { loginUser } from "../../../services/userApi";
+import { mapLoginFormPayLoad } from "../../../utils/formUtils";
 import { FacebookIcon } from "../../../utils/svgs/FacebookIcon";
 import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
-import { closeModal } from "../../../redux/reducers/loginModalReducer";
 
 type Props = {
   setIsLogin: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Login({ setIsLogin }: Readonly<Props>) {
-  const [isLoginLoading, setIsLoginLoading] = useState<boolean>(false);
+  const { fetch: loginFetch } = useFetch(loginUser);
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const responseMessage = (response: any) => {
     console.log(response);
     const details = jwtDecode(response.access_token);
@@ -29,7 +32,6 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
     dispatch(login({ userName: "John Doe" }));
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onError = (response: any) => {
     console.log("error", response);
   };
@@ -40,13 +42,12 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
   });
 
   const onLoginSubmit = (values: LoginForm) => {
-    setIsLoginLoading(true);
-
+    const payload = mapLoginFormPayLoad(values);
+    loginFetch(payload);
+  
     setTimeout(() => {
-      console.log("Success:", values);
-      setIsLoginLoading(false);
-      dispatch(login({ userName: "John Doe" }));
-      dispatch(closeModal());
+      // dispatch(login({ userName: "John Doe" }));
+      // dispatch(closeModal());
     }, 5000);
   };
 
@@ -93,7 +94,6 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
             type="primary"
             className={styles.btn}
             style={{ margin: "1.5rem auto 0" }}
-            loading={isLoginLoading}
           >
             Log in
           </Button>

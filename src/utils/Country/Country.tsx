@@ -1,4 +1,4 @@
-import { AutoComplete, FormInstance } from "antd";
+import { AutoComplete, FormInstance, Image } from "antd";
 import { ReactNode, useEffect, useState } from "react";
 import countryJson from "../../assets/json/country.json";
 
@@ -21,7 +21,7 @@ export default function Country({ form, fieldKey }: Readonly<Props>) {
         value: country.name,
         label: (
           <div>
-            {country.emoji} {country.name}
+            <Image src={country.image} preview={false} height={20} width={20} /> {country.name}
           </div>
         ),
       };

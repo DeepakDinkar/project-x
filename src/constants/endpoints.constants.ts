@@ -1,7 +1,7 @@
 // User Endpoints
-export const USER = Object.freeze({
-  LOGIN: "/user/login",
-  SIGN_UP: "/user/signup",
+export const AUTH = Object.freeze({
+  LOGIN: "/auth/login",
+  SIGN_UP: "/auth/signup",
 });
 
 // Courses Endpoints

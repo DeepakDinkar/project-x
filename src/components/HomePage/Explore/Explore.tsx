@@ -1,6 +1,7 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import {
   Badge,
+  Button,
   DatePicker,
   DatePickerProps,
   Flex,
@@ -34,10 +35,7 @@ enum FilterType {
 }
 
 type FilterOptions = {
-  query?: string;
-  slug?: string;
-  location?: string;
-  date?: string;
+  [key: string]: string;
 };
 
 function Explore() {
@@ -55,16 +53,16 @@ function Explore() {
 
   useEffect(() => {
     if (data?.content) {
-      setCourses(data?.content);
+      pageRef.current === 1
+        ? setCourses(data?.content ?? [])
+        : setCourses((courses) => [...courses, ...(data?.content ?? [])]);
     }
   }, [data, data?.content]);
 
   useEffect(() => {
     const getData = async () => {
-      const value = await fetch(pageRef.current);
-      console.log(value);
+      await fetch(pageRef.current);
     };
-
     getData();
   }, [fetch]);
 
@@ -79,8 +77,35 @@ function Explore() {
     }));
   };
 
+  const loadMoreData = () => {
+    pageRef.current = pageRef.current + 1;
+    const filters = filterOptions.current;
+    fetch(pageRef.current, filters);
+  };
+
+  const getLoadMoreButton = () => {
+    return (
+      pageRef.current < data?.totalPages && (
+        <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
+          Load More
+        </Button>
+      )
+    );
+  };
+
   const getCoursesList = () => {
-    return <GridCard courses={courses} />;
+    return (
+      <>
+        <GridCard courses={courses} />
+        {isCoursesLoading ? (
+          <Space style={{ padding: "3rem 0" }}>
+            <Spin size="large" />
+          </Space>
+        ) : (
+          getLoadMoreButton()
+        )}
+      </>
+    );
   };
 
   const searchCourses = (searchQuery: string) => {
@@ -101,6 +126,7 @@ function Explore() {
 
   const updateFilterOptions = () => {
     const filters = filterOptions.current;
+    pageRef.current = 1;
     fetch(pageRef.current, filters);
   };
 
@@ -113,7 +139,7 @@ function Explore() {
   };
 
   const getRenderer = () => {
-    if (isCoursesLoading) {
+    if (isCoursesLoading && pageRef.current === 1) {
       return (
         <Space style={{ padding: "3rem 0" }}>
           <Spin size="large" />
@@ -152,7 +178,7 @@ function Explore() {
   ) => {
     filterOptions.current = {
       ...filterOptions.current,
-      [FilterType.DATE]: date?.format(),
+      [FilterType.DATE]: date?.format() ?? '',
     };
     updateFilterOptions();
   };
@@ -217,6 +243,9 @@ function Explore() {
               />
               <Select
                 placeholder="Location"
+                onChange={(value) =>
+                  onSelectionChange(value, FilterType.LOCATION)
+                }
                 options={[
                   {
                     value: "dubai",
@@ -234,7 +263,7 @@ function Explore() {
                     value: "abudhabi",
                     label: (
                       <>
-                        Abu Dhabi {" "}
+                        Abu Dhabi{" "}
                         <Badge
                           color="blue"
                           className={styles.autoSearchBadge}

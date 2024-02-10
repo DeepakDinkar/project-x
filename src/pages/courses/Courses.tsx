@@ -4,7 +4,6 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import {
-  Badge,
   Button,
   DatePicker,
   Drawer,
@@ -13,10 +12,11 @@ import {
   Input,
   Radio,
   Select,
+  Space,
   Spin,
   Tabs,
   TabsProps,
-  Tag
+  Tag,
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -49,10 +49,7 @@ enum FilterType {
 }
 
 type FilterOptions = {
-  query?: string;
-  slug?: string;
-  location?: string;
-  date?: string;
+  [key: string]: string;
 };
 
 function Courses() {
@@ -81,14 +78,16 @@ function Courses() {
 
   useEffect(() => {
     const getData = async () => {
-     await coursesFetch(slug, pageRef.current);
+      await coursesFetch(slug, pageRef.current);
     };
     getData();
   }, [coursesFetch, slug]);
 
   useEffect(() => {
     if (data?.content) {
-      setCourses(data?.content);
+      pageRef.current === 1
+        ? setCourses(data?.content ?? [])
+        : setCourses((courses) => [...courses, ...(data?.content ?? [])]);
     }
   }, [data, data?.content]);
 
@@ -110,6 +109,7 @@ function Courses() {
 
   const updateFilterOptions = () => {
     const filters = filterOptions.current;
+    pageRef.current = 1;
     coursesFetch(slug, pageRef.current, filters);
   };
 
@@ -132,6 +132,30 @@ function Courses() {
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
   }, [dispatch, verticals]);
+
+  const onSelectionChange = (value: string, key: string) => {
+    filterOptions.current = {
+      ...filterOptions.current,
+      [key]: value,
+    };
+    updateFilterOptions();
+  };
+
+  const loadMoreData = () => {
+    pageRef.current = pageRef.current + 1;
+    const filters = filterOptions.current;
+    fetch(slug, pageRef.current, filters);
+  };
+
+  const getLoadMoreButton = () => {
+    return (
+      pageRef.current < data?.totalPages && (
+        <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
+          Load More
+        </Button>
+      )
+    );
+  };
 
   useLayoutEffect(() => {
     setIsFilterDrawerVisible(false);
@@ -260,6 +284,28 @@ function Courses() {
     },
   ];
 
+  const removeFilterOption = (key: string) => {
+    const options = filterOptions?.current;
+
+    if (options) {
+      delete options[key];
+      filterOptions.current = options;
+      console.log(filterOptions.current);
+    }
+
+    updateFilterOptions();
+  };
+
+  const getFilteredOptions = () => {
+    const options = filterOptions.current ?? {};
+
+    return Object.keys(options).map((key: string, index: number) => (
+      <Tag closeIcon key={index} onClose={() => removeFilterOption(key)}>
+        {filterOptions?.current ? options[key] : ""}
+      </Tag>
+    ));
+  };
+
   const getFilters = () => {
     return (
       breakPoints?.md && (
@@ -286,6 +332,7 @@ function Courses() {
             />
             <Select
               placeholder="Filter by Delivery Modes"
+              className={`${filterOptions.current?.date ? "active" : ""}`}
               options={[
                 { value: "virtual", label: "Virtual Training" },
                 { value: "live", label: "Live Training" },
@@ -297,58 +344,37 @@ function Courses() {
             />
             <Select
               placeholder="Filter by Location"
+              className={`${filterOptions.current?.location ? "active" : ""}`}
+              onChange={(value) =>
+                onSelectionChange(value, FilterType.LOCATION)
+              }
+              value={filterOptions.current?.location}
               options={[
                 {
                   value: "dubai",
-                  label: (
-                    <>
-                      Dubai{" "}
-                      <Badge color="blue" className={styles.autoSearchBadge} />
-                    </>
-                  ),
+                  label: <>Dubai</>,
                 },
                 {
                   value: "abudhabi",
-                  label: (
-                    <>
-                      Abu Dhabi{" "}
-                      <Badge color="blue" className={styles.autoSearchBadge} />
-                    </>
-                  ),
+                  label: <>Abu Dhabi</>,
                 },
                 {
                   value: "sharjah",
-                  label: (
-                    <>
-                      Sharjah{" "}
-                      <Badge color="blue" className={styles.autoSearchBadge} />
-                    </>
-                  ),
+                  label: <>Sharjah</>,
                 },
                 {
                   value: "kalba",
-                  label: (
-                    <>
-                      Kalba{" "}
-                      <Badge color="blue" className={styles.autoSearchBadge} />
-                    </>
-                  ),
+                  label: <>Kalba</>,
                 },
                 {
                   value: "virtual",
-                  label: (
-                    <>
-                      Virtual{" "}
-                      <Badge color="green" className={styles.autoSearchBadge} />
-                    </>
-                  ),
+                  label: <>Virtual </>,
                 },
               ]}
             />
           </Flex>
           <Flex gap={"0.5rem"} style={{ flexFlow: "row wrap" }}>
-            <Tag closeIcon>Next Week</Tag>
-            <Tag closeIcon>Dubai</Tag>
+            {getFilteredOptions()}
           </Flex>
         </>
       )
@@ -356,11 +382,22 @@ function Courses() {
   };
 
   const getCoursesList = () => {
-    return <GridCard courses={courses} />;
+    return (
+      <>
+        <GridCard courses={courses} />
+        {isCoursesLoading ? (
+          <Space style={{ padding: "3rem 0" }}>
+            <Spin size="large" />
+          </Space>
+        ) : (
+          getLoadMoreButton()
+        )}
+      </>
+    );
   };
 
   const getRenderer = () => {
-    if (isCoursesLoading) {
+    if (isCoursesLoading && pageRef.current === 1) {
       return (
         <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />

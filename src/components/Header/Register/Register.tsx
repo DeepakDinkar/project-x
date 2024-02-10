@@ -8,14 +8,18 @@ import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
 import Country from "../../../utils/Country/Country";
 import styles from "../Login/Login.module.scss";
+import useFetch from "../../../hooks/useFetch";
+import { registerUser } from "../../../services/userApi";
+import { mapRegisterFormPayLoad } from "../../../utils/formUtils";
 
 export default function Register() {
   const [isNextStep, setIsNextStep] = useState<boolean>(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { fetch } = useFetch(registerUser);
 
-  const onLoginSubmit = (values: RegisterForm) => {
-    console.log("Register", values);
+  const onLoginSubmit = async (values: RegisterForm) => {
+    await fetch(mapRegisterFormPayLoad(values));
     dispatch(closeModal());
     dispatch(login({ userName: "John Doe" }));
   };
@@ -100,7 +104,7 @@ export default function Register() {
         </Form.Item>
         <Button
           className={styles.btn}
-          style={{ margin: "1.5rem auto 0", border: '1px solid' }}
+          style={{ margin: "1.5rem auto 0", border: "1px solid" }}
           onClick={() => onNextClick()}
         >
           Next

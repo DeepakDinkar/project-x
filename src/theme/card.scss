@@ -57,7 +57,7 @@
       background: $primary;
       text-transform: uppercase;
       padding: 0.5rem 0.75rem;
-      font-size: .625rem;
+      font-size: 0.625rem;
     }
 
     .card-course-title {
@@ -92,6 +92,12 @@
 }
 
 @media screen and (min-width: $xl) {
+  .grid-card-container {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media screen and (min-width: $lg) and (max-width: $xl) {
   .grid-card-container {
     grid-template-columns: repeat(4, 1fr);
   }

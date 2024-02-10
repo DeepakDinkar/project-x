@@ -23,6 +23,12 @@
   .exploreWrapper {
     background: $black;
 
+    :global {
+      .ant-result-subtitle {
+        color: $white;
+      }
+    }
+
     .exploreSearchWrapper {
       padding-top: 4.5rem;
 
@@ -87,9 +93,9 @@
 
       input,
       input::placeholder,
-      .ant-picker-suffix {
+      .ant-picker-suffix, .ant-select-selection-item {
         color: $primary;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 700;
       }
 
