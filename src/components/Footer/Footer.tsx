@@ -76,6 +76,7 @@ function Footer() {
       <Collapse
         items={items}
         className={styles.listCollapseContainer}
+        defaultActiveKey={1}
         expandIconPosition="end"
       />
     );

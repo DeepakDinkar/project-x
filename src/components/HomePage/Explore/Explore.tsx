@@ -1,6 +1,5 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import {
-  Badge,
   Button,
   DatePicker,
   DatePickerProps,
@@ -15,10 +14,12 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { STATUS } from "../../../constants/messages.constants";
 import useFetch from "../../../hooks/useFetch";
+import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { Course } from "../../../models/Course";
 import { Status } from "../../../models/ExceptionProps";
 import { Vertical } from "../../../models/Vertical";
 import styles from "../../../pages/home/Home.module.scss";
+import { getAllCourseLocations } from "../../../services/courseApi";
 import { getExploreCourses } from "../../../services/exploreCoursesApi";
 import Exception from "../../../utils/Exception/Exception";
 import debounce from "../../../utils/debounceSearch";
@@ -31,7 +32,8 @@ enum FilterType {
   SEARCH = "query",
   SLUG = "slug",
   LOCATION = "location",
-  DATE = "date",
+  FROM_DATE = "fromDate",
+  TO_DATE = "toDate",
 }
 
 type FilterOptions = {
@@ -41,6 +43,9 @@ type FilterOptions = {
 function Explore() {
   const filterOptions = useRef<FilterOptions>();
   const pageRef = useRef<number>(1);
+  const { data: locations }: { data: string[] } = useFetchOnLoad(
+    getAllCourseLocations
+  );
 
   const {
     loading: isCoursesLoading,
@@ -176,11 +181,33 @@ function Explore() {
   const onDateChange: DatePickerProps["onChange"] = (
     date: dayjs.Dayjs | null
   ) => {
-    filterOptions.current = {
-      ...filterOptions.current,
-      [FilterType.DATE]: date?.format() ?? '',
-    };
+    const options = filterOptions.current ?? {};
+    if (date) {
+      const fromDate = date?.startOf("month").format("YYYY-MM-DD");
+      const toDate = date?.endOf("month").format("YYYY-MM-DD");
+
+      options[FilterType.FROM_DATE] = fromDate;
+      options[FilterType.TO_DATE] = toDate;
+    } else {
+      delete options.fromDate;
+      delete options.toDate;
+    }
+
+    filterOptions.current = options;
+
     updateFilterOptions();
+  };
+
+  const getLocationOptions = () => {
+    if (locations) {
+      return locations.map((location) => {
+        return {
+          value: location,
+          label: location,
+        };
+      });
+    }
+    return [];
   };
 
   return (
@@ -237,77 +264,20 @@ function Explore() {
                 format={"MMM, YYYY"}
                 disabledDate={disabledDate}
                 onChange={onDateChange}
-                className={`${filterOptions.current?.date ? "active" : ""} ${
-                  styles.exploreFilterSelect
-                }`}
+                className={`${
+                  filterOptions.current?.fromDate ? "active" : ""
+                } ${styles.exploreFilterSelect}`}
               />
               <Select
                 placeholder="Location"
+                allowClear={{ clearIcon: <CloseCircleOutlined /> }}
+                className={`${
+                  filterOptions.current?.location ? "active" : ""
+                } ${styles.exploreFilterSelect}`}
                 onChange={(value) =>
                   onSelectionChange(value, FilterType.LOCATION)
                 }
-                options={[
-                  {
-                    value: "dubai",
-                    label: (
-                      <>
-                        Dubai{" "}
-                        <Badge
-                          color="blue"
-                          className={styles.autoSearchBadge}
-                        />
-                      </>
-                    ),
-                  },
-                  {
-                    value: "abudhabi",
-                    label: (
-                      <>
-                        Abu Dhabi{" "}
-                        <Badge
-                          color="blue"
-                          className={styles.autoSearchBadge}
-                        />
-                      </>
-                    ),
-                  },
-                  {
-                    value: "sharjah",
-                    label: (
-                      <>
-                        Sharjah{" "}
-                        <Badge
-                          color="blue"
-                          className={styles.autoSearchBadge}
-                        />
-                      </>
-                    ),
-                  },
-                  {
-                    value: "kalba",
-                    label: (
-                      <>
-                        Kalba{" "}
-                        <Badge
-                          color="blue"
-                          className={styles.autoSearchBadge}
-                        />
-                      </>
-                    ),
-                  },
-                  {
-                    value: "virtual",
-                    label: (
-                      <>
-                        Virtual{" "}
-                        <Badge
-                          color="green"
-                          className={styles.autoSearchBadge}
-                        />
-                      </>
-                    ),
-                  },
-                ]}
+                options={getLocationOptions()}
               />
             </Flex>
           </Flex>

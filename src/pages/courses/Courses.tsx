@@ -1,28 +1,22 @@
-import {
-  CheckOutlined,
-  CloseCircleOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import {
   Button,
   DatePicker,
+  DatePickerProps,
   Drawer,
   Flex,
   Image,
   Input,
-  Radio,
   Select,
-  Space,
   Spin,
-  Tabs,
-  TabsProps,
-  Tag,
+  Tag
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
+import MobileFilter from "../../components/MobileFilter/MobileFilter";
 import { STATUS } from "../../constants/messages.constants";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useFetch from "../../hooks/useFetch";
@@ -31,6 +25,7 @@ import { Course } from "../../models/Course";
 import { Status } from "../../models/ExceptionProps";
 import { VerticalData } from "../../models/Vertical";
 import { setVerticals } from "../../redux/reducers/verticalsReducer";
+import { getAllCourseLocations } from "../../services/courseApi";
 import {
   getVerticalCourses,
   getVerticalDetails,
@@ -45,7 +40,10 @@ enum FilterType {
   SEARCH = "query",
   SLUG = "slug",
   LOCATION = "location",
-  DATE = "date",
+  FROM_DATE = "fromDate",
+  TO_DATE = "toDate",
+  SORT = "sortBy",
+  DELIVERY_MODE = "deliveryMode",
 }
 
 type FilterOptions = {
@@ -58,6 +56,7 @@ function Courses() {
     useState<boolean>(false);
   const { slug } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
   const {
     data: verticalCourse,
@@ -68,13 +67,15 @@ function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const filterOptions = useRef<FilterOptions>();
   const pageRef = useRef<number>(1);
-
   const {
     loading: isCoursesLoading,
     data,
     error: isCoursesError,
     fetch: coursesFetch,
   } = useFetch(getVerticalCourses);
+  const { data: locations }: { data: string[] } = useFetchOnLoad(
+    getAllCourseLocations
+  );
 
   useEffect(() => {
     const getData = async () => {
@@ -90,6 +91,26 @@ function Courses() {
         : setCourses((courses) => [...courses, ...(data?.content ?? [])]);
     }
   }, [data, data?.content]);
+
+  useEffect(() => {
+    fetch(slug);
+  }, [fetch, slug]);
+
+  useEffect(() => {
+    verticals && dispatch(setVerticals(verticals));
+  }, [dispatch, verticals]);
+
+  const getLocationOptions = () => {
+    if (locations) {
+      return locations.map((location) => {
+        return {
+          value: location,
+          label: location,
+        };
+      });
+    }
+    return [];
+  };
 
   const searchCourses = (searchQuery: string) => {
     searchQuery = searchQuery.trim().toLowerCase();
@@ -125,14 +146,6 @@ function Courses() {
     }));
   };
 
-  useEffect(() => {
-    fetch(slug);
-  }, [fetch, slug]);
-
-  useEffect(() => {
-    verticals && dispatch(setVerticals(verticals));
-  }, [dispatch, verticals]);
-
   const onSelectionChange = (value: string, key: string) => {
     filterOptions.current = {
       ...filterOptions.current,
@@ -141,10 +154,31 @@ function Courses() {
     updateFilterOptions();
   };
 
+  const onDateChange: DatePickerProps["onChange"] = (
+    date: dayjs.Dayjs | null
+  ) => {
+    const options = filterOptions.current ?? {};
+
+    if (date) {
+      const fromDate = date?.startOf("month").format("YYYY-MM-DD");
+      const toDate = date?.endOf("month").format("YYYY-MM-DD");
+
+      options[FilterType.FROM_DATE] = fromDate;
+      options[FilterType.TO_DATE] = toDate;
+    } else {
+      delete options.fromDate;
+      delete options.toDate;
+    }
+
+    filterOptions.current = options;
+
+    updateFilterOptions();
+  };
+
   const loadMoreData = () => {
     pageRef.current = pageRef.current + 1;
     const filters = filterOptions.current;
-    fetch(slug, pageRef.current, filters);
+    coursesFetch(slug, pageRef.current, filters);
   };
 
   const getLoadMoreButton = () => {
@@ -161,149 +195,74 @@ function Courses() {
     setIsFilterDrawerVisible(false);
   }, [breakPoints?.md]);
 
-  const items: TabsProps["items"] = [
-    {
-      key: "sortBy",
-      label: "Sort by",
-      children: (
-        <Radio.Group className="radio-select">
-          <Radio.Button value="topLeft">
-            <Flex justify="space-between" className="w-100">
-              A - Z
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="topRight">
-            <Flex justify="space-between" className="w-100">
-              Z - A
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-        </Radio.Group>
-      ),
-    },
-    {
-      key: "filterByDates",
-      label: "Filter By Dates",
-      children: (
-        <Radio.Group className="radio-select">
-          <Radio.Button value="topLeft">
-            <Flex justify="space-between" className="w-100">
-              Feb 2024
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="topRight">
-            <Flex justify="space-between" className="w-100">
-              Mar 2024
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="bottomLeft">
-            <Flex justify="space-between" className="w-100">
-              Apr 2024
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="bottomRight">
-            <Flex justify="space-between" className="w-100">
-              May 2024
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-        </Radio.Group>
-      ),
-    },
-    {
-      key: "filterByDeliveryModes",
-      label: "Filter by Delivery Modes",
-      children: (
-        <Radio.Group className="radio-select">
-          <Radio.Button value="topLeft">
-            <Flex justify="space-between" className="w-100">
-              Live Training
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="topRight">
-            <Flex justify="space-between" className="w-100">
-              Virtual Training
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-        </Radio.Group>
-      ),
-    },
-    {
-      key: "filterByVerticals",
-      label: "Filter by Verticals",
-      children: (
-        <Radio.Group className="radio-select">
-          {verticals?.map((vertical) => (
-            <Radio.Button value={vertical?.slug} key={vertical?.id}>
-              <Flex justify="space-between" className="w-100">
-                {vertical?.title}
-                <CheckOutlined className="tick" />
-              </Flex>
-            </Radio.Button>
-          ))}
-        </Radio.Group>
-      ),
-    },
-    {
-      key: "filterByLocation",
-      label: "Filter Location",
-      children: (
-        <Radio.Group className="radio-select">
-          <Radio.Button value="topLeft">
-            <Flex justify="space-between" className="w-100">
-              Dubai
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="topRight">
-            <Flex justify="space-between" className="w-100">
-              Abu Dhabi
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="bottomLeft">
-            <Flex justify="space-between" className="w-100">
-              Sharjah
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-          <Radio.Button value="bottomRight">
-            <Flex justify="space-between" className="w-100">
-              Kalba
-              <CheckOutlined className="tick" />
-            </Flex>
-          </Radio.Button>
-        </Radio.Group>
-      ),
-    },
-  ];
-
   const removeFilterOption = (key: string) => {
     const options = filterOptions?.current;
 
     if (options) {
       delete options[key];
       filterOptions.current = options;
-      console.log(filterOptions.current);
     }
 
     updateFilterOptions();
   };
 
+  const getFilterTags = (
+    key: string,
+    options: FilterOptions,
+    index: number
+  ) => {
+    if (key === FilterType.FROM_DATE) {
+      const date = new Date(options[key]);
+      const formatedDate = dayjs(date).format("MMM, YYYY");
+
+      return (
+        <Tag closeIcon key={index} onClose={() => removeFilterOption(key)}>
+          {formatedDate}
+        </Tag>
+      );
+    }
+
+    if (key === FilterType.TO_DATE) {
+      return null;
+    }
+
+    if (key === FilterType.SORT) {
+      return (
+        <Tag closeIcon key={index} onClose={() => removeFilterOption(key)}>
+          {options[key] ? "A-Z" : "Z-A"}
+        </Tag>
+      );
+    }
+
+    return (
+      <Tag closeIcon key={index} onClose={() => removeFilterOption(key)}>
+        {options[key]}
+      </Tag>
+    );
+  };
+
   const getFilteredOptions = () => {
     const options = filterOptions.current ?? {};
 
-    return Object.keys(options).map((key: string, index: number) => (
-      <Tag closeIcon key={index} onClose={() => removeFilterOption(key)}>
-        {filterOptions?.current ? options[key] : ""}
-      </Tag>
-    ));
+    return Object.keys(options).map((key: string, index: number) =>
+      getFilterTags(key, options, index)
+    );
+  };
+
+  const handleMobileFilter = (mobileFilterOptions: FilterOptions) => {
+    if (mobileFilterOptions.slug && mobileFilterOptions.slug !== slug) {
+      filterOptions.current = {};
+      pageRef.current = 1;
+      navigate(`/verticals/${mobileFilterOptions.slug}`);
+    } else {
+      filterOptions.current = {
+        ...filterOptions.current,
+        ...mobileFilterOptions,
+      };
+    }
+
+    updateFilterOptions();
+    setIsFilterDrawerVisible(false);
   };
 
   const getFilters = () => {
@@ -316,23 +275,32 @@ function Courses() {
             className={styles.courseWrapper}
           >
             <Select
-              onClick={() => console.log("selected filters..")}
               placeholder="Sort By"
+              className={`${filterOptions.current?.sortBy ? "active" : ""}`}
               options={[
-                { value: "asc", label: "A-Z" },
-                { value: "desc", label: "Z-A" },
+                { value: true, label: "A-Z" },
+                { value: false, label: "Z-A" },
               ]}
+              value={filterOptions?.current?.sortBy}
+              onChange={(value) => onSelectionChange(value, FilterType.SORT)}
             />
             <DatePicker
               picker="month"
               placeholder="Date"
-              allowClear={{ clearIcon: <CloseCircleOutlined /> }}
+              className={`${filterOptions.current?.fromDate ? "active" : ""}`}
               format={"MMM, YYYY"}
               disabledDate={disabledDate}
+              onChange={onDateChange}
             />
             <Select
               placeholder="Filter by Delivery Modes"
-              className={`${filterOptions.current?.date ? "active" : ""}`}
+              className={`${
+                filterOptions.current?.deliveryMode ? "active" : ""
+              }`}
+              onChange={(value) =>
+                onSelectionChange(value, FilterType.DELIVERY_MODE)
+              }
+              value={filterOptions?.current?.deliveryMode}
               options={[
                 { value: "virtual", label: "Virtual Training" },
                 { value: "live", label: "Live Training" },
@@ -341,6 +309,12 @@ function Courses() {
             <Select
               placeholder="Filter by Verticals"
               options={getVerticalOptions()}
+              className={"active"}
+              value={slug}
+              onChange={(value) => {
+                navigate(`/verticals/${value}`);
+                filterOptions.current = {};
+              }}
             />
             <Select
               placeholder="Filter by Location"
@@ -349,28 +323,7 @@ function Courses() {
                 onSelectionChange(value, FilterType.LOCATION)
               }
               value={filterOptions.current?.location}
-              options={[
-                {
-                  value: "dubai",
-                  label: <>Dubai</>,
-                },
-                {
-                  value: "abudhabi",
-                  label: <>Abu Dhabi</>,
-                },
-                {
-                  value: "sharjah",
-                  label: <>Sharjah</>,
-                },
-                {
-                  value: "kalba",
-                  label: <>Kalba</>,
-                },
-                {
-                  value: "virtual",
-                  label: <>Virtual </>,
-                },
-              ]}
+              options={getLocationOptions()}
             />
           </Flex>
           <Flex gap={"0.5rem"} style={{ flexFlow: "row wrap" }}>
@@ -386,9 +339,9 @@ function Courses() {
       <>
         <GridCard courses={courses} />
         {isCoursesLoading ? (
-          <Space style={{ padding: "3rem 0" }}>
+          <Flex style={{ padding: "3rem 0" }} align="center" justify="center" className="w-100">
             <Spin size="large" />
-          </Space>
+          </Flex>
         ) : (
           getLoadMoreButton()
         )}
@@ -399,7 +352,7 @@ function Courses() {
   const getRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Flex style={{ padding: "3rem 0" }} justify="center">
+        <Flex style={{ padding: "3rem 0" }} align="center" justify="center" className="w-100">
           <Spin size="large" />
         </Flex>
       );
@@ -528,16 +481,13 @@ function Courses() {
           open={isFilterDrawerVisible}
           style={{ zIndex: 99999 }}
         >
-          <Flex vertical className="h-100" justify="space-between">
-            <Tabs defaultActiveKey="1" items={items} />
-            <Button
-              type="primary"
-              style={{ justifyContent: "center" }}
-              onClick={() => setIsFilterDrawerVisible(false)}
-            >
-              Apply
-            </Button>
-          </Flex>
+          <MobileFilter
+            slug={slug}
+            verticals={verticals}
+            filterOptions={filterOptions.current ?? {}}
+            locations={locations}
+            handleMobileFilter={handleMobileFilter}
+          />
         </Drawer>
         {getRenderer()}
       </div>

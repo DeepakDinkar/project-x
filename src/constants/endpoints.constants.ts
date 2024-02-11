@@ -8,6 +8,7 @@ export const AUTH = Object.freeze({
 export const COURSES = Object.freeze({
   All: "/courses",
   TRENDING: "/courses/trending",
+  LOCATIONS: '/locations'
 });
 
 // Verticals Endpoints
