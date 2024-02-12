@@ -9,7 +9,7 @@ import {
   Input,
   Select,
   Spin,
-  Tag
+  Tag,
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -200,6 +200,7 @@ function Courses() {
 
     if (options) {
       delete options[key];
+      key === FilterType.FROM_DATE && delete options[FilterType.TO_DATE];
       filterOptions.current = options;
     }
 
@@ -222,7 +223,7 @@ function Courses() {
       );
     }
 
-    if (key === FilterType.TO_DATE) {
+    if (key === FilterType.TO_DATE || key === FilterType.SEARCH) {
       return null;
     }
 
@@ -339,7 +340,12 @@ function Courses() {
       <>
         <GridCard courses={courses} />
         {isCoursesLoading ? (
-          <Flex style={{ padding: "3rem 0" }} align="center" justify="center" className="w-100">
+          <Flex
+            style={{ padding: "3rem 0" }}
+            align="center"
+            justify="center"
+            className="w-100"
+          >
             <Spin size="large" />
           </Flex>
         ) : (
@@ -352,7 +358,12 @@ function Courses() {
   const getRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Flex style={{ padding: "3rem 0" }} align="center" justify="center" className="w-100">
+        <Flex
+          style={{ padding: "3rem 0" }}
+          align="center"
+          justify="center"
+          className="w-100"
+        >
           <Spin size="large" />
         </Flex>
       );

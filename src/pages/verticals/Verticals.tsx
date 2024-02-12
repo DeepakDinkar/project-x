@@ -11,6 +11,7 @@ import { setVerticals } from "../../redux/reducers/verticalsReducer";
 import { getVerticals } from "../../services/verticalsApi";
 import Exception from "../../utils/Exception/Exception";
 import styles from "./Verticals.module.scss";
+import VerticalTag from "../../utils/svgs/VerticalTag";
 
 export default function Verticals() {
   const navigate = useNavigate();
@@ -48,9 +49,7 @@ export default function Verticals() {
 
   const getVerticalsList = () => {
     return (
-      <div
-        className={styles.verticalListWrapper}
-      >
+      <div className={styles.verticalListWrapper}>
         {verticals?.map((vertical: Vertical) => (
           <div
             className="course-card small-card"
@@ -60,6 +59,10 @@ export default function Verticals() {
             onKeyDown={() => {}}
             tabIndex={0}
           >
+            <div className={styles.verticalTag}>
+              <VerticalTag />
+              Vertical
+            </div>
             <Image
               src={vertical.imageUrl}
               height={getSmallCardHeight()}
@@ -106,8 +109,8 @@ export default function Verticals() {
         <Flex vertical style={{ alignItems: "center" }} gap={"1.5rem"}>
           <div className="main-header font-bold font-ubuntu">Verticals</div>
           <p className={`${styles.subHeader} sub-header font-bold`}>
-                Choose the latest verticals offered by our professionals
-              </p>
+            Choose the latest verticals offered by our professionals
+          </p>
           <div
             className={`${styles.titleWrapper} text-center`}
             style={{ paddingTop: 0 }}

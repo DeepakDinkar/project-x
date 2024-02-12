@@ -1,9 +1,8 @@
-import { Flex, Image, Spin } from "antd";
+import { Image, Spin } from "antd";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { STATUS } from "../../../constants/messages.constants";
-import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { Status } from "../../../models/ExceptionProps";
 import { Vertical, VerticalData } from "../../../models/Vertical";
@@ -13,10 +12,10 @@ import { getVerticals } from "../../../services/verticalsApi";
 import Exception from "../../../utils/Exception/Exception";
 import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
+import VerticalTag from "../../../utils/svgs/VerticalTag";
 
 function CoursesList() {
   const navigate = useNavigate();
-  const breakPoint = useBreakPoint();
   const dispatch = useDispatch();
 
   const {
@@ -29,31 +28,9 @@ function CoursesList() {
     verticals && dispatch(setVerticals(verticals));
   }, [dispatch, verticals]);
 
-  const getSmallCardHeight = (): number => {
-    if (breakPoint?.xxl) {
-      return 330;
-    }
-    if (breakPoint?.xl) {
-      return 300;
-    }
-    if (breakPoint?.lg) {
-      return 270;
-    }
-    if (breakPoint?.md) {
-      return 240;
-    }
-    if (breakPoint?.sm) {
-      return 210;
-    }
-    return 130;
-  };
-
   const getVerticalsList = () => {
     return (
-      <Flex
-        gap={"2rem"}
-        style={{ padding: "2.5rem 0", overflow: "auto", maxWidth: "100%" }}
-      >
+      <div className={styles.courseListWrapper}>
         {verticals?.map((vertical: Vertical) => (
           <div
             className="course-card small-card"
@@ -63,9 +40,11 @@ function CoursesList() {
             onKeyDown={() => {}}
             tabIndex={0}
           >
+            <div className={styles.verticalTag}>
+              <VerticalTag />
+              Vertical
+            </div>
             <Image
-              height={getSmallCardHeight()}
-              width={getSmallCardHeight()}
               src={vertical.imageUrl}
               fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
               preview={false}
@@ -78,7 +57,7 @@ function CoursesList() {
             </div>
           </div>
         ))}
-      </Flex>
+      </div>
     );
   };
 

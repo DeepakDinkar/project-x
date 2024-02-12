@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Course } from "../../models/Course";
 import { Vertical } from "../../models/Vertical";
+import { isDatePassed30Days } from "../../utils/commonUtils";
 
 type GridCardProps = {
   courses: Course[] | undefined;
@@ -34,8 +35,14 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
           justify="space-between"
           style={{ padding: "1.5rem" }}
         >
-          <Flex>
-            <span className="card-chip font-bold">New Course</span>
+          <Flex gap={5}>
+            {isDatePassed30Days(course.courseAddedDate) && (
+              <span className="card-chip font-bold">New Course</span>
+            )}
+
+            {course?.isTrending && (
+              <span className="card-chip font-bold">Trending</span>
+            )}
           </Flex>
           <Flex vertical align="baseline">
             <span className="card-course-title">
@@ -52,16 +59,17 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
 
   return (
     <div className="grid-card-container">
-      {courses.map((course: Course) => (
+      {courses.map((course: Course, index: number) => (
         <div
           className={`course-card small-card explore-card`}
           role="button"
-          key={course.id}
+          key={course.id + index}
           onClick={() => navigate(`/course/${course.id}`)}
           onKeyDown={() => {}}
         >
           <Image
             width={"100%"}
+            height={"100%"}
             src={course.imageUrl}
             fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
             preview={false}

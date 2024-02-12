@@ -21,7 +21,11 @@ type Props = {
 };
 
 export default function Login({ setIsLogin }: Readonly<Props>) {
-  const { fetch: loginFetch } = useFetch(loginUser);
+  const {
+    fetch: loginFetch,
+    loading: isLoginLoading,
+    error: loginError,
+  } = useFetch(loginUser);
   const dispatch = useDispatch();
 
   const responseMessage = (response: any) => {
@@ -43,13 +47,13 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
   const onLoginSubmit = (values: LoginForm) => {
     const payload = mapLoginFormPayLoad(values);
     loginFetch(payload);
-  
-    setTimeout(() => {
-      // dispatch(login({ userName: "John Doe" }));
-      // dispatch(closeModal());
-    }, 5000);
   };
 
+  const getLoginError =() => {
+    const data: any = loginError?.response?.data; 
+    return data?.message ?? 'Unexpected Error';
+  }
+ 
   return (
     <div className="modal-container">
       <Form name="loginForm" onFinish={onLoginSubmit}>
@@ -93,9 +97,11 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
             type="primary"
             className={styles.btn}
             style={{ margin: "1.5rem auto 0" }}
+            loading={isLoginLoading}
           >
             Log in
           </Button>
+          {loginError && <div className={styles.loginError}>{getLoginError()}</div>}
 
           <Divider className={styles.divider} />
           <Button className={styles.outlineBtn} onClick={() => googleLogin()}>

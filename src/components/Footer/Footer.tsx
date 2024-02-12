@@ -13,7 +13,7 @@ const SERVICES = [
   "Auditing",
 ];
 const LEGAL = ["Terms and Conditions", "Privacy and cookie policy", "FAQs"];
-const QOMOI_INSTITUTE = ["Careers", "News", "Spotlight"];
+const QOMOI_INSTITUTE = ["Careers", "News"];
 
 function Footer() {
   const breakPoints = useBreakPoint();
@@ -161,7 +161,7 @@ function Footer() {
         </p>
         <span>Receive course updates and discount codes</span>
         <span>Manage your profile </span>
-        <button className={styles.signUp}>Sign Up</button>
+        <button className={styles.signUp}>Get Membership</button>
       </Flex>
       <RequestCallback />
       <div className={styles.contactUsWrapper}>

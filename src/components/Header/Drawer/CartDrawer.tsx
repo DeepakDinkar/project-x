@@ -31,6 +31,28 @@ export default function CartDrawer({
     closeDrawer();
   };
 
+  const getLiveOrVirtualLocation = (course: Course) => {
+    if (course.location) {
+      const location = course.location[course.locationIndex ?? 0];
+      return (
+        <span className={`${location.locationName ? "face2face" : "live"}`}>
+          {location.locationName ? (
+            <Flex gap={5} align="center">
+              <Badge color="purple" />
+
+              <span className="font-sm">Face 2 Face</span>
+            </Flex>
+          ) : (
+            <Flex gap={5} align="center">
+              <Badge color="green" />
+              <span className="font-sm">Live Virtual Training</span>
+            </Flex>
+          )}
+        </span>
+      );
+    }
+  };
+
   const getRenderer = () => {
     if (!courses || courses.length == 0) {
       return (
@@ -41,8 +63,8 @@ export default function CartDrawer({
     return (
       <div>
         <Flex vertical gap={"2.5rem"}>
-          {courses?.map((course) => (
-            <Flex gap={"1.5rem"} key={course.id}>
+          {courses?.map((course, index) => (
+            <Flex gap={"1.5rem"} key={course.id + index}>
               <Image
                 style={{ borderRadius: "10px" }}
                 width={breakPoint?.md ? 86 : 64}
@@ -58,11 +80,21 @@ export default function CartDrawer({
                 <div className="font-default font-bold">
                   {course.campaignTemplateCourseName}
                 </div>
-                <div>
-                  <span className="font-sm">Price: $400</span>
-                </div>
+                <Flex gap={20} align="center">
+                  <span className="font-sm">Price: ${course?.price ?? 0}</span>
+                  {getLiveOrVirtualLocation(course)}
+                </Flex>
               </Flex>
-              <Dustbin onClick={() => dispatch(removeFromCart(course.id))} />
+              <Dustbin
+                onClick={() =>
+                  dispatch(
+                    removeFromCart({
+                      id: course.id,
+                      locationIndex: course.locationIndex,
+                    })
+                  )
+                }
+              />
             </Flex>
           ))}
           <Button

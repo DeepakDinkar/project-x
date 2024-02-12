@@ -26,11 +26,15 @@ export const mapLoginFormPayLoad = (values: LoginForm): LoginPayload => {
 export const encryptPassword = (password: string): string => {
     try {
         const key = CryptoJS.enc.Utf8.parse('WQhC69td3Fe7THz7O/X+iA==');
+        const iv = CryptoJS.lib.WordArray.random(16); // Generate a random IV
         const encryptedPassword = CryptoJS.AES.encrypt(password, key, {
-            mode: CryptoJS.mode.ECB, // Use ECB mode
-            padding: CryptoJS.pad.Pkcs7  // Use PKCS7 padding
+            iv: iv,
+            mode: CryptoJS.mode.CBC, // Use CBC mode
+            padding: CryptoJS.pad.Pkcs7 // Use PKCS7 padding
         }).toString();
-        return encryptedPassword;
+        // Combine IV and ciphertext for storage/transmission
+        const encryptedPayload = '965iubWJdBBCe5VaoIDxlQ==' + encryptedPassword;
+        return encryptedPayload;
     } catch (error) {
         console.error('Error encrypting password:', error);
         return '';

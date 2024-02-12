@@ -62,6 +62,11 @@
   }
 }
 
+.loginError {
+  font-size: 10px;
+  color: $red;
+}
+
 // Media queries
 
 @media screen and (max-width: $md) {

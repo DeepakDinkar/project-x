@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface Course {
     id: number;
@@ -7,4 +8,9 @@ export interface Course {
     campaignTemplateCourseName: string;
     courseContent: string;
     keyTakeAway: Array<string>;
+    courseAddedDate: string;
+    isTrending?: boolean;
+    locationIndex?: number;
+    location?: Array<any>;
+    price: number;
 }

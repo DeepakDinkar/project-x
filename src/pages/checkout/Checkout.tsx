@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Col,
   Collapse,
@@ -8,7 +9,7 @@ import {
   Image,
   Input,
   Row,
-  Select
+  Select,
 } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -17,6 +18,7 @@ import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { Course } from "../../models/Course";
 import { BillingIcon } from "../../utils/svgs/BillingIcon";
 import styles from "./Checkout.module.scss";
+import dayjs from "dayjs";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
@@ -25,12 +27,51 @@ export default function Checkout() {
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
 
+  const totalPrice = courses.reduce((total, course) => total + (course?.price ?? 0), 0);
+
   useEffect(() => {
     if (!courses || courses?.length == 0) {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courses?.length, navigate]);
+
+
+  const getLiveOrVirtualLocation = (course: Course) => {
+    if (course.location) {
+      const location = course.location[course.locationIndex ?? 0];
+      return (
+        <span className={`${location.locationName ? "face2face" : "live"}`}>
+          {location.locationName ? (
+            <Flex gap={5} align="center">
+              <Badge color="purple" />
+
+              <span className="font-sm">Face 2 Face</span>
+            </Flex>
+          ) : (
+            <Flex gap={5} align="center">
+              <Badge color="green" />
+              <span className="font-sm">Live Virtual Training</span>
+            </Flex>
+          )}
+        </span>
+      );
+    }
+  };
+
+  const getCourseLocation = (course: Course) => {
+    if (course?.location && course?.locationIndex != null) {
+      const location = course.location[course.locationIndex];
+      if (location) {
+        const locationName = location.locationName;
+        return locationName
+          ? locationName + " | " + dayjs(location.date).format("MMM D, YYYY")
+          : "Virtual";
+      }
+      return "";
+    }
+    return "";
+  };
 
   const items: CollapseProps["items"] = [
     {
@@ -84,9 +125,6 @@ export default function Checkout() {
                 <Input className={styles.input} placeholder="" />
               </Form.Item>
             </Form.Item>
-            {/* <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>Abu Dhabi, UAE | Nov 25 - 30, 2023</Checkbox>
-            </Form.Item> */}
             <Button htmlType="submit" className={styles.formSubmitBtn}>
               Save Address
             </Button>
@@ -118,7 +156,11 @@ export default function Checkout() {
                 <div className={styles.checkoutCourseContainer}>
                   <Flex vertical gap={"1.5rem"}>
                     {courses.map((course: Course) => (
-                      <Flex justify="space-between" align="center" key={course.id}>
+                      <Flex
+                        justify="space-between"
+                        align="center"
+                        key={course.id}
+                      >
                         <Flex gap={"1.5rem"}>
                           <Image
                             style={{ borderRadius: "10px" }}
@@ -138,11 +180,12 @@ export default function Checkout() {
                               {course?.campaignTemplateCourseName}
                             </div>
                             <div className="font-sm">
-                              Dubai, UAE | Oct 7, 2023
+                              {getCourseLocation(course)}
                             </div>
+                            {getLiveOrVirtualLocation(course)}
                           </Flex>
                         </Flex>
-                        <div className="font-sm font-bold">$4000</div>
+                        <div className="font-sm font-bold">${course?.price ?? 0}</div>
                       </Flex>
                     ))}
                   </Flex>
@@ -159,11 +202,11 @@ export default function Checkout() {
                         </tr>
                         <tr>
                           <td>
-                            <span className={styles.totalText}>Total</span> (3
-                            items)
+                            <span className={styles.totalText}>Total</span> (
+                            {courses?.length} item{courses.length > 1 && "s"})
                           </td>
                           <td>
-                            <span className={styles.totalText}>$24,000</span>
+                            <span className={styles.totalText}>${totalPrice}</span>
                           </td>
                         </tr>
                       </tbody>

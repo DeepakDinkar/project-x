@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
+import dayjs from "dayjs";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import GridCard from "../../../components/GridCard/GridCard";
@@ -11,8 +13,7 @@ import { addToCart } from "../../../redux/reducers/cartReducer";
 import { getCourseByCourseId } from "../../../services/courseApi";
 import Exception from "../../../utils/Exception/Exception";
 import styles from "./CourseDetails.module.scss";
-import dayjs from "dayjs";
-import { useRef } from "react";
+import { isDatePassed30Days } from "../../../utils/commonUtils";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
@@ -23,11 +24,20 @@ export default function CourseDetails() {
     loading: isLoading,
     error: isCourseDetailsError,
   } = useFetchOnLoad(getCourseByCourseId, courseId);
-  const locationRef = useRef();
+  const locationRef = useRef(0);
 
   const addCourseToCart = () => {
-    courseDetails.selectedDate = locationRef.current;
-    dispatch(addToCart(courseDetails));
+    const details = { ...courseDetails };
+    details.locationIndex = locationRef.current;
+    dispatch(addToCart(details));
+  };
+
+  const onSelectionChange = (locationIndex: number) => {
+    locationRef.current = locationIndex;
+  };
+
+  const getFormattedDate = (date: string) => {
+    return dayjs(date).format("MMM D, YYYY");
   };
 
   const getRenderer = () => {
@@ -47,29 +57,19 @@ export default function CourseDetails() {
       );
     }
 
-    const getFormattedDate = (date: string) => {
-      return dayjs(date).format("MMM D, YYYY");
-    };
-
-    const getDefaultValue = () => {
-      if (courseDetails) {
-        const { location } = courseDetails;
-        return location[0]?.locationName + location[0]?.date;
-      }
-    };
-
     const getLocationOptions = () => {
       if (courseDetails?.location) {
         return courseDetails?.location.map((loc: any, index: number) => {
           return {
-            value: loc?.locationName + loc?.date,
+            value: index,
             label: (
               <Flex className={styles.dropdown} key={index}>
-                {loc?.locationName} | {getFormattedDate(loc?.date)}
+                {loc?.locationName ? loc?.locationName + " | " : ""}{" "}
+                {getFormattedDate(loc?.date)}
                 <Flex
                   className={loc?.locationName ? styles.face2face : styles.live}
                 >
-                  <Badge color={loc?.locationName ? "green" : "purple"} />
+                  <Badge color={loc?.locationName ? "purple" : "green"} />
                   {loc?.locationName ? "Live Virtual Training" : "Face 2 Face"}
                 </Flex>
               </Flex>
@@ -105,8 +105,13 @@ export default function CourseDetails() {
                   style={{ padding: "1.5rem" }}
                 >
                   <Flex gap={".5rem"}>
-                    <span className="card-chip font-bold">New Topic</span>
-                    <span className="card-chip font-bold">Trending</span>
+                    {isDatePassed30Days(courseDetails?.courseAddedDate) && (
+                      <span className="card-chip font-bold">New Course</span>
+                    )}
+
+                    {courseDetails?.isTrending && (
+                      <span className="card-chip font-bold">Trending</span>
+                    )}
                   </Flex>
                 </Flex>
               </div>
@@ -134,10 +139,10 @@ export default function CourseDetails() {
           >
             <span className="font-bold sub-header">Select Location & Date</span>
             <Select
-              defaultValue={getDefaultValue()}
+              defaultValue={0}
               placeholder="Choose Location & Date"
               options={getLocationOptions()}
-              onChange={(value) => (locationRef.current = value)}
+              onChange={(value) => onSelectionChange(value)}
             />
           </Flex>
           <Flex
@@ -152,6 +157,7 @@ export default function CourseDetails() {
               type="primary"
               className="text-uppercase"
               onClick={() => addCourseToCart()}
+              disabled={courseDetails?.location?.length == 0}
             >
               Add to cart
             </Button>
@@ -163,21 +169,21 @@ export default function CourseDetails() {
         <Divider className={styles.divider} />
         <div>
           <Flex
-            vertical={!breakPoints?.md}
+            vertical={!breakPoints?.lg}
             gap={"3rem"}
             style={{ padding: "2rem 0" }}
           >
             <Flex vertical gap={"1.5rem"} flex={1}>
               <div className="common-header font-bold">Accredited by</div>
               <Flex vertical gap={"1rem"}>
-                <Image
+                {/* <Image
                   height={breakPoints?.md ? 60 : 30}
                   width={breakPoints?.md ? 195 : 110}
                   style={{ padding: ".5rem 0" }}
                   src="https://s3-alpha-sig.figma.com/img/f2e2/47f3/e7ec3a77e2b669846e2d582131f3f8de?Expires=1704672000&Signature=mSysxUFo0LrgJWZhwBsf3W6OoWbLJ5WKVIl0BZAEA3uFG-o45W6naQ1c7kGvdHCcUlsmH0ShJQkyaMdNecKSbnKT~1WKa6U6iBU7X0q59Bq0c-pJ5RYbsl8Rwlk4jZOZJ701Me6PJqJ2SOAU3xObwuK~MJ8llkPd3GCziBHxUUEmaW8XjipVJAXUFO5oGFtmxqCvcfVUbUixJtJzUqOqdr1h7g5M6XGsxPhFP71h5UEdwvNjyJubB0sWiCINzS19cLw8eFAwe3x7oay9r-kUVe0uVQlRutq5~JOpoE4JS02ckZ8EKeI3dKx1g-q58VSmhs0o-6LFn9oQQlkhp4ob9Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
                   fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                   preview={false}
-                />
+                /> */}
                 <div className="sub-header font-bold">
                   World Commerce And Contracting Association
                 </div>

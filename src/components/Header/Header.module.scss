@@ -2,7 +2,7 @@
 
 .header {
   background: $secondary;
-  padding: 0 2rem 5rem;
+  padding: 0.2rem 2rem 5rem;
   position: fixed;
   z-index: 99;
   width: 100%;
@@ -92,13 +92,13 @@
 
 @media screen and (max-width: $lg) {
   .header {
-    padding: 0rem 2rem 5.5rem;
+    padding: 0.2rem 2rem 5.5rem;
   }
 }
 
 @media screen and (max-width: $md) {
   .header {
-    padding: 0rem 2rem 6.5rem;
+    padding: 0.2rem 2rem 6.5rem;
   }
 }
 
@@ -115,6 +115,6 @@
   }
 
   .header {
-    padding: 0rem 2rem 7rem;
+    padding: 0.2rem 2rem 7rem;
   }
 }

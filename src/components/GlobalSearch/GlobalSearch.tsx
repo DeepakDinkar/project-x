@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useFetch from "../../hooks/useFetch";
 import { Course } from "../../models/Course";
-import { GlobalSearchData } from "../../models/GlobalSearchValue";
 import { Vertical } from "../../models/Vertical";
 import { getSearchResultsByQuery } from "../../services/searchApi";
 import debounce from "../../utils/debounceSearch";
@@ -21,7 +20,7 @@ export default function GlobalSearch() {
     data: options,
     fetch,
     loading,
-  }: GlobalSearchData = useFetch(getSearchResultsByQuery);
+  } = useFetch(getSearchResultsByQuery);
 
   const searchCourses = (query: string) => {
     fetch(query);

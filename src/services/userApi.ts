@@ -14,5 +14,5 @@ export const loginUser = async (userDetails: LoginPayload) => {
     const response = await axiosConfig.post(AUTH.LOGIN, userDetails);
     return response.status === 200
         ? Promise.resolve(response.data)
-        : Promise.reject(new Error("Unable to get vertical courses"));
+        : Promise.reject(response.data);
 };
