@@ -2,6 +2,8 @@ import { Badge, Button, Drawer, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Cart } from "../../../utils/svgs/Cart";
 import styles from "../Header.module.scss";
+import { Course } from "../../../models/Course";
+import { useSelector } from "react-redux";
 
 type Props = {
   isDrawerVisible: boolean;
@@ -15,6 +17,9 @@ export default function MobileDrawer({
   openDrawer,
 }: Readonly<Props>) {
   const navigate = useNavigate();
+  const cartCourses: Course[] =
+  useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
+  [];
 
   const routeToPath = (path: string) => {
     navigate(path);
@@ -52,7 +57,7 @@ export default function MobileDrawer({
         >
           About Us
         </Button>
-        <Badge count={5} status="default">
+        <Badge count={cartCourses.length} status="default">
           <Cart onClick={() => openDrawer()} className={styles.cartIcon} />
         </Badge>
       </Menu>

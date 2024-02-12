@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,6 +11,8 @@ import { addToCart } from "../../../redux/reducers/cartReducer";
 import { getCourseByCourseId } from "../../../services/courseApi";
 import Exception from "../../../utils/Exception/Exception";
 import styles from "./CourseDetails.module.scss";
+import dayjs from "dayjs";
+import { useRef } from "react";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
@@ -20,8 +23,10 @@ export default function CourseDetails() {
     loading: isLoading,
     error: isCourseDetailsError,
   } = useFetchOnLoad(getCourseByCourseId, courseId);
+  const locationRef = useRef();
 
   const addCourseToCart = () => {
+    courseDetails.selectedDate = locationRef.current;
     dispatch(addToCart(courseDetails));
   };
 
@@ -41,6 +46,39 @@ export default function CourseDetails() {
         />
       );
     }
+
+    const getFormattedDate = (date: string) => {
+      return dayjs(date).format("MMM D, YYYY");
+    };
+
+    const getDefaultValue = () => {
+      if (courseDetails) {
+        const { location } = courseDetails;
+        return location[0]?.locationName + location[0]?.date;
+      }
+    };
+
+    const getLocationOptions = () => {
+      if (courseDetails?.location) {
+        return courseDetails?.location.map((loc: any, index: number) => {
+          return {
+            value: loc?.locationName + loc?.date,
+            label: (
+              <Flex className={styles.dropdown} key={index}>
+                {loc?.locationName} | {getFormattedDate(loc?.date)}
+                <Flex
+                  className={loc?.locationName ? styles.face2face : styles.live}
+                >
+                  <Badge color={loc?.locationName ? "green" : "purple"} />
+                  {loc?.locationName ? "Live Virtual Training" : "Face 2 Face"}
+                </Flex>
+              </Flex>
+            ),
+          };
+        });
+      }
+      return [];
+    };
 
     return (
       <div className="w-100">
@@ -96,57 +134,10 @@ export default function CourseDetails() {
           >
             <span className="font-bold sub-header">Select Location & Date</span>
             <Select
-              placeholder="Dubai, UAE | Nov 19 - 23, 2023"
-              options={[
-                {
-                  value: "jack",
-                  label: (
-                    <Flex className={styles.dropdown}>
-                      Dubai, UAE | Nov 19 - 23, 2023
-                      <Flex className={styles.face2face}>
-                        <Badge color="green" />
-                        Live Virtual Training
-                      </Flex>
-                    </Flex>
-                  ),
-                },
-                {
-                  value: "lucy",
-                  label: (
-                    <Flex className={styles.dropdown}>
-                      Nov 25 - 30, 2023
-                      <Flex className={styles.live}>
-                        <Badge color="purple" />
-                        Face 2 Face
-                      </Flex>
-                    </Flex>
-                  ),
-                },
-                {
-                  value: "Yiminghe",
-                  label: (
-                    <Flex className={styles.dropdown}>
-                      Abu Dhabi, UAE | Nov 27 - Dec 02, 2023
-                      <Flex className={styles.face2face}>
-                        <Badge color="green" />
-                        Live Virtual Training
-                      </Flex>
-                    </Flex>
-                  ),
-                },
-                {
-                  value: "Yiming",
-                  label: (
-                    <Flex className={styles.dropdown}>
-                      Dec 01 - 06, 2023
-                      <Flex className={styles.live}>
-                        <Badge color="purple" />
-                        Face 2 Face
-                      </Flex>
-                    </Flex>
-                  ),
-                },
-              ]}
+              defaultValue={getDefaultValue()}
+              placeholder="Choose Location & Date"
+              options={getLocationOptions()}
+              onChange={(value) => (locationRef.current = value)}
             />
           </Flex>
           <Flex

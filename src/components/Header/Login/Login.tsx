@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import emailValidator from "../../../error/Validations/emailValidator";
 import useFetch from "../../../hooks/useFetch";
 import { LoginForm } from "../../../models/LoginForm";
-import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
 import { loginUser } from "../../../services/userApi";
 import { mapLoginFormPayLoad } from "../../../utils/formUtils";
