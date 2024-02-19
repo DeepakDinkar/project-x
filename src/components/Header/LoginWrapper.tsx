@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { ModalView, useModalContext } from "../../context/ModalContext";
+import ForgetPassword from "./ForgetPassword";
 import Login from "./Login/Login";
 import Register from "./Register/Register";
 
 export default function LoginWrapper() {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const { view } = useModalContext();
 
-  return isLogin ? <Login setIsLogin={setIsLogin}  /> : <Register />;
+  if (view === ModalView.Login) {
+    return <Login />;
+  }
+  if (view === ModalView.ForgetPassword) {
+    return <ForgetPassword />;
+  }
+
+  return <Register />;
 }

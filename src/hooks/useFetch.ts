@@ -12,9 +12,15 @@ const useFetch = (fetchFunction: (...args: any) => Promise<any>) => {
       setLoading(true);
       setError(null);
 
-      fetchFunction(...args)
-        .then((result) => setData(result))
-        .catch((error) => setError(error))
+      return fetchFunction(...args)
+        .then((result) => {
+          setData(result);
+          return result;
+        })
+        .catch((error) => {
+          setError(error.response?.data ?? error);
+          return Promise.reject(error.response?.data ?? error);
+        })
         .finally(() => setLoading(false));
     },
     [fetchFunction]

@@ -13,10 +13,12 @@ import Exception from "../../../utils/Exception/Exception";
 import { LeftCurve } from "../../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../../utils/svgs/RightCurve";
 import VerticalTag from "../../../utils/svgs/VerticalTag";
+import { useTranslation } from "react-i18next";
 
 function CoursesList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const {
     loading: isVerticalsLoading,
@@ -42,7 +44,7 @@ function CoursesList() {
           >
             <div className={styles.verticalTag}>
               <VerticalTag />
-              Vertical
+              {t('utils.vertical')}
             </div>
             <Image
               src={vertical.imageUrl}
@@ -52,7 +54,7 @@ function CoursesList() {
             <div className="card-bottom-wrapper">
               <span className="card-bottom-title">{vertical.title}</span>
               <span className="font-bold font-default">
-                {vertical.noOfCourses || 0} Topics
+                {vertical.noOfCourses || 0} {t('homePage.verticals.verticalTopicsCountText')}
               </span>
             </div>
           </div>

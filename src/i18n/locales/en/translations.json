@@ -1,0 +1,68 @@
+{
+  "homePage": {
+    "banner": {
+      "title": "Want to upskill at work?",
+      "description1": "Get started with our",
+      "descriptionHighlight": " curated skill courses ",
+      "description2": "based on your work needs and Scale up compared to your peers.",
+      "trendingText": "Trending in ",
+      "verticalsText": "Verticals",
+      "exploreBtn": "Explore Now"
+    },
+    "verticals": {
+      "title": "Verticals",
+      "subTitle": "Our 7 Business Verticals",
+      "verticalTopicsCountText": "Topics"
+    },
+    "explore": {
+      "title": "Explore",
+      "subTitle": "Latest and trending topics to explore",
+      "searchTopicsPlaceholder": "Search courses"
+    }
+  },
+  "verticalsPage": {},
+  "courseDetailsPage": {},
+  "aboutPage": {},
+  "checkout": {},
+  "userProfilePage": {},
+  "userMyPurchasesPage": {},
+  "userMyCoursesPage": {},
+  "utils": {
+    "newCourse": "New Course",
+    "trending": "Trending",
+    "vertical": "Vertical",
+    "loadMoreBtn": "Load More"
+  },
+  "footer": {
+    "membership": {
+      "title": "Become a member now!",
+      "subTitle": "Receive course updates and discount codes",
+      "profileText": "Manage your profile",
+      "membershipBtn": "Get Membership"
+    },
+    "requestCallback": {
+        "title": "Request a Conversation",
+        "requestCallbackBtn": "Send Request"
+    },
+    "footerLinks": {
+        "contact": {
+            "title": "Contact"
+        },
+        "menu": {
+            "title": "Menu"
+        },
+        "services": {
+            "title": "Services"
+        },
+        "legal": {
+            "title": "Legal"
+        },
+        "institute": {
+            "title": "Qomoi Institute"
+        }
+    }
+  },
+  "misc": {
+    "footerAppText": "Qomoi"
+  }
+}

@@ -1,22 +1,25 @@
 import { Carousel, Col, Flex, Image, Layout, Row, Spin } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
 import Explore from "../../components/HomePage/Explore/Explore";
+import { STATUS } from "../../constants/messages.constants";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useFetchOnLoad from "../../hooks/useFetchOnLoad";
+import { Status } from "../../models/ExceptionProps";
 import { VerticalCourse } from "../../models/VerticalCourse";
 import { getTrendingCourses } from "../../services/courseApi";
+import Exception from "../../utils/Exception/Exception";
+import { isDatePassed30Days } from "../../utils/commonUtils";
 import { LeftCurve } from "../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../utils/svgs/RightCurve";
 import styles from "./Home.module.scss";
-import { Status } from "../../models/ExceptionProps";
-import { STATUS } from "../../constants/messages.constants";
-import Exception from "../../utils/Exception/Exception";
 
 function Home() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const {
     data: trendingCourses,
@@ -108,15 +111,15 @@ function Home() {
                           width={breakPoint?.md ? 36 : 22}
                         />
                         <span className="color-primary">
-                          Trending in &nbsp;
+                          {t("homePage.banner.trendingText")} &nbsp;
                         </span>
-                        <span> verticals</span>
+                        <span> {t("homePage.banner.verticalsText")}</span>
                       </div>
                       <span className="card-primary-title">
                         {vertical.title}
                       </span>
                       <button className="button primary-button text-uppercase">
-                        Explore Now
+                        {t("homePage.banner.exploreBtn")}
                       </button>
                     </Flex>
                   </div>
@@ -156,8 +159,22 @@ function Home() {
               />
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
-                  <Flex>
-                    <span className="card-chip font-bold">New Course</span>
+                  <Flex gap={5}>
+                    {isDatePassed30Days(
+                      trendingCourses?.[currentSlide]?.courses[0]
+                        ?.courseAddedDate
+                    ) && (
+                      <span className="card-chip font-bold">
+                        {t("utils.newCourse")}
+                      </span>
+                    )}
+
+                    {trendingCourses?.[currentSlide]?.courses[0]
+                      ?.isTrending && (
+                      <span className="card-chip font-bold">
+                        {t("utils.trending")}
+                      </span>
+                    )}
                   </Flex>
                   <Flex vertical align="baseline">
                     <span className="card-course-title">
@@ -197,8 +214,22 @@ function Home() {
               />
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
-                  <Flex>
-                    <span className="card-chip font-bold">New Course</span>
+                  <Flex gap={5}>
+                    {isDatePassed30Days(
+                      trendingCourses?.[currentSlide]?.courses[1]
+                        ?.courseAddedDate
+                    ) && (
+                      <span className="card-chip font-bold">
+                        {t("utils.newCourse")}
+                      </span>
+                    )}
+
+                    {trendingCourses?.[currentSlide]?.courses[1]
+                      ?.isTrending && (
+                      <span className="card-chip font-bold">
+                        {t("utils.trending")}
+                      </span>
+                    )}
                   </Flex>
                   <Flex vertical align="baseline">
                     <span className="card-course-title">
@@ -254,11 +285,15 @@ function Home() {
           <div className={`${styles.titleWrapper} text-center`}>
             <div className={styles.titleContent}>
               <LeftCurve />
-              <p className="main-header font-bold">Want to upskill at work?</p>
+              <p className="main-header font-bold">
+                {t("homePage.banner.title")}
+              </p>
               <p className={`${styles.subHeader} sub-header font-bold`}>
-                Get started with our
-                <span className="color-primary"> curated skill courses </span>
-                based on your work needs and Scale up compared to your peers.
+                {t("homePage.banner.description1")}
+                <span className="color-primary">
+                  {t("homePage.banner.descriptionHighlight")}
+                </span>
+                {t("homePage.banner.description2")}
               </p>
               <RightCurve />
             </div>

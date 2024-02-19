@@ -19,10 +19,13 @@ import { logout } from "../../redux/reducers/userReducer";
 import { Cart } from "../../utils/svgs/Cart";
 
 import { googleLogout } from "@react-oauth/google";
+import { ModalView, useModalContext } from "../../context/ModalContext";
+import useFetch from "../../hooks/useFetch";
 import { Course } from "../../models/Course";
 import LoginModalReducerProps from "../../models/reducers/LoginModalReducerProps";
 import { closeCartDrawer } from "../../redux/reducers/cartReducer";
 import { closeModal, openModal } from "../../redux/reducers/loginModalReducer";
+import { logoutUser } from "../../services/userApi";
 import { UserIcon } from "../../utils/svgs/UserIcon";
 import GlobalSearch from "../GlobalSearch/GlobalSearch";
 import CartDrawer from "./Drawer/CartDrawer";
@@ -36,6 +39,8 @@ export default function Header() {
   const breakPoints = useBreakPoint();
   const dispatch = useDispatch();
   const { state, dispatch: drawerDispatch } = useDrawer();
+  const { setView } = useModalContext();
+  const { fetch } = useFetch(logoutUser);
   const cartCourses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
@@ -52,7 +57,8 @@ export default function Header() {
     useSelector((state: { cart: { isDrawerVisible: boolean } }) => state.cart)
       ?.isDrawerVisible ?? false;
 
-  const logOut = () => {
+  const logOut = async () => {
+    await fetch();
     dispatch(logout());
     googleLogout();
   };
@@ -126,6 +132,7 @@ export default function Header() {
         closable={true}
         onCancel={() => handleCancel()}
         footer={null}
+        afterClose={() => setView(ModalView.Login)}
       >
         <LoginWrapper />
       </Modal>

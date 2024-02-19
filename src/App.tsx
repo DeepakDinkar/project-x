@@ -5,7 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
+import { ModalContextProvider } from "./context/ModalContext";
 import { useBreakPoint } from "./hooks/useBreakPoint";
+import "./i18n/config";
 import store from "./redux/store";
 import AppRouter from "./router/router";
 import "./theme/card.scss";
@@ -13,7 +15,6 @@ import ScrollToTop from "./utils/ScrollTop/ScrollTop";
 
 function App() {
   const breakPoints = useBreakPoint();
-
 
   const theme: ThemeConfig = {
     components: {
@@ -29,15 +30,18 @@ function App() {
       },
     },
   };
+
   return (
     <Provider store={store}>
       <GoogleOAuthProvider clientId="471731862964-dkuur20m90phgklr5cq32pq2706qjc3c.apps.googleusercontent.com">
         <ConfigProvider theme={theme}>
           <BrowserRouter>
-            <ScrollToTop />
-            <Header />
-            <AppRouter />
-            <Footer />
+            <ModalContextProvider>
+              <ScrollToTop />
+              <Header />
+              <AppRouter />
+              <Footer />
+            </ModalContextProvider>
           </BrowserRouter>
         </ConfigProvider>
       </GoogleOAuthProvider>

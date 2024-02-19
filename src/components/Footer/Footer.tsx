@@ -2,6 +2,7 @@ import { Collapse, CollapseProps, Flex, Image, Layout, List } from "antd";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import styles from "./Footer.module.scss";
 import RequestCallback from "./RequestCallback/RequestCallback";
+import { useTranslation } from "react-i18next";
 
 const CONTACT_US = ["info@qomoi.com"];
 const MENU = ["Explore", "About Us", "Sign Up"];
@@ -17,6 +18,7 @@ const QOMOI_INSTITUTE = ["Careers", "News"];
 
 function Footer() {
   const breakPoints = useBreakPoint();
+  const { t } = useTranslation();
 
   const getCollapseItems = (items: string[]) => {
     return (
@@ -32,12 +34,16 @@ function Footer() {
 
   const getContactUsMobile = () => {
     return (
-      <Flex vertical className={`${styles.officeAddress} ${styles.officeAddressMobile}`}>
+      <Flex
+        vertical
+        className={`${styles.officeAddress} ${styles.officeAddressMobile}`}
+      >
         <a href="#contact">{CONTACT_US[0]}</a>
         <span>Offices:</span>
         <span>
-          Atlanta, GA, USA (North Americam HQ)<br/> San Diego, CA, USA <br/>Other offices
-          coming soon!
+          Atlanta, GA, USA (North Americam HQ)
+          <br /> San Diego, CA, USA <br />
+          Other offices coming soon!
         </span>
       </Flex>
     );
@@ -46,27 +52,27 @@ function Footer() {
   const items: CollapseProps["items"] = [
     {
       key: "1",
-      label: "Contact",
+      label: t("footer.footerLinks.contact.title"),
       children: getContactUsMobile(),
     },
     {
       key: "2",
-      label: "Menu",
+      label: t("footer.footerLinks.menu.title"),
       children: getCollapseItems(MENU),
     },
     {
       key: "3",
-      label: "Services",
+      label: t("footer.footerLinks.services.title"),
       children: getCollapseItems(SERVICES),
     },
     {
       key: "4",
-      label: "Legal",
+      label: t("footer.footerLinks.legal.title"),
       children: getCollapseItems(QOMOI_INSTITUTE),
     },
     {
       key: "5",
-      label: "Qomoi Institute",
+      label: t("footer.footerLinks.institute.title"),
       children: getCollapseItems(QOMOI_INSTITUTE),
     },
   ];
@@ -87,7 +93,7 @@ function Footer() {
       <Flex className={styles.menuListContainer}>
         <List
           size="small"
-          header={<div>Contact</div>}
+          header={<div>{t("footer.footerLinks.contact.title")}</div>}
           bordered
           dataSource={CONTACT_US}
           renderItem={(item) => (
@@ -107,7 +113,7 @@ function Footer() {
         />
         <List
           size="small"
-          header={<div>Menu</div>}
+          header={<div>{t("footer.footerLinks.contact.title")}</div>}
           bordered
           dataSource={MENU}
           renderItem={(item) => (
@@ -118,7 +124,7 @@ function Footer() {
         />
         <List
           size="small"
-          header={<div>Services</div>}
+          header={<div>{t("footer.footerLinks.services.title")}</div>}
           bordered
           dataSource={SERVICES}
           renderItem={(item) => (
@@ -129,7 +135,7 @@ function Footer() {
         />
         <List
           size="small"
-          header={<div>Legal</div>}
+          header={<div>{t("footer.footerLinks.legal.title")}</div>}
           bordered
           dataSource={LEGAL}
           renderItem={(item) => (
@@ -140,7 +146,7 @@ function Footer() {
         />
         <List
           size="small"
-          header={<div>Qomoi Institute</div>}
+          header={<div>{t("footer.footerLinks.institute.title")}</div>}
           bordered
           dataSource={QOMOI_INSTITUTE}
           renderItem={(item) => (
@@ -156,12 +162,12 @@ function Footer() {
   return (
     <Layout>
       <Flex className={styles.footerWrapper} vertical>
-        <p>
-        Become a member now!
-        </p>
-        <span>Receive course updates and discount codes</span>
-        <span>Manage your profile </span>
-        <button className={styles.signUp}>Get Membership</button>
+        <p>{t("footer.membership.title")}</p>
+        <span>{t("footer.membership.subTitle")}</span>
+        <span>{t("footer.membership.profileText")}</span>
+        <button className={styles.signUp}>
+          {t("footer.membership.membershipBtn")}
+        </button>
       </Flex>
       <RequestCallback />
       <div className={styles.contactUsWrapper}>
@@ -172,7 +178,7 @@ function Footer() {
           </span>
         </Flex>
         <div className={styles.trademark}>
-          © {new Date().getFullYear()} Qomoi
+          © {new Date().getFullYear()} {t("misc.footerAppText")}
         </div>
       </div>
     </Layout>

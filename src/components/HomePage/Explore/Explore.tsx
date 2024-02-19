@@ -11,6 +11,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { STATUS } from "../../../constants/messages.constants";
 import useFetch from "../../../hooks/useFetch";
@@ -42,6 +43,7 @@ type FilterOptions = {
 
 function Explore() {
   const filterOptions = useRef<FilterOptions>();
+  const { t } = useTranslation();
   const pageRef = useRef<number>(1);
   const { data: locations }: { data: string[] } = useFetchOnLoad(
     getAllCourseLocations
@@ -92,7 +94,7 @@ function Explore() {
     return (
       pageRef.current < data?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t("utils.loadMoreBtn")}
         </Button>
       )
     );
@@ -216,9 +218,11 @@ function Explore() {
     >
       <div className={styles.titleContent}>
         <LeftCurve />
-        <p className="main-header font-bold color-primary">Explore</p>
+        <p className="main-header font-bold color-primary">
+          {t("homePage.explore.title")}
+        </p>
         <p className={`${styles.subHeader} sub-header font-bold color-white`}>
-          Latest and trending topics to explore
+          {t("homePage.explore.subTitle")}
         </p>
         <RightCurve />
       </div>
@@ -232,7 +236,7 @@ function Explore() {
             }}
           >
             <Input
-              placeholder="Search courses"
+              placeholder={t("homePage.explore.searchTopicsPlaceholder")}
               onInput={(event) => inputSearch(event)}
               prefix={<SearchIcon />}
               size="middle"

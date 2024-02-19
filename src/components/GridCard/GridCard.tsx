@@ -12,6 +12,10 @@ type GridCardProps = {
 export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
   const navigate = useNavigate();
 
+  const getUniqueKey = () => {
+    return crypto.randomUUID();
+  };
+
   const verticals = useSelector(
     (state: { verticals: { verticals: Vertical[] } }) => state.verticals
   )?.verticals;
@@ -59,11 +63,11 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
 
   return (
     <div className="grid-card-container">
-      {courses.map((course: Course, index: number) => (
+      {courses.map((course: Course) => (
         <div
           className={`course-card small-card explore-card`}
           role="button"
-          key={course.id + index}
+          key={getUniqueKey()}
           onClick={() => navigate(`/course/${course.id}`)}
           onKeyDown={() => {}}
         >

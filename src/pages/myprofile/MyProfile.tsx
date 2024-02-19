@@ -6,19 +6,23 @@ import {
   Form,
   Input,
   InputNumber,
+  Spin,
   Upload,
   UploadProps,
-  message
+  message,
 } from "antd";
 import { useState } from "react";
 import GridCard from "../../components/GridCard/GridCard";
 import countryValidator from "../../error/Validations/countryValidator";
 import phoneNumberValidator from "../../error/Validations/phoneNumberValidator";
+import zipCodeValidator from "../../error/Validations/zipcodeValidator";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 import { ProfileForm } from "../../models/ProfileForm";
+import { getUserProfile, updateProfile } from "../../services/userApi";
 import Country from "../../utils/Country/Country";
 import styles from "./MyProfile.module.scss";
-
+import useFetch from "../../hooks/useFetch";
 
 const getBase64 = (img: Blob, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -27,13 +31,13 @@ const getBase64 = (img: Blob, callback: (url: string) => void) => {
 };
 
 const beforeUpload = (file: Blob) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    message.error("You can only upload JPG/PNG file!");
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    message.error("Image must smaller than 2MB!");
   }
   return isJpgOrPng && isLt2M;
 };
@@ -41,12 +45,21 @@ const beforeUpload = (file: Blob) => {
 export default function MyProfile() {
   const breakPoints = useBreakPoint();
   const [form] = Form.useForm();
+  const { data, loading: isProfileLoading } = useFetchOnLoad(getUserProfile);
+  const { loading: isProfileUpdateLoading, fetch } = useFetch(updateProfile);
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
+  const getInitialValues = () => {
+    if (data) {
+      const { savedRecord } = data;
+      return savedRecord;
+    }
+    return null;
+  };
+
   const handleChange: UploadProps["onChange"] = (info) => {
-    console.log(info);
     if (info.file.status === "uploading") {
       setLoading(true);
       return;
@@ -67,7 +80,7 @@ export default function MyProfile() {
   );
 
   const onProfileSubmit = (values: ProfileForm) => {
-    console.log(values);
+    fetch(values);
   };
 
   const getCountryContent = () => {
@@ -76,16 +89,17 @@ export default function MyProfile() {
         <Form.Item<ProfileForm>
           name="country"
           label="Country"
+          style={{ flexGrow: 1 }}
           rules={[
             { required: true, message: "*Location is required" },
             { validator: countryValidator, message: "Invalid country" },
           ]}
         >
-          <Country form={form} fieldKey="location" />
+          <Country form={form} fieldKey="country" />
         </Form.Item>
         <Form.Item<ProfileForm>
           name="city"
-          label="City"
+          label={<>Town/{breakPoints?.md && <br />}City</>}
           style={{ flex: 1 }}
           rules={[{ required: true, message: "*City is required" }]}
         >
@@ -96,10 +110,16 @@ export default function MyProfile() {
           />
         </Form.Item>
         <Form.Item<ProfileForm>
-          name="city"
+          name="zipcode"
           label="ZipCode"
           style={{ flex: 1 }}
-          rules={[{ required: true, message: "*Zip Code is required" }]}
+          rules={[
+            { required: true, message: "*Zip Code is required" },
+            {
+              validator: zipCodeValidator,
+              message: "Zip code must be between 3 and 10 characters.",
+            },
+          ]}
         >
           <Input
             className={styles.input}
@@ -130,7 +150,6 @@ export default function MyProfile() {
           </Form.Item>
           <Form.Item<ProfileForm>
             name="addressLine2"
-            rules={[{ required: true, message: "*Address Line2 is required" }]}
             style={{
               flex: 1,
             }}
@@ -198,73 +217,98 @@ export default function MyProfile() {
     );
   };
 
+  const getProfileContent = () => {
+    return (
+      <Form
+        className={styles.profileForm}
+        name="profileForm"
+        labelAlign="left"
+        labelWrap={true}
+        form={form}
+        onFinish={onProfileSubmit}
+        initialValues={getInitialValues()}
+      >
+        {getProfileUploadContent()}
+        <Flex vertical gap={"1rem"}>
+          <Flex
+            vertical={!breakPoints?.md}
+            style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
+          >
+            {getNameContent()}
+          </Flex>
+          <Flex
+            vertical={!breakPoints?.md}
+            style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
+          >
+            <Form.Item<ProfileForm>
+              label={<>Phone {breakPoints?.md && <br />} Number</>}
+              name="mobile"
+              style={{
+                flex: 1,
+              }}
+              rules={[
+                { required: true, message: "*Phone Number is required" },
+                {
+                  validator: phoneNumberValidator,
+                },
+              ]}
+            >
+              <InputNumber
+                className={styles.input}
+                placeholder="Phone Number"
+                size="middle"
+              />
+            </Form.Item>
+            <Form.Item<ProfileForm>
+              name="emailId"
+              label="Email"
+              rules={[
+                { required: true, message: "*Email ID is required" },
+                { type: "email", message: "Invalid email address" },
+              ]}
+              style={{
+                flex: 1,
+              }}
+            >
+              <Input
+                className={styles.input}
+                placeholder="Email Address"
+                size="middle"
+              />
+            </Form.Item>
+          </Flex>
+          {getAddressContent()}
+          {getCountryContent()}
+          <Button
+            className={styles.profileSubmitBtn}
+            htmlType="submit"
+            loading={isProfileUpdateLoading}
+          >
+            Update Profile
+          </Button>
+        </Flex>
+      </Form>
+    );
+  };
+
+  const getRender = () => {
+    if (isProfileLoading) {
+      return (
+        <Flex justify="center" align="center" gap={10}>
+          <Spin size="large" />
+        </Flex>
+      );
+    }
+
+    return getProfileContent();
+  };
+
   return (
     <div className={styles.myprofileWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"1.5rem"}>
           <div className="main-header font-bold font-ubuntu">My Profile</div>
-          <Form
-            className={styles.profileForm}
-            name="profileForm"
-            form={form}
-            onFinish={onProfileSubmit}
-          >
-            {getProfileUploadContent()}
-            <Flex vertical gap={"1rem"}>
-              <Flex
-                vertical={!breakPoints?.md}
-                style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
-              >
-                {getNameContent()}
-              </Flex>
-              <Flex
-                vertical={!breakPoints?.md}
-                style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
-              >
-                <Form.Item<ProfileForm>
-                  label="Phone Number"
-                  name="phoneNumber"
-                  style={{
-                    flex: 1,
-                  }}
-                  rules={[
-                    { required: true, message: "*Phone Number is required" },
-                    {
-                      validator: phoneNumberValidator,
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    className={styles.input}
-                    placeholder="Phone Number"
-                    size="middle"
-                  />
-                </Form.Item>
-                <Form.Item<ProfileForm>
-                  name="email"
-                  label="Email"
-                  rules={[
-                    { required: true, message: "*Email ID is required" },
-                    { type: "email", message: "Invalid email address" },
-                  ]}
-                  style={{
-                    flex: 1,
-                  }}
-                >
-                  <Input
-                    className={styles.input}
-                    placeholder="Email Address"
-                    size="middle"
-                  />
-                </Form.Item>
-              </Flex>
-              {getAddressContent()}
-              {getCountryContent()}
-              <Button className={styles.profileSubmitBtn} htmlType="submit">
-                Update Profile
-              </Button>
-            </Flex>
-          </Form>
+          {getRender()}
         </Flex>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Recommended Courses</div>

@@ -1,31 +1,32 @@
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Flex, Form, Input, InputNumber } from "antd";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { useDispatch } from "react-redux";
+import { ModalView, useModalContext } from "../../../context/ModalContext";
 import countryValidator from "../../../error/Validations/countryValidator";
 import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
+import useFetch from "../../../hooks/useFetch";
 import { RegisterForm } from "../../../models/RegisterForm";
 import { closeModal } from "../../../redux/reducers/loginModalReducer";
-import { login } from "../../../redux/reducers/userReducer";
-import Country from "../../../utils/Country/Country";
-import styles from "../Login/Login.module.scss";
-import useFetch from "../../../hooks/useFetch";
 import { registerUser } from "../../../services/userApi";
+import Country from "../../../utils/Country/Country";
 import { mapRegisterFormPayLoad } from "../../../utils/formUtils";
+import styles from "../Login/Login.module.scss";
 
 export default function Register() {
-  const [isNextStep, setIsNextStep] = useState<boolean>(false);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { fetch } = useFetch(registerUser);
+  const { fetch, error, loading } = useFetch(registerUser);
+  const { view, setView } = useModalContext();
 
   const onLoginSubmit = async (values: RegisterForm) => {
-    await fetch(mapRegisterFormPayLoad(values));
+    const payload = await mapRegisterFormPayLoad(values);
+    await fetch(payload);
     dispatch(closeModal());
-    dispatch(login({ userName: "John Doe" }));
   };
 
   const onNextClick = () => {
-    form.validateFields().then(() => setIsNextStep(true));
+    form.validateFields().then(() => setView(ModalView.ConfirmPassword));
   };
 
   const getFormContainer = (): ReactNode => {
@@ -33,7 +34,9 @@ export default function Register() {
       <Flex
         vertical
         gap={"1rem"}
-        style={{ display: isNextStep ? "none" : "flex" }}
+        style={{
+          display: view === ModalView.ConfirmPassword ? "none" : "flex",
+        }}
       >
         <Flex style={{ gap: ".75rem" }}>
           <Form.Item<RegisterForm>
@@ -117,12 +120,19 @@ export default function Register() {
     return (
       <Flex
         vertical
-        style={{ display: isNextStep ? "flex" : "none" }}
+        style={{
+          display: view === ModalView.ConfirmPassword ? "flex" : "none",
+        }}
         gap={"1rem"}
       >
         <Form.Item<RegisterForm>
           name="password"
-          rules={[{ required: isNextStep, message: "*Password is required" }]}
+          rules={[
+            {
+              required: view === ModalView.ConfirmPassword,
+              message: "*Password is required",
+            },
+          ]}
         >
           <Input.Password
             className={styles.input}
@@ -138,7 +148,7 @@ export default function Register() {
           dependencies={["password"]}
           rules={[
             {
-              required: isNextStep,
+              required: view === ModalView.ConfirmPassword,
               message: "Confirm Password is required",
             },
             ({ getFieldValue }) => ({
@@ -167,17 +177,28 @@ export default function Register() {
           htmlType="submit"
           className={styles.btn}
           style={{ margin: "1.5rem auto 0" }}
+          loading={loading}
         >
           Sign Up
         </Button>
+        {error && <div className={styles.loginError}>{error.message}</div>}
       </Flex>
     );
+  };
+
+  const handleBackBtn = () => {
+    const backView =
+      view === ModalView.Register ? ModalView.Login : ModalView.Register;
+    setView(backView);
   };
 
   return (
     <div className="modal-container">
       <Form name="registerForm" form={form} onFinish={onLoginSubmit}>
         <Flex vertical className={styles.modalWrapper}>
+          <div className={styles.backBtn}>
+            <ArrowLeftOutlined onClick={handleBackBtn} />
+          </div>
           <h2>Sign Up</h2>
           {getFormContainer()}
           {getPasswordContainer()}

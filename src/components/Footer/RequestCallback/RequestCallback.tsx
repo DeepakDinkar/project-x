@@ -1,4 +1,13 @@
-import { Button, Flex, Form, Input, InputNumber, Radio, Select, message } from "antd";
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  message,
+} from "antd";
 import styles from "../Footer.module.scss";
 import {
   CallBackMode,
@@ -7,21 +16,21 @@ import {
 import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
 import TextArea from "antd/es/input/TextArea";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import { useTranslation } from "react-i18next";
 
 export default function RequestCallback() {
   const [form] = Form.useForm();
   const breakPoints = useBreakPoint();
   const [messageApi, contextHolder] = message.useMessage();
+  const { t } = useTranslation();
 
   const initalValues = { callBackMode: CallBackMode.PHONE };
 
   const onRequestCallbackSubmit = (values: RequestCallbackForm) => {
-    console.log(values);
     messageApi.open({
-        type: 'success',
-        content: 'We will call back to your ' + values.callbackMode
+      type: "success",
+      content: "We will call back to your " + values.callbackMode,
     });
-
   };
 
   const getDiscountOptions = () => {
@@ -33,7 +42,9 @@ export default function RequestCallback() {
 
   return (
     <div className={styles.requestCallbackWrapper}>
-      <p className={styles.requestCallbackHeader}>Request a Conversation</p>
+      <p className={styles.requestCallbackHeader}>
+        {t("footer.requestCallback.title")}
+      </p>
       <Form
         className={styles.requestCallbackForm}
         name="requestCallbackForm"
@@ -42,7 +53,10 @@ export default function RequestCallback() {
         initialValues={initalValues}
       >
         <Flex vertical gap={"1rem"}>
-          <Flex vertical={!breakPoints?.md} style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}>
+          <Flex
+            vertical={!breakPoints?.md}
+            style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
+          >
             <Form.Item<RequestCallbackForm>
               name="firstName"
               style={{ flex: 1 }}
@@ -66,7 +80,10 @@ export default function RequestCallback() {
               />
             </Form.Item>
           </Flex>
-          <Flex vertical={!breakPoints?.md} style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}>
+          <Flex
+            vertical={!breakPoints?.md}
+            style={{ gap: breakPoints?.md ? "1.5rem" : ".75rem" }}
+          >
             <Form.Item<RequestCallbackForm>
               name="phoneNumber"
               style={{
@@ -116,16 +133,16 @@ export default function RequestCallback() {
             <TextArea rows={4} placeholder="I want to talk about..." />
           </Form.Item>
 
-          <Form.Item<RequestCallbackForm>
-            name="callbackMode"
-          >
+          <Form.Item<RequestCallbackForm> name="callbackMode">
             <Radio.Group defaultValue={initalValues.callBackMode}>
               <Radio value={CallBackMode.PHONE}>Let’s have a phone call</Radio>
               <Radio value={CallBackMode.EMAIL}>Email please</Radio>
             </Radio.Group>
           </Form.Item>
 
-          <Button className={styles.requestSubmitBtn} htmlType="submit">Send Request</Button>
+          <Button className={styles.requestSubmitBtn} htmlType="submit">
+            {t('footer.requestCallback.requestCallbackBtn')}
+          </Button>
           {contextHolder}
         </Flex>
       </Form>

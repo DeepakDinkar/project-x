@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGoogleLogin } from "@react-oauth/google";
-import { Button, Divider, Flex, Form, Input } from "antd";
+import { Button, Divider, Flex, Form, Input, Typography } from "antd";
 import { jwtDecode } from "jwt-decode";
-import { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
 import emailValidator from "../../../error/Validations/emailValidator";
 import useFetch from "../../../hooks/useFetch";
 import { LoginForm } from "../../../models/LoginForm";
+import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
 import { loginUser } from "../../../services/userApi";
 import { mapLoginFormPayLoad } from "../../../utils/formUtils";
@@ -15,12 +15,11 @@ import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
+import { ModalView, useModalContext } from "../../../context/ModalContext";
 
-type Props = {
-  setIsLogin: Dispatch<SetStateAction<boolean>>;
-};
+export default function Login() {
+  const { setView } = useModalContext();
 
-export default function Login({ setIsLogin }: Readonly<Props>) {
   const {
     fetch: loginFetch,
     loading: isLoginLoading,
@@ -29,7 +28,6 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
   const dispatch = useDispatch();
 
   const responseMessage = (response: any) => {
-    console.log(response);
     const details = jwtDecode(response.access_token);
     console.log(details);
     dispatch(login({ userName: "John Doe" }));
@@ -44,16 +42,15 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
     onError: onError,
   });
 
-  const onLoginSubmit = (values: LoginForm) => {
-    const payload = mapLoginFormPayLoad(values);
-    loginFetch(payload);
+  const onLoginSubmit = async (values: LoginForm) => {
+    const payload = await mapLoginFormPayLoad(values);
+
+    loginFetch(payload).then((data) => {
+      dispatch(login(data));
+      dispatch(closeModal());
+    });
   };
 
-  const getLoginError =() => {
-    const data: any = loginError?.response?.data; 
-    return data?.message ?? 'Unexpected Error';
-  }
- 
   return (
     <div className="modal-container">
       <Form name="loginForm" onFinish={onLoginSubmit}>
@@ -91,7 +88,12 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
               }}
             />
           </Form.Item>
-
+          <Typography.Link
+            className={styles.forgetPassword}
+            onClick={() => setView(ModalView.ForgetPassword)}
+          >
+            Forget Password
+          </Typography.Link>
           <Button
             htmlType="submit"
             type="primary"
@@ -101,7 +103,9 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
           >
             Log in
           </Button>
-          {loginError && <div className={styles.loginError}>{getLoginError()}</div>}
+          {loginError && (
+            <div className={styles.loginError}>{loginError.message}</div>
+          )}
 
           <Divider className={styles.divider} />
           <Button className={styles.outlineBtn} onClick={() => googleLogin()}>
@@ -119,7 +123,7 @@ export default function Login({ setIsLogin }: Readonly<Props>) {
               <Button
                 type="link"
                 className={styles.signupBtn}
-                onClick={() => setIsLogin(false)}
+                onClick={() => setView(ModalView.Register)}
               >
                 Sign up
               </Button>{" "}

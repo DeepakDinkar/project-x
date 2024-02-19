@@ -67,6 +67,24 @@
   color: $red;
 }
 
+.forgetPassword {
+  text-align: left;
+  font-size: 12px;
+  font-family: $font-ubuntu;
+  color: $black !important;
+  font-weight: 400;
+}
+
+.backBtn {
+  position: absolute;
+  :global {
+    svg {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+
 // Media queries
 
 @media screen and (max-width: $md) {
