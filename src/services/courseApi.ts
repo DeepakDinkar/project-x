@@ -1,8 +1,8 @@
 import { COURSES } from "../constants/endpoints.constants";
 import { axiosConfig } from "./axios-config";
 
-export const getTrendingCourses = async () => {
-  const response = await axiosConfig.get(COURSES.TRENDING);
+export const getBannerVerticalCourses = async () => {
+  const response = await axiosConfig.get(COURSES.All + COURSES.BANNER);
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get trending courses"));
@@ -20,4 +20,31 @@ export const getAllCourseLocations = async () => {
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get course locations"));
+};
+
+export const getRecommendedCourses = async (page: number) => {
+  const response = await axiosConfig.get(
+    COURSES.All + COURSES.RECOMMENDED + "/" + page
+  );
+  return response.status === 200
+    ? Promise.resolve(response.data)
+    : Promise.reject(new Error("Unable to get recommended courses"));
+};
+
+export const getTrendingCourses = async (page: number) => {
+  const response = await axiosConfig.get(
+    COURSES.All + COURSES.RECOMMENDED + "/" + page
+  );
+  return response.status === 200
+    ? Promise.resolve(response.data)
+    : Promise.reject(new Error("Unable to get recommended courses"));
+};
+
+export const getSimilarCourses = async (slug: string, page: number) => {
+  const response = await axiosConfig.get(
+    COURSES.All + COURSES.SIMILAR + "/" + slug + "/" + page
+  );
+  return response.status === 200
+    ? Promise.resolve(response.data)
+    : Promise.reject(new Error("Unable to get recommended courses"));
 };

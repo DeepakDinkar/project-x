@@ -6,23 +6,33 @@ import {
   Form,
   Input,
   InputNumber,
+  Space,
   Spin,
   Upload,
   UploadProps,
   message,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import GridCard from "../../components/GridCard/GridCard";
+import { STATUS } from "../../constants/messages.constants";
 import countryValidator from "../../error/Validations/countryValidator";
 import phoneNumberValidator from "../../error/Validations/phoneNumberValidator";
 import zipCodeValidator from "../../error/Validations/zipcodeValidator";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
-import useFetchOnLoad from "../../hooks/useFetchOnLoad";
-import { ProfileForm } from "../../models/ProfileForm";
-import { getUserProfile, updateProfile } from "../../services/userApi";
-import Country from "../../utils/Country/Country";
-import styles from "./MyProfile.module.scss";
 import useFetch from "../../hooks/useFetch";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
+import { Course } from "../../models/Course";
+import { Status } from "../../models/ExceptionProps";
+import { ProfileForm } from "../../models/ProfileForm";
+import { VerticalData } from "../../models/Vertical";
+import { setVerticals } from "../../redux/reducers/verticalsReducer";
+import { getRecommendedCourses } from "../../services/courseApi";
+import { getUserProfile, updateProfile } from "../../services/userApi";
+import { getVerticals } from "../../services/verticalsApi";
+import Country from "../../utils/Country/Country";
+import Exception from "../../utils/Exception/Exception";
+import styles from "./MyProfile.module.scss";
 
 const getBase64 = (img: Blob, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -45,11 +55,44 @@ const beforeUpload = (file: Blob) => {
 export default function MyProfile() {
   const breakPoints = useBreakPoint();
   const [form] = Form.useForm();
+  const pageRef = useRef<number>(1);
   const { data, loading: isProfileLoading } = useFetchOnLoad(getUserProfile);
   const { loading: isProfileUpdateLoading, fetch } = useFetch(updateProfile);
+  const {
+    loading: isCoursesLoading,
+    data: courseData,
+    error: isCoursesError,
+    fetch: coursesFetch,
+  } = useFetch(getRecommendedCourses);
+
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  const {
+    data: verticals
+  }: VerticalData = useFetchOnLoad(getVerticals);
+
+  useEffect(() => {
+    verticals && dispatch(setVerticals(verticals));
+  }, [dispatch, verticals]);
+
+  useEffect(() => {
+    const getData = async () => {
+      await coursesFetch(pageRef.current);
+    };
+    getData();
+  }, [coursesFetch]);
+
+  useEffect(() => {
+    if (courseData?.content) {
+      pageRef.current === 1
+        ? setCourses(courseData?.content ?? [])
+        : setCourses((courses) => [...courses, ...(courseData?.content ?? [])]);
+    }
+  }, [courseData, courseData?.content]);
 
   const getInitialValues = () => {
     if (data) {
@@ -303,6 +346,71 @@ export default function MyProfile() {
     return getProfileContent();
   };
 
+  const loadMoreData = () => {
+    pageRef.current = pageRef.current + 1;
+    coursesFetch(pageRef.current);
+  };
+
+  const getLoadMoreButton = () => {
+    return (
+      pageRef.current < courseData?.totalPages && (
+        <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
+          Load More
+        </Button>
+      )
+    );
+  };
+
+  const getCoursesList = () => {
+    return (
+      <>
+        <GridCard courses={courses} />
+        {isCoursesLoading ? (
+          <Flex
+            style={{ padding: "3rem 0" }}
+            align="center"
+            justify="center"
+            className="w-100"
+          >
+            <Spin size="large" />
+          </Flex>
+        ) : (
+          getLoadMoreButton()
+        )}
+      </>
+    );
+  };
+
+  const getCoursesRenderer = () => {
+    if (isCoursesLoading && pageRef.current === 1) {
+      return (
+        <Space style={{ padding: "3rem 0" }}>
+          <Spin size="large" />
+        </Space>
+      );
+    }
+    if (isCoursesError) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
+      );
+    }
+
+    if (courses?.length == 0) {
+      return (
+        <Exception
+          status={Status.NOT_FOUND}
+          subTitle={STATUS.NOT_FOUND}
+          className={styles.exploreCoursesException}
+        />
+      );
+    }
+
+    return getCoursesList();
+  };
+
   return (
     <div className={styles.myprofileWrapper}>
       <div className="w-100">
@@ -312,7 +420,7 @@ export default function MyProfile() {
         </Flex>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Recommended Courses</div>
-        <GridCard courses={[]} />
+        {getCoursesRenderer()}
       </div>
     </div>
   );

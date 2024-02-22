@@ -15,7 +15,7 @@ export const mapRegisterFormPayLoad = async (
   const payload = new RegisterPayload();
   payload.firstName = values.firstName;
   payload.lastName = values.lastName;
-  payload.emailId = values.email;
+  payload.email = values.email;
   payload.password = await bycryptPassword(values.password);
   payload.mobile = values.phoneNumber;
   payload.location = values.location;
@@ -23,9 +23,11 @@ export const mapRegisterFormPayLoad = async (
   return payload;
 };
 
-export const mapLoginFormPayLoad = async (values: LoginForm): Promise<LoginPayload> => {
+export const mapLoginFormPayLoad = async (
+  values: LoginForm
+): Promise<LoginPayload> => {
   const payload = new LoginPayload();
-  payload.emailId = values.email;
+  payload.email = values.email;
   payload.password = await bycryptPassword(values.password);
   return payload;
 };
@@ -39,9 +41,8 @@ export const mapProfilePayLoad = (values: ProfileForm): ProfilePayload => {
   payload.address2 = values.addressLine2;
   payload.phoneNo = values.mobile;
   payload.city = values.city;
-  payload.zipCode = values.zipcode; 
+  payload.zipCode = values.zipcode;
   payload.country = values.country;
 
   return payload;
-}
-
+};

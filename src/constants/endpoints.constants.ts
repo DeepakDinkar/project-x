@@ -18,8 +18,10 @@ export const USER = Object.freeze({
 // Courses Endpoints
 export const COURSES = Object.freeze({
   All: "/courses",
-  TRENDING: "/courses/trending",
-  LOCATIONS: '/locations'
+  BANNER: "/banner",
+  LOCATIONS: '/locations',
+  RECOMMENDED: '/recommended',
+  SIMILAR: '/similar'
 });
 
 // Verticals Endpoints

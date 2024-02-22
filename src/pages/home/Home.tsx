@@ -9,7 +9,7 @@ import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 import { Status } from "../../models/ExceptionProps";
 import { VerticalCourse } from "../../models/VerticalCourse";
-import { getTrendingCourses } from "../../services/courseApi";
+import { getBannerVerticalCourses } from "../../services/courseApi";
 import Exception from "../../utils/Exception/Exception";
 import { isDatePassed30Days } from "../../utils/commonUtils";
 import { LeftCurve } from "../../utils/svgs/LeftCurve";
@@ -29,7 +29,7 @@ function Home() {
     data: VerticalCourse[];
     loading: boolean;
     error: Error | undefined;
-  } = useFetchOnLoad(getTrendingCourses);
+  } = useFetchOnLoad(getBannerVerticalCourses);
 
   const onCarouselChange = (currentSlide: number) => {
     setCurrentSlide(currentSlide);

@@ -1,30 +1,146 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
+import {
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Image,
+  Rate,
+  Select,
+  Space,
+  Spin,
+} from "antd";
 import dayjs from "dayjs";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import GridCard from "../../../components/GridCard/GridCard";
 import { STATUS } from "../../../constants/messages.constants";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import useFetch from "../../../hooks/useFetch";
 import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
+import { Course } from "../../../models/Course";
 import { Status } from "../../../models/ExceptionProps";
+import { VerticalData } from "../../../models/Vertical";
 import { addToCart } from "../../../redux/reducers/cartReducer";
-import { getCourseByCourseId } from "../../../services/courseApi";
+import { setVerticals } from "../../../redux/reducers/verticalsReducer";
+import {
+  getCourseByCourseId,
+  getSimilarCourses,
+} from "../../../services/courseApi";
+import { getVerticals } from "../../../services/verticalsApi";
 import Exception from "../../../utils/Exception/Exception";
-import styles from "./CourseDetails.module.scss";
 import { isDatePassed30Days } from "../../../utils/commonUtils";
+import styles from "./CourseDetails.module.scss";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
   const { courseId } = useParams();
   const dispatch = useDispatch();
+  const pageRef = useRef<number>(1);
+
+  const [courses, setCourses] = useState<Course[]>([]);
+  const {
+    loading: isCoursesLoading,
+    data: courseData,
+    error: isCoursesError,
+    fetch: coursesFetch,
+  } = useFetch(getSimilarCourses);
+
   const {
     data: courseDetails,
     loading: isLoading,
     error: isCourseDetailsError,
   } = useFetchOnLoad(getCourseByCourseId, courseId);
   const locationRef = useRef(0);
+  const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+
+  const slug = courseDetails?.slug ?? "";
+
+  useEffect(() => {
+    verticals && dispatch(setVerticals(verticals));
+  }, [dispatch, verticals]);
+
+  useEffect(() => {
+    const getData = async () => {
+      await coursesFetch(slug, pageRef.current);
+    };
+
+    slug && getData();
+  }, [coursesFetch, slug]);
+
+  useEffect(() => {
+    if (courseData?.content) {
+      pageRef.current === 1
+        ? setCourses(courseData?.content ?? [])
+        : setCourses((courses) => [...courses, ...(courseData?.content ?? [])]);
+    }
+  }, [courseData, courseData?.content]);
+
+  const loadMoreData = () => {
+    pageRef.current = pageRef.current + 1;
+    coursesFetch(slug, pageRef.current);
+  };
+
+  const getLoadMoreButton = () => {
+    return (
+      pageRef.current < courseData?.totalPages && (
+        <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
+          Load More
+        </Button>
+      )
+    );
+  };
+
+  const getCoursesList = () => {
+    return (
+      <>
+        <GridCard courses={courses} />
+        {isCoursesLoading ? (
+          <Flex
+            style={{ padding: "3rem 0" }}
+            align="center"
+            justify="center"
+            className="w-100"
+          >
+            <Spin size="large" />
+          </Flex>
+        ) : (
+          getLoadMoreButton()
+        )}
+      </>
+    );
+  };
+
+  const getCoursesRenderer = () => {
+    if (isCoursesLoading && pageRef.current === 1) {
+      return (
+        <Space style={{ padding: "3rem 0" }}>
+          <Spin size="large" />
+        </Space>
+      );
+    }
+    if (isCoursesError) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
+      );
+    }
+
+    if (courses?.length == 0) {
+      return (
+        <Exception
+          status={Status.NOT_FOUND}
+          subTitle={STATUS.NOT_FOUND}
+          className={styles.exploreCoursesException}
+        />
+      );
+    }
+
+    return getCoursesList();
+  };
 
   const addCourseToCart = () => {
     const details = { ...courseDetails };
@@ -253,7 +369,7 @@ export default function CourseDetails() {
         </div>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Similar Topics</div>
-        <GridCard courses={[]} />
+        {getCoursesRenderer()}
       </div>
     );
   };
