@@ -10,9 +10,14 @@ type Option = {
 type Props = {
   form: FormInstance;
   fieldKey: string;
+  fieldValue?: string;
 };
 
-export default function Country({ form, fieldKey }: Readonly<Props>) {
+export default function Country({
+  form,
+  fieldKey,
+  fieldValue,
+}: Readonly<Props>) {
   const [options, setOptions] = useState<Option[]>([]);
 
   useEffect(() => {
@@ -21,7 +26,8 @@ export default function Country({ form, fieldKey }: Readonly<Props>) {
         value: country.name,
         label: (
           <div>
-            <Image src={country.image} preview={false} height={20} width={20} /> {country.name}
+            <Image src={country.image} preview={false} height={20} width={20} />{" "}
+            {country.name}
           </div>
         ),
       };
@@ -36,6 +42,7 @@ export default function Country({ form, fieldKey }: Readonly<Props>) {
 
   return (
     <AutoComplete
+      defaultValue={fieldValue}
       defaultActiveFirstOption
       options={options}
       placeholder="Location (Country)"

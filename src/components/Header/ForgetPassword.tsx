@@ -35,7 +35,7 @@ export default function ForgetPassword() {
           </div>
           <h2>Forget Password</h2>
           <Form.Item
-            name="emailId"
+            name="email"
             rules={[
               { required: true, message: "*Email is required" },
               { validator: emailValidator, message: "Invalid email" },

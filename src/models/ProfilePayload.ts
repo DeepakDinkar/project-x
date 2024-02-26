@@ -7,4 +7,5 @@ export class ProfilePayload {
     zipCode!:string;
     phoneNo!:number;
     address2?:string;
+    imageUrl?:string;
 }

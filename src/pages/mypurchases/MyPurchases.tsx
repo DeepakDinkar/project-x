@@ -14,11 +14,18 @@ import { setVerticals } from "../../redux/reducers/verticalsReducer";
 import Exception from "../../utils/Exception/Exception";
 import { Status } from "../../models/ExceptionProps";
 import { STATUS } from "../../constants/messages.constants";
+import { getUserPurchases } from "../../services/userApi";
+import dayjs from "dayjs";
+import { MyPurchase } from "../../models/MyPurchase";
+import { useNavigate } from "react-router-dom";
+
+const COURSE_FALLBACK_URL = import.meta.env.VITE_COURSE_FALLBACK_URL;
 
 export default function MyPurchases() {
   const breakPoints = useBreakPoint();
   const dispatch = useDispatch();
   const pageRef = useRef<number>(1);
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const {
     loading: isCoursesLoading,
@@ -28,6 +35,12 @@ export default function MyPurchases() {
   } = useFetch(getTrendingCourses);
 
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+
+  const { data: purchases, loading, error } = useFetchOnLoad(getUserPurchases);
+
+  const getFormattedDate = (date: string) => {
+    return dayjs(date).format("MMM D, YYYY");
+  };
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
@@ -113,66 +126,80 @@ export default function MyPurchases() {
     return getCoursesList();
   };
 
+  const getPurchaseList = () => {
+    return (
+      <Flex vertical gap={"1.5rem"}>
+        {purchases?.map((purchase: MyPurchase, index: number) => (
+          <Flex gap={"1.5rem"} key={index}>
+            <Image
+              style={{ borderRadius: "10px" }}
+              width={breakPoints?.md ? 132 : 64}
+              height={breakPoints?.md ? 132 : 64}
+              preview={false}
+              fallback={COURSE_FALLBACK_URL}
+              src={purchase.imageUrl}
+            />
+            <Flex vertical style={{ flex: 1, justifyContent: "space-evenly" }}>
+              <div className="font-sm text-uppercase">
+                leadership and business management
+              </div>
+              <div className="font-default font-bold">
+                {purchase?.coursesName}
+              </div>
+              <div>
+                <span className="font-sm">Price: ${purchase?.courseAmt}</span>
+              </div>
+              <div className="font-sm">
+                {purchase?.location ? purchase.location : "Virtual"}&nbsp; |
+                &nbsp;
+                {getFormattedDate(purchase?.purchasedDate)}
+              </div>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+    );
+  };
+
+  const getRender = () => {
+    if (loading) {
+      return (
+        <Flex justify="center" align="center" gap={10}>
+          <Spin size="large" />
+        </Flex>
+      );
+    }
+    if (error) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
+      );
+    }
+    if (purchases?.length == 0) {
+      return (
+        <Flex vertical align="center">
+          <Flex vertical>
+            <p className="sub-header font-bol">
+              Uh oh! Looks like you have not purchased courses yet.
+            </p>
+            <Button type="primary" style={{ margin: "3rem auto" }} onClick={() => navigate('/')}>
+              Explore Courses
+            </Button>
+          </Flex>
+        </Flex>
+      );
+    }
+    return getPurchaseList();
+  };
+
   return (
     <div className={styles.myPurchasesWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"4.5rem"}>
           <div className="main-header font-bold font-ubuntu">My Purchases</div>
-          <Flex vertical gap={"1.5rem"}>
-            <Flex gap={"1.5rem"}>
-              <Image
-                style={{ borderRadius: "10px" }}
-                width={breakPoints?.md ? 132 : 64}
-                height={breakPoints?.md ? 132 : 64}
-                preview={false}
-                src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1705881600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GVbJStIOTTtQg6q4GqdJUWaqMNoEUpDqRn0MWPBMIF6rWWZYNlZEr20zcQK6NfVZsTrb-lJTwxouHUtVNtMjDQ6zjXposIB71hSlpOMuQL0aaQ6j0k4sKbgbFeMT-Z04FqShggkzZ9Tx8AENUO3hdeVFANeM-lH0shU3gOPhf4IksgWFTpvsf9FvbQDFB9mMeCpCV22fNn9QPwGVUwaGHychqN5x9W5QRSAlwBzULMfuivyK6dfJzU9TvAxBxQpj27Ks6Qb8I8VdjOfrzma7XDQLaEPZqVRxgKzzl3bxAWWyKsluiOifUQtiy5~Vzwh~vaCpEf6SGR86JIW-A1CG1Q__"
-              />
-              <Flex
-                vertical
-                style={{ flex: 1, justifyContent: "space-evenly" }}
-              >
-                <div className="font-sm text-uppercase">
-                  leadership and business management
-                </div>
-                <div className="font-default font-bold">
-                  International Leadership
-                </div>
-                <div>
-                  <span className="font-sm" style={{ paddingRight: "10px" }}>
-                    Qty: 10
-                  </span>
-                  <span className="font-sm">Price: $400</span>
-                </div>
-                <div className="font-sm">Dubai, UAE | Oct 7, 2023</div>
-              </Flex>
-            </Flex>
-            <Flex gap={"1.5rem"}>
-              <Image
-                style={{ borderRadius: "10px" }}
-                width={breakPoints?.md ? 132 : 64}
-                height={breakPoints?.md ? 132 : 64}
-                preview={false}
-                src="https://s3-alpha-sig.figma.com/img/3ce0/6357/114e3a3625a7a92cf1d0ddc6a4b83ede?Expires=1705881600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GVbJStIOTTtQg6q4GqdJUWaqMNoEUpDqRn0MWPBMIF6rWWZYNlZEr20zcQK6NfVZsTrb-lJTwxouHUtVNtMjDQ6zjXposIB71hSlpOMuQL0aaQ6j0k4sKbgbFeMT-Z04FqShggkzZ9Tx8AENUO3hdeVFANeM-lH0shU3gOPhf4IksgWFTpvsf9FvbQDFB9mMeCpCV22fNn9QPwGVUwaGHychqN5x9W5QRSAlwBzULMfuivyK6dfJzU9TvAxBxQpj27Ks6Qb8I8VdjOfrzma7XDQLaEPZqVRxgKzzl3bxAWWyKsluiOifUQtiy5~Vzwh~vaCpEf6SGR86JIW-A1CG1Q__"
-              />
-              <Flex
-                vertical
-                style={{ flex: 1, justifyContent: "space-evenly" }}
-              >
-                <div className="font-sm text-uppercase">
-                  leadership and business management
-                </div>
-                <div className="font-default font-bold">
-                  International Leadership
-                </div>
-                <div>
-                  <span className="font-sm" style={{ paddingRight: "10px" }}>
-                    Qty: 10
-                  </span>
-                  <span className="font-sm">Price: $400</span>
-                </div>
-              </Flex>
-            </Flex>
-          </Flex>
+          {getRender()}
         </Flex>
         <Divider className={styles.divider} />
         <div className="common-header font-bold">Trending Topics</div>

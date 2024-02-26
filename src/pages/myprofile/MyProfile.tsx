@@ -56,8 +56,16 @@ export default function MyProfile() {
   const breakPoints = useBreakPoint();
   const [form] = Form.useForm();
   const pageRef = useRef<number>(1);
-  const { data, loading: isProfileLoading } = useFetchOnLoad(getUserProfile);
-  const { loading: isProfileUpdateLoading, fetch } = useFetch(updateProfile);
+  const {
+    data,
+    loading: isProfileLoading,
+    error: profileError,
+  } = useFetchOnLoad(getUserProfile);
+  const {
+    data: profileResponse,
+    loading: isProfileUpdateLoading,
+    fetch,
+  } = useFetch(updateProfile);
   const {
     loading: isCoursesLoading,
     data: courseData,
@@ -68,12 +76,12 @@ export default function MyProfile() {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
   const [courses, setCourses] = useState<Course[]>([]);
+  const imageUrlRef = useRef<string>();
 
-  const {
-    data: verticals
-  }: VerticalData = useFetchOnLoad(getVerticals);
+  const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+
+  console.log(imageUrlRef.current);
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
@@ -95,11 +103,10 @@ export default function MyProfile() {
   }, [courseData, courseData?.content]);
 
   const getInitialValues = () => {
-    if (data) {
-      const { savedRecord } = data;
-      return savedRecord;
+    if (data && data.imageUrl) {
+      imageUrlRef.current = data.imageUrl;
     }
-    return null;
+    return data ?? null;
   };
 
   const handleChange: UploadProps["onChange"] = (info) => {
@@ -107,10 +114,13 @@ export default function MyProfile() {
       setLoading(true);
       return;
     }
-    if (info.file.status === "done") {
-      getBase64(info.file.originFileObj as Blob, (url) => {
+
+    if (info.file.originFileObj) {
+      getBase64(info.file.originFileObj as Blob, (url: string) => {
+        if (url !== "") {
+          imageUrlRef.current = url;
+        }
         setLoading(false);
-        setImageUrl(url);
       });
     }
   };
@@ -123,6 +133,7 @@ export default function MyProfile() {
   );
 
   const onProfileSubmit = (values: ProfileForm) => {
+    values.imageUrl = imageUrlRef.current ?? '';
     fetch(values);
   };
 
@@ -138,7 +149,7 @@ export default function MyProfile() {
             { validator: countryValidator, message: "Invalid country" },
           ]}
         >
-          <Country form={form} fieldKey="country" />
+          <Country form={form} fieldKey="country" fieldValue={data?.country} />
         </Form.Item>
         <Form.Item<ProfileForm>
           name="city"
@@ -153,7 +164,7 @@ export default function MyProfile() {
           />
         </Form.Item>
         <Form.Item<ProfileForm>
-          name="zipcode"
+          name="zipCode"
           label="ZipCode"
           style={{ flex: 1 }}
           rules={[
@@ -179,7 +190,7 @@ export default function MyProfile() {
       <Form.Item<ProfileForm> label="Address">
         <Flex gap={".75rem"}>
           <Form.Item<ProfileForm>
-            name="addressLine1"
+            name="address1"
             rules={[{ required: true, message: "*Address Line1 is required" }]}
             style={{
               flex: 1,
@@ -192,7 +203,7 @@ export default function MyProfile() {
             />
           </Form.Item>
           <Form.Item<ProfileForm>
-            name="addressLine2"
+            name="address2"
             style={{
               flex: 1,
             }}
@@ -242,20 +253,27 @@ export default function MyProfile() {
   const getProfileUploadContent = () => {
     return (
       <div>
-        <Upload
-          name="avatar"
-          listType="picture-circle"
-          className="avatar-uploader"
-          showUploadList={false}
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
-        >
-          {imageUrl ? (
-            <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-          ) : (
-            uploadButton
-          )}
-        </Upload>
+        <Form.Item<ProfileForm>>
+          <Upload
+            name="avatar"
+            listType="picture-circle"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+            action={""}
+          >
+            {imageUrlRef.current ? (
+              <img
+                src={imageUrlRef.current}
+                alt="avatar"
+                style={{ width: "100%" }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+        </Form.Item>
       </div>
     );
   };
@@ -285,7 +303,7 @@ export default function MyProfile() {
           >
             <Form.Item<ProfileForm>
               label={<>Phone {breakPoints?.md && <br />} Number</>}
-              name="mobile"
+              name="phoneNo"
               style={{
                 flex: 1,
               }}
@@ -303,7 +321,7 @@ export default function MyProfile() {
               />
             </Form.Item>
             <Form.Item<ProfileForm>
-              name="emailId"
+              name="email"
               label="Email"
               rules={[
                 { required: true, message: "*Email ID is required" },
@@ -317,6 +335,7 @@ export default function MyProfile() {
                 className={styles.input}
                 placeholder="Email Address"
                 size="middle"
+                disabled
               />
             </Form.Item>
           </Flex>
@@ -329,6 +348,14 @@ export default function MyProfile() {
           >
             Update Profile
           </Button>
+          {profileResponse && (
+            <div className={styles.profileSuccess}>
+              {"Profile updated successfully"}
+            </div>
+          )}
+          {profileError && (
+            <div className={styles.profileError}>{profileError?.message}</div>
+          )}
         </Flex>
       </Form>
     );
@@ -340,6 +367,15 @@ export default function MyProfile() {
         <Flex justify="center" align="center" gap={10}>
           <Spin size="large" />
         </Flex>
+      );
+    }
+
+    if (profileError) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
       );
     }
 

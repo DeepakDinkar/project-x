@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Collapse,
@@ -7,24 +8,33 @@ import {
   Space,
   Spin,
 } from "antd";
-import { useEffect, useRef, useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
+import { STATUS } from "../../constants/messages.constants";
 import useFetch from "../../hooks/useFetch";
 import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 import { Course } from "../../models/Course";
+import { Status } from "../../models/ExceptionProps";
 import { VerticalData } from "../../models/Vertical";
 import { setVerticals } from "../../redux/reducers/verticalsReducer";
 import { getTrendingCourses } from "../../services/courseApi";
+import { getUserCourses } from "../../services/userApi";
 import { getVerticals } from "../../services/verticalsApi";
-import styles from "./MyCourses.module.scss";
 import Exception from "../../utils/Exception/Exception";
-import { Status } from "../../models/ExceptionProps";
-import { STATUS } from "../../constants/messages.constants";
+import {
+  filterCurrentCourses,
+  filterPreviousCourses,
+  filterUpcomingCourses,
+} from "../../utils/dateUtils";
+import styles from "./MyCourses.module.scss";
 
 export default function MyCourses() {
   const pageRef = useRef<number>(1);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     loading: isCoursesLoading,
     data: courseData,
@@ -32,85 +42,18 @@ export default function MyCourses() {
     fetch: coursesFetch,
   } = useFetch(getTrendingCourses);
   const [courses, setCourses] = useState<Course[]>([]);
-
-  const items: CollapseProps["items"] = [
-    {
-      key: "1",
-      label: "Previous",
-      children: (
-        <div>
-          <Flex vertical gap={"1.5rem"}>
-            <Flex
-              justify="space-around"
-              style={{ alignItems: "center" }}
-              className={styles.myCourseContainer}
-            >
-              <div className={styles.dateWrapper}>
-                <span className={`${styles.dateText} font-bold common-header`}>
-                  20
-                </span>
-                <span className="font-default font-bold text-uppercase">
-                  Nov
-                </span>
-              </div>
-              <Flex vertical>
-                <div
-                  className={`${styles.courseTitle} text-uppercase font-bold`}
-                >
-                  leadership and business management
-                </div>
-                <div className={`${styles.courseSubTitle} font-bold`}>
-                  International Leadership
-                </div>
-              </Flex>
-              <div className={`${styles.courseSubTitle}`}>
-                Dubai, UAE | Nov 20, 2023
-              </div>
-              <div>
-                <Button type="link" className={styles.locationBtn}>
-                  See Location
-                </Button>
-              </div>
-            </Flex>
-            <Flex
-              justify="space-around"
-              style={{ alignItems: "center" }}
-              className={styles.myCourseContainer}
-            >
-              <div className={styles.dateWrapper}>
-                <span className={`${styles.dateText} font-bold common-header`}>
-                  20
-                </span>
-                <span className="font-default font-bold text-uppercase">
-                  Nov
-                </span>
-              </div>
-              <Flex vertical>
-                <div
-                  className={`${styles.courseTitle} text-uppercase font-bold`}
-                >
-                  leadership and business management
-                </div>
-                <div className={`${styles.courseSubTitle} font-bold`}>
-                  International Leadership
-                </div>
-              </Flex>
-              <div className={`${styles.courseSubTitle}`}>
-                Dubai, UAE | Nov 20, 2023
-              </div>
-              <div>
-                <Button type="link" className={styles.locationBtn}>
-                  See Location
-                </Button>
-              </div>
-            </Flex>
-          </Flex>
-        </div>
-      ),
-    },
-  ];
-
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+  const { data: mycourses, loading, error } = useFetchOnLoad(getUserCourses);
+
+  const currentCourses = useMemo(() => {
+    return filterCurrentCourses(mycourses);
+  }, [mycourses]);
+  const previouseCourses = useMemo(() => {
+    return filterPreviousCourses(mycourses);
+  }, [mycourses]);
+  const upcomingCourses = useMemo(() => {
+    return filterUpcomingCourses(mycourses);
+  }, [mycourses]);
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
@@ -131,9 +74,155 @@ export default function MyCourses() {
     }
   }, [courseData, courseData?.content]);
 
+  const getMyCoursesRenderer = (courses: any[]) => {
+    return courses?.map((course: any, index: number) => (
+      <Flex
+        key={index}
+        justify="space-around"
+        style={{ alignItems: "center" }}
+        className={styles.myCourseContainer}
+      >
+        <div className={styles.dateWrapper}>
+          <span className={`${styles.dateText} font-bold common-header`}>
+            {dayjs(course?.courseDate).format("DD")}
+          </span>
+          <span className="font-default font-bold text-uppercase">
+            {dayjs(course?.courseDate).format("MMM")}
+          </span>
+        </div>
+        <Flex vertical>
+          <div className={`${styles.courseTitle} text-uppercase font-bold`}>
+            leadership and business management
+          </div>
+          <div className={`${styles.courseSubTitle} font-bold`}>
+            {course?.coursesName}
+          </div>
+        </Flex>
+        <div className={`${styles.courseSubTitle}`}>
+          {course?.location ?? "Virtual"} |{" "}
+          {dayjs(course?.courseDate).format("MMM DD, YYYY")}
+        </div>
+        <div>
+          <Button type="link" className={styles.locationBtn}>
+            See Location
+          </Button>
+        </div>
+      </Flex>
+    ));
+  };
+
+  const items: CollapseProps["items"] = [
+    {
+      key: "1",
+      label: "Previous",
+      children: (
+        <div>
+          <Flex vertical gap={"1.5rem"}>
+            {getMyCoursesRenderer(previouseCourses)}
+          </Flex>
+        </div>
+      ),
+    },
+  ];
+
   const loadMoreData = () => {
     pageRef.current = pageRef.current + 1;
     coursesFetch(pageRef.current);
+  };
+
+  const getRender = () => {
+    if (loading) {
+      return (
+        <Flex justify="center" align="center" gap={10}>
+          <Spin size="large" />
+        </Flex>
+      );
+    }
+    if (error) {
+      return (
+        <Exception
+          status={Status.SERVER_ERROR}
+          subTitle={STATUS.SERVER_ERROR}
+        />
+      );
+    }
+    if (mycourses?.length == 0) {
+      return (
+        <Flex vertical align="center">
+          <Flex vertical>
+            <p className="sub-header font-bol">
+              Uh oh! Looks like you have not purchased courses yet.
+            </p>
+            <Button
+              type="primary"
+              style={{ margin: "3rem auto" }}
+              onClick={() => navigate("/")}
+            >
+              Explore Courses
+            </Button>
+          </Flex>
+        </Flex>
+      );
+    }
+    return getMyCoursesList();
+  };
+
+  const getMyCoursesList = () => {
+    return (
+      <>
+        {renderCurrentCourses()}
+        {renderUpcomingCourses()}
+        {renderPreviousCourses()}
+      </>
+    );
+  };
+
+  const renderCurrentCourses = () => {
+    return currentCourses?.length > 0 ? (
+      <div>
+        <div
+          className="font-default text-uppercase font-bold"
+          style={{ padding: "1rem 0" }}
+        >
+          HAPPENNING NOW
+        </div>
+        <Flex vertical gap={"1.5rem"}>
+          {getMyCoursesRenderer(currentCourses)}
+        </Flex>
+      </div>
+    ) : null;
+  };
+
+  const renderUpcomingCourses = () => {
+    return upcomingCourses?.length > 0 ? (
+      <div>
+        <div
+          className="font-default text-uppercase font-bold"
+          style={{ padding: "1rem 0" }}
+        >
+          UPCOMING
+        </div>
+        <Flex vertical gap={"1.5rem"}>
+          {getMyCoursesRenderer(upcomingCourses)}
+        </Flex>
+      </div>
+    ) : null;
+  };
+
+  const renderPreviousCourses = () => {
+    return previouseCourses?.length > 0 ? (
+      <div style={{ padding: "1.5rem 0" }}>
+        <Flex>
+          <Collapse
+            className="mycourses"
+            defaultActiveKey={["1"]}
+            ghost
+            items={items}
+            expandIconPosition="end"
+          />
+        </Flex>
+      </div>
+    ) : null;
   };
 
   const getLoadMoreButton = () => {
@@ -201,250 +290,11 @@ export default function MyCourses() {
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"4.5rem"}>
           <div className="main-header font-bold font-ubuntu">My Courses</div>
-
-          <div>
-            <Flex vertical gap={"1.5rem"}>
-              <div className="font-default text-uppercase font-bold">
-                <div className="green-dot"></div>HAPPENING NOW
-              </div>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-            </Flex>
-          </div>
-          <div>
-            <div
-              className="font-default text-uppercase font-bold"
-              style={{ padding: "1rem 0" }}
-            >
-              UPCOMING
-            </div>
-            <Flex vertical gap={"1.5rem"}>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-              <Flex
-                justify="space-around"
-                style={{ alignItems: "center" }}
-                className={styles.myCourseContainer}
-              >
-                <div className={styles.dateWrapper}>
-                  <span
-                    className={`${styles.dateText} font-bold common-header`}
-                  >
-                    20
-                  </span>
-                  <span className="font-default font-bold text-uppercase">
-                    Nov
-                  </span>
-                </div>
-                <Flex vertical>
-                  <div
-                    className={`${styles.courseTitle} text-uppercase font-bold`}
-                  >
-                    leadership and business management
-                  </div>
-                  <div className={`${styles.courseSubTitle} font-bold`}>
-                    International Leadership
-                  </div>
-                </Flex>
-                <div className={`${styles.courseSubTitle}`}>
-                  Dubai, UAE | Nov 20, 2023
-                </div>
-                <div>
-                  <Button type="link" className={styles.locationBtn}>
-                    See Location
-                  </Button>
-                </div>
-              </Flex>
-            </Flex>
-          </div>
-          <div style={{ padding: "1.5rem 0" }}>
-            <Flex>
-              <Collapse
-                className="mycourses"
-                defaultActiveKey={["1"]}
-                ghost
-                items={items}
-                expandIconPosition="end"
-              />
-            </Flex>
-          </div>
-
-          <p className="sub-header font-bol">
-            Uh oh! Looks like you have not enrolled in any of the courses yet.
-          </p>
-          <Button type="primary" style={{ margin: "3rem 0" }}>
-            Explore Courses
-          </Button>
+          {getRender()}
         </Flex>
         <Divider className={styles.divider} />
 
-        <div className="common-header font-bold">Trending Topics</div>
+        <div className="common-header font-bold">Trending Courses</div>
         {getCoursesRenderer()}
       </div>
     </div>

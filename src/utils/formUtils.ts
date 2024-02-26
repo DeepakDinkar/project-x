@@ -37,12 +37,13 @@ export const mapProfilePayLoad = (values: ProfileForm): ProfilePayload => {
 
   payload.firstName = values.firstName;
   payload.lastName = values.lastName;
-  payload.address1 = values.addressLine1;
-  payload.address2 = values.addressLine2;
-  payload.phoneNo = values.mobile;
+  payload.address1 = values.address1;
+  payload.address2 = values.address2;
+  payload.phoneNo = values.phoneNo;
   payload.city = values.city;
-  payload.zipCode = values.zipcode;
+  payload.zipCode = values.zipCode;
   payload.country = values.country;
+  payload.imageUrl = values.imageUrl;
 
   return payload;
 };

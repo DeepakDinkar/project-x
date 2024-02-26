@@ -9,9 +9,7 @@ const useFetch = (fetchFunction: (...args: any) => Promise<any>) => {
 
   const fetch = useCallback(
     async (...args: any) => {
-      setLoading(true);
-      setError(null);
-
+      resetState();
       return fetchFunction(...args)
         .then((result) => {
           setData(result);
@@ -25,6 +23,12 @@ const useFetch = (fetchFunction: (...args: any) => Promise<any>) => {
     },
     [fetchFunction]
   );
+
+  const resetState = () => {
+    setLoading(true);
+    setError(null);
+    setData(null);
+  };
 
   return { loading, data, error, fetch };
 };
