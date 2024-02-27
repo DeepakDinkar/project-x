@@ -16,9 +16,11 @@ import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
 import { ModalView, useModalContext } from "../../../context/ModalContext";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const { setView } = useModalContext();
+  const { t } = useTranslation();
 
   const {
     fetch: loginFetch,
@@ -55,7 +57,7 @@ export default function Login() {
     <div className="modal-container">
       <Form name="loginForm" onFinish={onLoginSubmit}>
         <Flex vertical className={styles.modalWrapper}>
-          <h2>Log in</h2>
+          <h2>{t('modals.login')}</h2>
           <Form.Item<LoginForm>
             name="email"
             rules={[
@@ -92,7 +94,7 @@ export default function Login() {
             className={styles.forgetPassword}
             onClick={() => setView(ModalView.ForgetPassword)}
           >
-            Forget Password
+            {t('modals.forgetPassword')}
           </Typography.Link>
           <Button
             htmlType="submit"
@@ -101,7 +103,7 @@ export default function Login() {
             style={{ margin: "1.5rem auto 0" }}
             loading={isLoginLoading}
           >
-            Log in
+            {t('modals.login')}
           </Button>
           {loginError && (
             <div className={styles.loginError}>{loginError.message}</div>
@@ -110,24 +112,24 @@ export default function Login() {
           <Divider className={styles.divider} />
           <Button className={styles.outlineBtn} onClick={() => googleLogin()}>
             <GoogleIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
-            Continue with google
+            {t('modals.google')}
           </Button>
           <Button className={styles.outlineBtn}>
             <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
-            Continue with facebook
+            {t('modals.facebook')}
           </Button>
           <Divider className={styles.divider} />
           <div className={styles.signupContainer}>
-            <span>Not a member?</span>
+            <span>{t('modals.membership')}</span>
             <p>
               <Button
                 type="link"
                 className={styles.signupBtn}
                 onClick={() => setView(ModalView.Register)}
               >
-                Sign up
+                {t('modals.signup')}
               </Button>{" "}
-              to get latest updates and exciting offers on courses
+              {t('modals.latestUpdates')}
             </p>
           </div>
         </Flex>

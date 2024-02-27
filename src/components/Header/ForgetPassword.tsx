@@ -8,6 +8,7 @@ import { MailIcon } from "../../utils/svgs/MailIcon";
 import styles from "./Login/Login.module.scss";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { ModalView, useModalContext } from "../../context/ModalContext";
+import { useTranslation } from "react-i18next";
 
 type ForgetPassword = {
   emailId: string;
@@ -15,6 +16,7 @@ type ForgetPassword = {
 
 export default function ForgetPassword() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { fetch, loading, error } = useFetch(forgetPassword);
   const { setView } = useModalContext();
 
@@ -33,7 +35,7 @@ export default function ForgetPassword() {
           <div className={styles.backBtn}>
             <ArrowLeftOutlined onClick={() => setView(ModalView.Login)} />
           </div>
-          <h2>Forget Password</h2>
+          <h2>{t("modals.forgetPassword")}</h2>
           <Form.Item
             name="email"
             rules={[
@@ -52,8 +54,7 @@ export default function ForgetPassword() {
             />
           </Form.Item>
           <div style={{ padding: "3rem 0 5rem" }}>
-            You will receive a mail on your registered email for a password
-            change.
+            {t("modals.forgetPasswordMessage")}
           </div>
           <Button
             htmlType="submit"
@@ -62,7 +63,7 @@ export default function ForgetPassword() {
             style={{ margin: "1.5rem auto 0" }}
             loading={loading}
           >
-            Sign Up
+            {t("modals.signup")}
           </Button>
           {error && <div className={styles.loginError}>{error.message}</div>}
         </Flex>

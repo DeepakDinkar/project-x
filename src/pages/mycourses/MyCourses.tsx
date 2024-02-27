@@ -30,11 +30,13 @@ import {
   filterUpcomingCourses,
 } from "../../utils/dateUtils";
 import styles from "./MyCourses.module.scss";
+import { useTranslation } from "react-i18next";
 
 export default function MyCourses() {
   const pageRef = useRef<number>(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     loading: isCoursesLoading,
     data: courseData,
@@ -114,7 +116,7 @@ export default function MyCourses() {
   const items: CollapseProps["items"] = [
     {
       key: "1",
-      label: "Previous",
+      label: t('userMyCoursesPage.previousCoursesText'),
       children: (
         <div>
           <Flex vertical gap={"1.5rem"}>
@@ -151,14 +153,14 @@ export default function MyCourses() {
         <Flex vertical align="center">
           <Flex vertical>
             <p className="sub-header font-bol">
-              Uh oh! Looks like you have not purchased courses yet.
+             {t('userMyCoursesPage.noPurchasesFoundText')}
             </p>
             <Button
               type="primary"
               style={{ margin: "3rem auto" }}
               onClick={() => navigate("/")}
             >
-              Explore Courses
+             {t('utils.exploreCoursesBtn')}
             </Button>
           </Flex>
         </Flex>
@@ -184,7 +186,7 @@ export default function MyCourses() {
           className="font-default text-uppercase font-bold"
           style={{ padding: "1rem 0" }}
         >
-          HAPPENNING NOW
+         {t('userMyCoursesPage.currentCoursesText')}
         </div>
         <Flex vertical gap={"1.5rem"}>
           {getMyCoursesRenderer(currentCourses)}
@@ -200,7 +202,7 @@ export default function MyCourses() {
           className="font-default text-uppercase font-bold"
           style={{ padding: "1rem 0" }}
         >
-          UPCOMING
+          {t('userMyCoursesPage.upcomingCoursesText')}
         </div>
         <Flex vertical gap={"1.5rem"}>
           {getMyCoursesRenderer(upcomingCourses)}
@@ -289,12 +291,12 @@ export default function MyCourses() {
     <div className={styles.mycoursesWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"4.5rem"}>
-          <div className="main-header font-bold font-ubuntu">My Courses</div>
+          <div className="main-header font-bold font-ubuntu">{t('userMyCoursesPage.title')}</div>
           {getRender()}
         </Flex>
         <Divider className={styles.divider} />
 
-        <div className="common-header font-bold">Trending Courses</div>
+        <div className="common-header font-bold">{t('utils.trendingCourses')}</div>
         {getCoursesRenderer()}
       </div>
     </div>

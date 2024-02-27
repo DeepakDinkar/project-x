@@ -12,11 +12,13 @@ import { getVerticals } from "../../services/verticalsApi";
 import Exception from "../../utils/Exception/Exception";
 import styles from "./Verticals.module.scss";
 import VerticalTag from "../../utils/svgs/VerticalTag";
+import { useTranslation } from "react-i18next";
 
 export default function Verticals() {
   const navigate = useNavigate();
   const breakPoint = useBreakPoint();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const {
     loading: isVerticalsLoading,
@@ -61,7 +63,7 @@ export default function Verticals() {
           >
             <div className={styles.verticalTag}>
               <VerticalTag />
-              Vertical
+              {t("verticalsPage.verticalsText")}
             </div>
             <Image
               src={vertical.imageUrl}
@@ -72,7 +74,7 @@ export default function Verticals() {
             <div className="card-bottom-wrapper">
               <span className="card-bottom-title">{vertical.title}</span>
               <span className="font-bold font-default">
-                {vertical.noOfCourses || 0} Topics
+                {vertical.noOfCourses || 0} {t('verticalsPage.topicsText')}
               </span>
             </div>
           </div>
@@ -107,9 +109,11 @@ export default function Verticals() {
     <div className={styles.verticalsWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"1.5rem"}>
-          <div className="main-header font-bold font-ubuntu">Verticals</div>
+          <div className="main-header font-bold font-ubuntu">
+            {t("verticalsPage.title")}
+          </div>
           <p className={`${styles.subHeader} sub-header font-bold`}>
-            Choose the latest verticals offered by our professionals
+            {t("verticalsPage.subTitle")}
           </p>
           <div
             className={`${styles.titleWrapper} text-center`}

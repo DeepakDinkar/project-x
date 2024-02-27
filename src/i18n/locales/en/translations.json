@@ -12,7 +12,7 @@
     "verticals": {
       "title": "Verticals",
       "subTitle": "Our 7 Business Verticals",
-      "verticalTopicsCountText": "Topics"
+      "verticalTopicsCountText": "Courses"
     },
     "explore": {
       "title": "Explore",
@@ -20,18 +20,70 @@
       "searchTopicsPlaceholder": "Search courses"
     }
   },
-  "verticalsPage": {},
+  "verticalsPage": {
+    "title": "Verticals",
+    "subTitle": "Choose the latest verticals offered by our professionals",
+    "verticalsText": "Vertical",
+    "topicsText": "Courses"
+  },
   "courseDetailsPage": {},
-  "aboutPage": {},
+  "aboutPage": {
+    "title": "About Us",
+    "subTitle": "Your Success is Our Mission!",
+    "para1": " We are a growing international training and consulting company with world-class trainers. Established in 2010, Qomo Institutehas been upskilling and rebranding organizations and individuals through auditing and needs analysis services, and training deliveries throughout the world.",
+    "para2": "We understand that the business community is highly competitive and continuous learning delivered by world-class practitioners to you/your organization will help brand success. Our services are a great solution to creating a “5% culture!",
+    "para3": "Years ago, an international study was performed, and it was discovered that 95% of employees ranged from poor to adequate [“meets expectations’]. The inverse of this demonstrates that only 5% of us care to do more. These 5% will offer propositions of value, that go above and beyond, in order to make the company, the governmental agency, the department, the team, the business unit, the individual better! Thus, it is our goal to reach out to 5% CLUB members and make their brand strong",
+    "para4": " Beyond training, our subject-matter experts within our 5 verticals, are available for: Consulting, Coaching, Mentoring, Auditing services. Please contact us if you have project needs that fit within any of these service buckets.",
+    "coreValuesTitle": "Our Core Values",
+    "coreValuesSubTitle1": "We celebrate knowledge and Idea sharing",
+    "coreValuesSubTitle2": "We believe in quality teaching",
+    "coreValuesSubTitle3": "We value education as the highest form of wealth",
+    "boardAdvisors": "Board of Advisors"
+  },
   "checkout": {},
-  "userProfilePage": {},
-  "userMyPurchasesPage": {},
-  "userMyCoursesPage": {},
+  "userProfilePage": {
+    "title": "My Profile",
+    "updateProfileBtn": "Update Profile"
+  },
+  "userMyPurchasesPage": {
+    "title": "My Purchases",
+    "noPurchasesFoundText": "Uh oh! Looks like you have not purchased courses yet."
+  },
+  "userMyCoursesPage": {
+    "title": "My Purchases",
+    "noPurchasesFoundText": "Uh oh! Looks like you have not enrolled in any of the courses yet.",
+    "currentCoursesText": "Happening Now",
+    "upcomingCoursesText": "Upcoming",
+    "previousCoursesText": "Previous"
+  },
   "utils": {
     "newCourse": "New Course",
     "trending": "Trending",
     "vertical": "Vertical",
-    "loadMoreBtn": "Load More"
+    "loadMoreBtn": "Load More",
+    "recommendedCourses": "Recommended Courses",
+    "trendingCourses": "Trending Courses",
+    "exploreCoursesBtn": "Explore Courses"
+  },
+  "modals": {
+    "login": "Log in",
+    "google": "Continue with google",
+    "facebook": "Continue with facebook",
+    "forgetPassword": "Forget Password",
+    "forgetPasswordMessage": "You will receive a mail on your registered email for a password change.",
+    "membership": "Not a member?",
+    "signup": "Sign up",
+    "latestUpdates": "to get latest updates and exciting offers on courses",
+    "next": "Next"
+  },
+  "header": {
+    "verticals": "Verticals",
+    "about": "About Us",
+    "login": "Log in",
+    "logout": "Logout",
+    "myProfile": "My Profile",
+    "myCourses": "My Courses",
+    "myPurchases": "My Purchases"
   },
   "footer": {
     "membership": {
@@ -41,25 +93,25 @@
       "membershipBtn": "Get Membership"
     },
     "requestCallback": {
-        "title": "Request a Conversation",
-        "requestCallbackBtn": "Send Request"
+      "title": "Request a Conversation",
+      "requestCallbackBtn": "Send Request"
     },
     "footerLinks": {
-        "contact": {
-            "title": "Contact"
-        },
-        "menu": {
-            "title": "Menu"
-        },
-        "services": {
-            "title": "Services"
-        },
-        "legal": {
-            "title": "Legal"
-        },
-        "institute": {
-            "title": "Qomoi Institute"
-        }
+      "contact": {
+        "title": "Contact"
+      },
+      "menu": {
+        "title": "Menu"
+      },
+      "services": {
+        "title": "Services"
+      },
+      "legal": {
+        "title": "Legal"
+      },
+      "institute": {
+        "title": "Qomoi Institute"
+      }
     }
   },
   "misc": {

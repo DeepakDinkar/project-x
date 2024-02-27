@@ -1,23 +1,24 @@
-import { Button, Divider, Flex, Image, Space, Spin } from "antd";
+import { Button, Divider, Flex, Image, Spin } from "antd";
+import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
+import { STATUS } from "../../constants/messages.constants";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useFetch from "../../hooks/useFetch";
 import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 import { Course } from "../../models/Course";
-import { VerticalData } from "../../models/Vertical";
-import { getTrendingCourses } from "../../services/courseApi";
-import { getVerticals } from "../../services/verticalsApi";
-import styles from "./MyPurchases.module.scss";
-import { setVerticals } from "../../redux/reducers/verticalsReducer";
-import Exception from "../../utils/Exception/Exception";
 import { Status } from "../../models/ExceptionProps";
-import { STATUS } from "../../constants/messages.constants";
-import { getUserPurchases } from "../../services/userApi";
-import dayjs from "dayjs";
 import { MyPurchase } from "../../models/MyPurchase";
-import { useNavigate } from "react-router-dom";
+import { VerticalData } from "../../models/Vertical";
+import { setVerticals } from "../../redux/reducers/verticalsReducer";
+import { getTrendingCourses } from "../../services/courseApi";
+import { getUserPurchases } from "../../services/userApi";
+import { getVerticals } from "../../services/verticalsApi";
+import Exception from "../../utils/Exception/Exception";
+import styles from "./MyPurchases.module.scss";
 
 const COURSE_FALLBACK_URL = import.meta.env.VITE_COURSE_FALLBACK_URL;
 
@@ -26,6 +27,7 @@ export default function MyPurchases() {
   const dispatch = useDispatch();
   const pageRef = useRef<number>(1);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [courses, setCourses] = useState<Course[]>([]);
   const {
     loading: isCoursesLoading,
@@ -70,7 +72,7 @@ export default function MyPurchases() {
     return (
       pageRef.current < courseData?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t("utils.loadMoreBtn")}
         </Button>
       )
     );
@@ -99,9 +101,9 @@ export default function MyPurchases() {
   const getCoursesRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Space style={{ padding: "3rem 0" }}>
+        <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />
-        </Space>
+        </Flex>
       );
     }
     if (isCoursesError) {
@@ -182,10 +184,14 @@ export default function MyPurchases() {
         <Flex vertical align="center">
           <Flex vertical>
             <p className="sub-header font-bol">
-              Uh oh! Looks like you have not purchased courses yet.
+              {t("userMyPurchasesPage.noPurchasesFoundText")}
             </p>
-            <Button type="primary" style={{ margin: "3rem auto" }} onClick={() => navigate('/')}>
-              Explore Courses
+            <Button
+              type="primary"
+              style={{ margin: "3rem auto" }}
+              onClick={() => navigate("/")}
+            >
+              {t("utils.exploreCoursesBtn")}
             </Button>
           </Flex>
         </Flex>
@@ -198,11 +204,13 @@ export default function MyPurchases() {
     <div className={styles.myPurchasesWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"4.5rem"}>
-          <div className="main-header font-bold font-ubuntu">My Purchases</div>
+          <div className="main-header font-bold font-ubuntu">
+            {t("userMyPurchasesPage.title")}
+          </div>
           {getRender()}
         </Flex>
         <Divider className={styles.divider} />
-        <div className="common-header font-bold">Trending Topics</div>
+        <div className="common-header font-bold">{t('utils.trendingCourses')}</div>
         {getCoursesRenderer()}
       </div>
     </div>

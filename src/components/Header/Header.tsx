@@ -19,6 +19,7 @@ import { logout } from "../../redux/reducers/userReducer";
 import { Cart } from "../../utils/svgs/Cart";
 
 import { googleLogout } from "@react-oauth/google";
+import { useTranslation } from "react-i18next";
 import { ModalView, useModalContext } from "../../context/ModalContext";
 import useFetch from "../../hooks/useFetch";
 import { Course } from "../../models/Course";
@@ -37,6 +38,7 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const breakPoints = useBreakPoint();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { state, dispatch: drawerDispatch } = useDrawer();
   const { setView } = useModalContext();
@@ -93,7 +95,7 @@ export default function Header() {
       key: "myProfile",
       label: (
         <Button type="link" onClick={() => navigate("/myprofile")}>
-          My Profile
+          {t("header.myProfile")}
         </Button>
       ),
     },
@@ -101,7 +103,7 @@ export default function Header() {
       key: "myPurchases",
       label: (
         <Button type="link" onClick={() => navigate("/mypurchases")}>
-          My Purchases
+          {t("header.myPurchases")}
         </Button>
       ),
     },
@@ -109,7 +111,7 @@ export default function Header() {
       key: "myCourses",
       label: (
         <Button type="link" onClick={() => navigate("/mycourses")}>
-          My Courses
+          {t("header.myCourses")}
         </Button>
       ),
     },
@@ -117,7 +119,7 @@ export default function Header() {
       key: "logOut",
       label: (
         <Button type="link" onClick={() => logOut()}>
-          Log Out
+          {t("header.logout")}
         </Button>
       ),
     },
@@ -163,7 +165,7 @@ export default function Header() {
         style={{ height: "56px !important" }}
         onClick={() => showModal()}
       >
-        Log in
+        {t("header.login")}
       </Button>
     );
   };
@@ -204,7 +206,7 @@ export default function Header() {
                   }`}
                   onClick={() => navigate("/courses")}
                 >
-                  Verticals
+                  {t("header.verticals")}
                 </Button>
                 <Button
                   type="link"
@@ -213,7 +215,7 @@ export default function Header() {
                   }`}
                   onClick={() => navigate("/about")}
                 >
-                  About us
+                  {t("header.about")}
                 </Button>
                 <Badge count={cartCourses.length} status="default" showZero>
                   <Cart

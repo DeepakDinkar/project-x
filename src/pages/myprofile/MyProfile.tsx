@@ -6,13 +6,13 @@ import {
   Form,
   Input,
   InputNumber,
-  Space,
   Spin,
   Upload,
   UploadProps,
-  message,
+  message
 } from "antd";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import GridCard from "../../components/GridCard/GridCard";
 import { STATUS } from "../../constants/messages.constants";
@@ -56,6 +56,7 @@ export default function MyProfile() {
   const breakPoints = useBreakPoint();
   const [form] = Form.useForm();
   const pageRef = useRef<number>(1);
+  const { t } = useTranslation();
   const {
     data,
     loading: isProfileLoading,
@@ -81,8 +82,6 @@ export default function MyProfile() {
 
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
 
-  console.log(imageUrlRef.current);
-
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
   }, [dispatch, verticals]);
@@ -103,7 +102,7 @@ export default function MyProfile() {
   }, [courseData, courseData?.content]);
 
   const getInitialValues = () => {
-    if (data && data.imageUrl) {
+    if (data ?? data.imageUrl) {
       imageUrlRef.current = data.imageUrl;
     }
     return data ?? null;
@@ -133,7 +132,7 @@ export default function MyProfile() {
   );
 
   const onProfileSubmit = (values: ProfileForm) => {
-    values.imageUrl = imageUrlRef.current ?? '';
+    values.imageUrl = imageUrlRef.current ?? "";
     fetch(values);
   };
 
@@ -346,7 +345,7 @@ export default function MyProfile() {
             htmlType="submit"
             loading={isProfileUpdateLoading}
           >
-            Update Profile
+            {t("userProfilePage.updateProfileBtn")}
           </Button>
           {profileResponse && (
             <div className={styles.profileSuccess}>
@@ -391,7 +390,7 @@ export default function MyProfile() {
     return (
       pageRef.current < courseData?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t("utils.loadMoreBtn")}
         </Button>
       )
     );
@@ -420,9 +419,9 @@ export default function MyProfile() {
   const getCoursesRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Space style={{ padding: "3rem 0" }}>
+        <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />
-        </Space>
+        </Flex>
       );
     }
     if (isCoursesError) {
@@ -451,11 +450,15 @@ export default function MyProfile() {
     <div className={styles.myprofileWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"1.5rem"}>
-          <div className="main-header font-bold font-ubuntu">My Profile</div>
+          <div className="main-header font-bold font-ubuntu">
+            {t("userProfilePage.updateProfileBtn")}
+          </div>
           {getRender()}
         </Flex>
         <Divider className={styles.divider} />
-        <div className="common-header font-bold">Recommended Courses</div>
+        <div className="common-header font-bold">
+          {t("utils.recommendedCourses")}
+        </div>
         {getCoursesRenderer()}
       </div>
     </div>

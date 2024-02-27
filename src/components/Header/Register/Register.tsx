@@ -12,10 +12,12 @@ import { registerUser } from "../../../services/userApi";
 import Country from "../../../utils/Country/Country";
 import { mapRegisterFormPayLoad } from "../../../utils/formUtils";
 import styles from "../Login/Login.module.scss";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { fetch, error, loading } = useFetch(registerUser);
   const { view, setView } = useModalContext();
 
@@ -110,7 +112,7 @@ export default function Register() {
           style={{ margin: "1.5rem auto 0", border: "1px solid" }}
           onClick={() => onNextClick()}
         >
-          Next
+          {t("modals.next")}
         </Button>
       </Flex>
     );
@@ -179,7 +181,7 @@ export default function Register() {
           style={{ margin: "1.5rem auto 0" }}
           loading={loading}
         >
-          Sign Up
+          {t("modals.signup")}
         </Button>
         {error && <div className={styles.loginError}>{error.message}</div>}
       </Flex>
@@ -199,7 +201,7 @@ export default function Register() {
           <div className={styles.backBtn}>
             <ArrowLeftOutlined onClick={handleBackBtn} />
           </div>
-          <h2>Sign Up</h2>
+          <h2>{t("modals.signup")}</h2>
           {getFormContainer()}
           {getPasswordContainer()}
         </Flex>

@@ -1,16 +1,18 @@
 import { Divider, Flex, Image } from "antd";
-import styles from "./About.module.scss";
+import { useTranslation } from "react-i18next";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import styles from "./About.module.scss";
 
 function About() {
   const mentors = [...new Array(20)];
   const breakPoint = useBreakPoint();
+  const { t } = useTranslation();
 
   return (
     <Flex vertical justify="center" className={styles.aboutUsWrapper}>
       <div className={styles.sectionHeaderWrapper}>
-        <p className={styles.sectionHeader}>About Us</p>
-        <p className={styles.sectionSubHeader}>Your Success is Our Mission!”</p>
+        <p className={styles.sectionHeader}>{t('aboutPage.title')}</p>
+        <p className={styles.sectionSubHeader}>{t('aboutPage.subTitle')}</p>
         <div className={styles.detailsWrapper}>
           <div className={styles.flexWrapper}>
             <div className={styles.detailsImageWrapper}>
@@ -31,35 +33,19 @@ function About() {
             </div>
             <div>
               <p>
-                We are a growing international training and consulting company
-                with world-class trainers. Established in 2010, Qomo Institute
-                has been upskilling and rebranding organizations and individuals
-                through auditing and needs analysis services, and training
-                deliveries throughout the world.
+              {t('aboutPage.para1')}
               </p>
               <p>&nbsp;</p>
               <p>
-                We understand that the business community is highly competitive
-                and continuous learning delivered by world-class practitioners
-                to you/your organization will help brand success. Our services
-                are a great solution to creating a “5% culture!
+              {t('aboutPage.para2')}
               </p>
               <p>&nbsp;</p>
               <p>
-                Years ago, an international study was performed, and it was
-                discovered that 95% of employees ranged from poor to adequate
-                [“meets expectations’]. The inverse of this demonstrates that
-                only 5% of us care to do more. These 5% will offer propositions
-                of value, that go above and beyond, in order to make the
-                company, the governmental agency, the department, the team, the
-                business unit, the individual better! Thus, it is our goal to
-                reach out to 5% CLUB members and make their brand strong
+              {t('aboutPage.para3')}
               </p>
               <p>&nbsp;</p>
               <p>
-                Beyond training, our subject-matter experts within our 5
-                verticals, are available for: Consulting, Coaching, Mentoring, Auditing services. Please contact us if you
-                have project needs that fit within any of these service buckets.
+              {t('aboutPage.para4')}
               </p>
             </div>
           </div>
@@ -68,8 +54,8 @@ function About() {
       <Divider className={styles.divider} />
       <div className="w-100">
         <Flex vertical justify="center">
-          <p className={styles.sectionHeader}>Our Core Values</p>
-          <Flex className={styles.coreValuesWrapper}>
+          <p className={styles.sectionHeader}>{t('aboutPage.coreValuesTitle')}</p>
+          <Flex className={styles.coreValuesWrapper} gap={25}>
             <div className={styles.coreValuesContainer}>
               <Image
                 src="/images/about-us/idea 1.png"
@@ -78,7 +64,7 @@ function About() {
                 preview={false}
               />
               <span className="standard-font-bold text-center">
-                We celebrate knowledge <br /> and Idea sharing
+                {t('aboutPage.coreValuesSubTitle1')}
               </span>
             </div>
             <div className={styles.coreValuesContainer}>
@@ -89,7 +75,7 @@ function About() {
                 preview={false}
               />
               <span className="standard-font-bold text-center">
-                We believe in quality <br /> teaching
+              {t('aboutPage.coreValuesSubTitle2')}
               </span>
             </div>
             <div className={styles.coreValuesContainer}>
@@ -97,9 +83,10 @@ function About() {
                 src="/images/about-us/value-proposition.png"
                 width={breakPoint?.md ? 100 : 40}
                 height={breakPoint?.md ? 100 : 40}
+                preview={false}
               />
               <span className="standard-font-bold text-center">
-                We value education as the <br /> highest form of wealth
+              {t('aboutPage.coreValuesSubTitle3')}
               </span>
             </div>
           </Flex>
@@ -107,7 +94,7 @@ function About() {
       </div>
       <Divider className={styles.divider} />
       <div className="w-100">
-        <p className={styles.sectionHeader}>Board of Advisors</p>
+        <p className={styles.sectionHeader}>{t('aboutPage.boardAdvisors')}</p>
         <Flex className={styles.mentorWrapper}>
           {mentors.map((_mentor, index) => (
             <Flex vertical key={index} className={styles.mentorCard}>
