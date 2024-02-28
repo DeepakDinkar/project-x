@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Divider, Flex, Form, Input, Typography } from "antd";
-import { jwtDecode } from "jwt-decode";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { ModalView, useModalContext } from "../../../context/ModalContext";
 import emailValidator from "../../../error/Validations/emailValidator";
 import useFetch from "../../../hooks/useFetch";
 import { LoginForm } from "../../../models/LoginForm";
 import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
-import { loginUser } from "../../../services/userApi";
+import { loginUser, loginWithGoogle } from "../../../services/userApi";
 import { mapLoginFormPayLoad } from "../../../utils/formUtils";
 import { FacebookIcon } from "../../../utils/svgs/FacebookIcon";
 import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
-import { ModalView, useModalContext } from "../../../context/ModalContext";
-import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const { setView } = useModalContext();
   const { t } = useTranslation();
+  const { fetch, loading: googleLoading } = useFetch(loginWithGoogle);
 
   const {
     fetch: loginFetch,
@@ -30,9 +30,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const responseMessage = (response: any) => {
-    const details = jwtDecode(response.access_token);
-    console.log(details);
-    dispatch(login({ userName: "John Doe" }));
+    fetch(response.access_token);
   };
 
   const onError = (response: any) => {
@@ -57,7 +55,7 @@ export default function Login() {
     <div className="modal-container">
       <Form name="loginForm" onFinish={onLoginSubmit}>
         <Flex vertical className={styles.modalWrapper}>
-          <h2>{t('modals.login')}</h2>
+          <h2>{t("modals.login")}</h2>
           <Form.Item<LoginForm>
             name="email"
             rules={[
@@ -94,7 +92,7 @@ export default function Login() {
             className={styles.forgetPassword}
             onClick={() => setView(ModalView.ForgetPassword)}
           >
-            {t('modals.forgetPassword')}
+            {t("modals.forgetPassword")}
           </Typography.Link>
           <Button
             htmlType="submit"
@@ -103,33 +101,37 @@ export default function Login() {
             style={{ margin: "1.5rem auto 0" }}
             loading={isLoginLoading}
           >
-            {t('modals.login')}
+            {t("modals.login")}
           </Button>
           {loginError && (
             <div className={styles.loginError}>{loginError.message}</div>
           )}
 
           <Divider className={styles.divider} />
-          <Button className={styles.outlineBtn} onClick={() => googleLogin()}>
+          <Button
+            className={styles.outlineBtn}
+            onClick={() => googleLogin()}
+            loading={googleLoading}
+          >
             <GoogleIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
-            {t('modals.google')}
+            {t("modals.google")}
           </Button>
           <Button className={styles.outlineBtn}>
             <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
-            {t('modals.facebook')}
+            {t("modals.facebook")}
           </Button>
           <Divider className={styles.divider} />
           <div className={styles.signupContainer}>
-            <span>{t('modals.membership')}</span>
+            <span>{t("modals.membership")}</span>
             <p>
               <Button
                 type="link"
                 className={styles.signupBtn}
                 onClick={() => setView(ModalView.Register)}
               >
-                {t('modals.signup')}
+                {t("modals.signup")}
               </Button>{" "}
-              {t('modals.latestUpdates')}
+              {t("modals.latestUpdates")}
             </p>
           </div>
         </Flex>

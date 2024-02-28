@@ -4,7 +4,8 @@ export const AUTH = Object.freeze({
   SIGN_UP: "/auth/signup",
   FORGET_PASSWORD: "/auth/forgot-password",
   REFRESH_TOKEN: '/auth/refreshToken',
-  LOGOUT: "/auth/signout"
+  LOGOUT: "/auth/signout",
+  GOOGLE_SIGNIN: "/auth/google-login"
 });
 
 // User Endpoints

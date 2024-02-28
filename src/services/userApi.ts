@@ -13,10 +13,17 @@ export const registerUser = async (userDetails: RegisterForm) => {
 
 export const loginUser = async (userDetails: LoginPayload) => {
   const response = await axiosConfig.post(AUTH.LOGIN, userDetails);
-  return response.status === 200
+  return response.status === 200 || response.status === 201
     ? Promise.resolve(response.data)
     : Promise.reject(response.data);
 };
+
+export const loginWithGoogle = async(token: string) => {
+  const response = await axiosConfig.post(AUTH.GOOGLE_SIGNIN, { token: token});
+  return response.status === 200 || response.status === 201
+  ? Promise.resolve(response.data)
+  : Promise.reject(response.data);
+}
 
 export const getUserProfile = async () => {
   const response = await axiosConfig.get(USER.GET_USER);
