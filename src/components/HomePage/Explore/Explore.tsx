@@ -6,8 +6,7 @@ import {
   Flex,
   Input,
   Select,
-  Space,
-  Spin,
+  Spin
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useRef, useState } from "react";
@@ -105,9 +104,9 @@ function Explore() {
       <>
         <GridCard courses={courses} />
         {isCoursesLoading ? (
-          <Space style={{ padding: "3rem 0" }}>
+          <Flex style={{ padding: "3rem 0" }} justify="center">
             <Spin size="large" />
-          </Space>
+          </Flex>
         ) : (
           getLoadMoreButton()
         )}
@@ -148,9 +147,9 @@ function Explore() {
   const getRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Space style={{ padding: "3rem 0" }}>
+        <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />
-        </Space>
+        </Flex>
       );
     }
     if (isCoursesError) {

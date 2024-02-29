@@ -9,25 +9,37 @@ import {
   Image,
   Input,
   Row,
-  Select,
 } from "antd";
+import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import countryValidator from "../../error/Validations/countryValidator";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import { Course } from "../../models/Course";
+import { SaveAddressForm } from "../../models/SaveAddressForm";
+import Country from "../../utils/Country/Country";
 import { BillingIcon } from "../../utils/svgs/BillingIcon";
 import styles from "./Checkout.module.scss";
-import dayjs from "dayjs";
+import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
+import useFetch from "../../hooks/useFetch";
+import { purchaseCourses } from "../../services/userApi";
+import { clearCart } from "../../redux/reducers/cartReducer";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const { fetch, loading } = useFetch(purchaseCourses);
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
 
-  const totalPrice = courses.reduce((total, course) => total + (course?.price ?? 0), 0);
+  const totalPrice = courses.reduce(
+    (total, course) => total + (course?.price ?? 0),
+    0
+  );
 
   useEffect(() => {
     if (!courses || courses?.length == 0) {
@@ -35,7 +47,6 @@ export default function Checkout() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courses?.length, navigate]);
-
 
   const getLiveOrVirtualLocation = (course: Course) => {
     if (course.location) {
@@ -73,6 +84,16 @@ export default function Checkout() {
     return "";
   };
 
+  const onSaveAddressSubmit = (values: SaveAddressForm) => {
+    console.log(values);
+  };
+
+  const proceedPayment = async () => {
+    const payload = mapPurchasePayLoad(courses);
+    fetch(payload);
+    dispatch(clearCart());
+  };
+
   const items: CollapseProps["items"] = [
     {
       key: "billingInfo",
@@ -84,34 +105,56 @@ export default function Checkout() {
       ),
       children: (
         <div>
-          <Form name="billingForm" labelCol={{ span: 3 }}>
-            <Form.Item name="addressName" label="Address Name*">
-              <Input className={styles.input} placeholder="" />
+          <Form name="billingForm" form={form} onFinish={onSaveAddressSubmit}>
+            <Form.Item<SaveAddressForm>
+              name="addressName"
+              label={
+                <>
+                  Address
+                  {breakPoint?.md && <br />} Name*
+                </>
+              }
+              rules={[{ required: true, message: "*Address Name is required" }]}
+            >
+              <Input className={styles.input} placeholder="Address Name*" />
             </Form.Item>
             <Form.Item label="Address">
-              <Form.Item name="address1">
+              <Form.Item<SaveAddressForm>
+                name="addressLine1"
+                rules={[
+                  { required: true, message: "*Address Line 1 is required" },
+                ]}
+              >
                 <Input className={styles.input} placeholder="Street Name" />
               </Form.Item>
-              <Form.Item name="address2">
+              <Form.Item<SaveAddressForm>
+                name="addressLine2"
+                rules={[
+                  { required: true, message: "*Address Line 2 is required" },
+                ]}
+              >
                 <Input
                   className={styles.input}
                   placeholder="Apartment, Suite, Unit etc.*"
                 />
               </Form.Item>
             </Form.Item>
-            <Form.Item>
-              <Form.Item name="country" label="Country*">
-                <Select
-                  options={[
-                    { value: "jack", label: "Jack" },
-                    { value: "lucy", label: "Lucy" },
-                    { value: "Yiminghe", label: "yiminghe" },
-                  ]}
-                ></Select>
+            <Flex gap={".75rem"} vertical={!breakPoint?.md}>
+              <Form.Item<SaveAddressForm>
+                name="country"
+                label="Country"
+                style={{ flexGrow: 1 }}
+                rules={[
+                  { required: true, message: "*Location is required" },
+                  { validator: countryValidator, message: "Invalid country" },
+                ]}
+              >
+                <Country form={form} fieldKey="country" />
               </Form.Item>
-              <Form.Item
+              <Form.Item<SaveAddressForm>
                 name="city"
                 label="City"
+                className={styles.city}
                 style={{ flex: 1 }}
                 rules={[{ required: true, message: "*City is required" }]}
               >
@@ -121,14 +164,34 @@ export default function Checkout() {
                   size="middle"
                 />
               </Form.Item>
-              <Form.Item name="zipCode" label="Zip Code*">
-                <Input className={styles.input} placeholder="" />
+              <Form.Item<SaveAddressForm>
+                name="zipCode"
+                label="Zip Code*"
+                style={{ flex: 1 }}
+                rules={[{ required: true, message: "*Zip Code is required" }]}
+              >
+                <Input className={styles.input} placeholder="Zip Code*" />
               </Form.Item>
-            </Form.Item>
+            </Flex>
             <Button htmlType="submit" className={styles.formSubmitBtn}>
               Save Address
             </Button>
           </Form>
+        </div>
+      ),
+    },
+    {
+      key: "purchase",
+      label: (
+        <Flex className={styles.billingHeader} align="center">
+          Payments
+        </Flex>
+      ),
+      children: (
+        <div>
+          <Button onClick={proceedPayment} loading={loading}>
+            Payment
+          </Button>
         </div>
       ),
     },
@@ -185,13 +248,15 @@ export default function Checkout() {
                             {getLiveOrVirtualLocation(course)}
                           </Flex>
                         </Flex>
-                        <div className="font-sm font-bold">${course?.price ?? 0}</div>
+                        <div className="font-sm font-bold">
+                          ${course?.price ?? 0}
+                        </div>
                       </Flex>
                     ))}
                   </Flex>
                   <Flex className={styles.couponCodeWrapper}>
-                    <Input />
-                    <Button>Apply Code</Button>
+                    <Input disabled />
+                    <Button disabled>Apply Code</Button>
                   </Flex>
                   <Flex className={styles.totalWrapper}>
                     <table>
@@ -206,7 +271,9 @@ export default function Checkout() {
                             {courses?.length} item{courses.length > 1 && "s"})
                           </td>
                           <td>
-                            <span className={styles.totalText}>${totalPrice}</span>
+                            <span className={styles.totalText}>
+                              ${totalPrice}
+                            </span>
                           </td>
                         </tr>
                       </tbody>

@@ -1,6 +1,7 @@
 import { AUTH, USER } from "../constants/endpoints.constants";
 import { LoginPayload } from "../models/LoginPayload";
 import { ProfileForm } from "../models/ProfileForm";
+import { PurchasePayload } from "../models/PurchasePayload";
 import { RegisterForm } from "../models/RegisterForm";
 import { axiosConfig } from "./axios-config";
 
@@ -18,12 +19,12 @@ export const loginUser = async (userDetails: LoginPayload) => {
     : Promise.reject(response.data);
 };
 
-export const loginWithGoogle = async(token: string) => {
-  const response = await axiosConfig.post(AUTH.GOOGLE_SIGNIN, { token: token});
+export const loginWithGoogle = async (token: string) => {
+  const response = await axiosConfig.post(AUTH.GOOGLE_SIGNIN, { token: token });
   return response.status === 200 || response.status === 201
-  ? Promise.resolve(response.data)
-  : Promise.reject(response.data);
-}
+    ? Promise.resolve(response.data)
+    : Promise.reject(response.data);
+};
 
 export const getUserProfile = async () => {
   const response = await axiosConfig.get(USER.GET_USER);
@@ -33,10 +34,7 @@ export const getUserProfile = async () => {
 };
 
 export const updateProfile = async (profile: ProfileForm) => {
-  const response = await axiosConfig.post(
-    USER.UPDATE_USER,
-    profile
-  );
+  const response = await axiosConfig.post(USER.UPDATE_USER, profile);
   return response?.status === 200 || response?.status === 201
     ? Promise.resolve(response.data)
     : Promise.reject(response.data);
@@ -70,3 +68,9 @@ export const getUserCourses = async () => {
     : Promise.reject(response.data);
 };
 
+export const purchaseCourses = async (payload: PurchasePayload[]) => {
+  const response = await axiosConfig.post(USER.BUY_COURSE, payload);
+  return response.status === 200 || response.status === 201
+    ? Promise.resolve(response.data)
+    : Promise.reject(response.data);
+};

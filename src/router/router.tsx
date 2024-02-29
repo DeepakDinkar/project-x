@@ -23,8 +23,8 @@ export default function AppRouter() {
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/mypurchases" element={<MyPurchases />} />
         <Route path="/myprofile" element={<MyProfile />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Route>
-      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 }

@@ -7,8 +7,7 @@ import {
   Image,
   Rate,
   Select,
-  Space,
-  Spin,
+  Spin
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
@@ -51,11 +50,19 @@ export default function CourseDetails() {
     data: courseDetails,
     loading: isLoading,
     error: isCourseDetailsError,
-  } = useFetchOnLoad(getCourseByCourseId, courseId);
+    fetch,
+  } = useFetch(getCourseByCourseId);
   const locationRef = useRef(0);
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
 
   const slug = courseDetails?.slug ?? "";
+
+  useEffect(() => {
+    const getData = async () => {
+      await fetch(courseId);
+    };
+    getData();
+  }, [courseId, fetch]);
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
@@ -115,9 +122,9 @@ export default function CourseDetails() {
   const getCoursesRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Space style={{ padding: "3rem 0" }}>
+        <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />
-        </Space>
+        </Flex>
       );
     }
     if (isCoursesError) {

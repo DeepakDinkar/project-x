@@ -1,13 +1,14 @@
 import { Badge, Button, Drawer, Flex, Image } from "antd";
-import { Dustbin } from "../../../utils/svgs/Dustbin";
-import { useBreakPoint } from "../../../hooks/useBreakPoint";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Course } from "../../../models/Course";
-import { removeFromCart } from "../../../redux/reducers/cartReducer";
-import Exception from "../../../utils/Exception/Exception";
-import { Status } from "../../../models/ExceptionProps";
+import { useNavigate } from "react-router-dom";
 import { STATUS } from "../../../constants/messages.constants";
+import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import { Course } from "../../../models/Course";
+import { Status } from "../../../models/ExceptionProps";
+import { removeFromCart } from "../../../redux/reducers/cartReducer";
+import { openModal } from "../../../redux/reducers/loginModalReducer";
+import Exception from "../../../utils/Exception/Exception";
+import { Dustbin } from "../../../utils/svgs/Dustbin";
 
 type Props = {
   isDrawerVisible: boolean;
@@ -21,13 +22,16 @@ export default function CartDrawer({
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isUserLoggedIn =
+    useSelector((state: { user: { login: boolean } }) => state.user)?.login ??
+    false;
 
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
 
   const navigateToCheckout = () => {
-    navigate("/checkout");
+    isUserLoggedIn ? navigate("/checkout") :  dispatch(openModal());
     closeDrawer();
   };
 

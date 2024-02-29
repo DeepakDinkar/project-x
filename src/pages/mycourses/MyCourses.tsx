@@ -5,11 +5,11 @@ import {
   CollapseProps,
   Divider,
   Flex,
-  Space,
-  Spin,
+  Spin
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
@@ -30,7 +30,6 @@ import {
   filterUpcomingCourses,
 } from "../../utils/dateUtils";
 import styles from "./MyCourses.module.scss";
-import { useTranslation } from "react-i18next";
 
 export default function MyCourses() {
   const pageRef = useRef<number>(1);
@@ -260,9 +259,9 @@ export default function MyCourses() {
   const getCoursesRenderer = () => {
     if (isCoursesLoading && pageRef.current === 1) {
       return (
-        <Space style={{ padding: "3rem 0" }}>
+        <Flex style={{ padding: "3rem 0" }} justify="center">
           <Spin size="large" />
-        </Space>
+        </Flex>
       );
     }
     if (isCoursesError) {

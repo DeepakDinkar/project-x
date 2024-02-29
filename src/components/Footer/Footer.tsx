@@ -1,8 +1,10 @@
 import { Collapse, CollapseProps, Flex, Image, Layout, List } from "antd";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import styles from "./Footer.module.scss";
 import RequestCallback from "./RequestCallback/RequestCallback";
-import { useTranslation } from "react-i18next";
+import { openModal } from "../../redux/reducers/loginModalReducer";
 
 const CONTACT_US = ["info@qomoi.com"];
 const MENU = ["Explore", "About Us", "Sign Up"];
@@ -19,6 +21,10 @@ const QOMOI_INSTITUTE = ["Careers", "News"];
 function Footer() {
   const breakPoints = useBreakPoint();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const isUserLoggedIn =
+    useSelector((state: { user: { login: boolean } }) => state.user)?.login ??
+    false;
 
   const getCollapseItems = (items: string[]) => {
     return (
@@ -30,6 +36,10 @@ function Footer() {
         ))}
       </Flex>
     );
+  };
+
+  const openSignInModal = () => {
+    dispatch(openModal());
   };
 
   const getContactUsMobile = () => {
@@ -161,14 +171,16 @@ function Footer() {
 
   return (
     <Layout>
-      <Flex className={styles.footerWrapper} vertical>
-        <p>{t("footer.membership.title")}</p>
-        <span>{t("footer.membership.subTitle")}</span>
-        <span>{t("footer.membership.profileText")}</span>
-        <button className={styles.signUp}>
-          {t("footer.membership.membershipBtn")}
-        </button>
-      </Flex>
+      {!isUserLoggedIn && (
+        <Flex className={styles.footerWrapper} vertical>
+          <p>{t("footer.membership.title")}</p>
+          <span>{t("footer.membership.subTitle")}</span>
+          <span>{t("footer.membership.profileText")}</span>
+          <button className={styles.signUp} onClick={openSignInModal}>
+            {t("footer.membership.membershipBtn")}
+          </button>
+        </Flex>
+      )}
       <RequestCallback />
       <div className={styles.contactUsWrapper}>
         <Flex gap={"2rem"} justify="space-between" vertical={!breakPoints?.lg}>
