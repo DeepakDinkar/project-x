@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Badge,
-  Button,
-  Divider,
-  Flex,
-  Image,
-  Rate,
-  Select,
-  Spin
-} from "antd";
+import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -21,7 +12,6 @@ import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { Course } from "../../../models/Course";
 import { Status } from "../../../models/ExceptionProps";
 import { VerticalData } from "../../../models/Vertical";
-import { addToCart } from "../../../redux/reducers/cartReducer";
 import { setVerticals } from "../../../redux/reducers/verticalsReducer";
 import {
   getCourseByCourseId,
@@ -31,12 +21,14 @@ import { getVerticals } from "../../../services/verticalsApi";
 import Exception from "../../../utils/Exception/Exception";
 import { isDatePassed30Days } from "../../../utils/commonUtils";
 import styles from "./CourseDetails.module.scss";
+import useCart from "../../../hooks/useCart";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const pageRef = useRef<number>(1);
+  const { addItemsToCart, loading } = useCart();
 
   const [courses, setCourses] = useState<Course[]>([]);
   const {
@@ -152,7 +144,8 @@ export default function CourseDetails() {
   const addCourseToCart = () => {
     const details = { ...courseDetails };
     details.locationIndex = locationRef.current;
-    dispatch(addToCart(details));
+    // dispatch(addToCart(details));
+    addItemsToCart(details);
   };
 
   const onSelectionChange = (locationIndex: number) => {
@@ -201,6 +194,24 @@ export default function CourseDetails() {
         });
       }
       return [];
+    };
+
+    const getSelectLocationContent = () => {
+      if (courseDetails?.location && courseDetails?.location?.length > 0) {
+        return (
+          <>
+            <span className="font-bold sub-header">Select Location & Date</span>
+            <Select
+              defaultValue={courseDetails?.location ? 0 : undefined}
+              placeholder="Choose Location & Date"
+              options={getLocationOptions()}
+              onChange={(value) => onSelectionChange(value)}
+            />
+          </>
+        );
+      } else {
+        return <span className="font-bold sub-header">No Locations Available</span>
+      }
     };
 
     return (
@@ -260,13 +271,7 @@ export default function CourseDetails() {
             justify={breakPoints?.md ? "start" : "center"}
             gap={"1.5rem"}
           >
-            <span className="font-bold sub-header">Select Location & Date</span>
-            <Select
-              defaultValue={0}
-              placeholder="Choose Location & Date"
-              options={getLocationOptions()}
-              onChange={(value) => onSelectionChange(value)}
-            />
+            {getSelectLocationContent()}
           </Flex>
           <Flex
             justify={breakPoints?.md ? "end" : "center"}
@@ -281,6 +286,7 @@ export default function CourseDetails() {
               className="text-uppercase"
               onClick={() => addCourseToCart()}
               disabled={courseDetails?.location?.length == 0}
+              loading={loading}
             >
               Add to cart
             </Button>

@@ -2,44 +2,46 @@ import {
   Badge,
   Button,
   Col,
-  Collapse,
-  CollapseProps,
   Flex,
   Form,
   Image,
   Input,
+  Modal,
   Row,
+  Steps,
 } from "antd";
 import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import countryValidator from "../../error/Validations/countryValidator";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import useCart from "../../hooks/useCart";
+import useFetch from "../../hooks/useFetch";
 import { Course } from "../../models/Course";
 import { SaveAddressForm } from "../../models/SaveAddressForm";
-import Country from "../../utils/Country/Country";
-import { BillingIcon } from "../../utils/svgs/BillingIcon";
-import styles from "./Checkout.module.scss";
-import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
-import useFetch from "../../hooks/useFetch";
 import { purchaseCourses } from "../../services/userApi";
-import { clearCart } from "../../redux/reducers/cartReducer";
+import Country from "../../utils/Country/Country";
+import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
+import { CartSuccess } from "../../utils/svgs/CartSuccess";
+import styles from "./Checkout.module.scss";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
+  const { clearCart } = useCart();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
 
   const totalPrice = courses.reduce(
-    (total, course) => total + (course?.price ?? 0),
+    (total, course) => total + (course?.courseAmt ?? 0),
     0
   );
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!courses || courses?.length == 0) {
@@ -86,116 +88,157 @@ export default function Checkout() {
 
   const onSaveAddressSubmit = (values: SaveAddressForm) => {
     console.log(values);
+    setCurrentStep(1);
   };
 
   const proceedPayment = async () => {
     const payload = mapPurchasePayLoad(courses);
-    fetch(payload);
-    dispatch(clearCart());
+    fetch(payload).then((response) => {
+      console.log(response);
+      setIsPaymentModalOpen(true);
+    });
   };
 
-  const items: CollapseProps["items"] = [
-    {
-      key: "billingInfo",
-      label: (
-        <Flex className={styles.billingHeader} align="center">
-          <BillingIcon />
-          Billing Info
-        </Flex>
-      ),
-      children: (
-        <div>
-          <Form name="billingForm" form={form} onFinish={onSaveAddressSubmit}>
+  const getBillingTitle = () => {
+    return (
+      <Flex className={styles.billingHeader} align="center">
+        Billing Info
+      </Flex>
+    );
+  };
+
+  const getPaymentTitle = () => {
+    return (
+      <Flex className={styles.billingHeader} align="center">
+        Payment
+      </Flex>
+    );
+  };
+
+  const getBillingContent = () => {
+    return (
+      <div className={currentStep === 1 ? styles.stepDisabled : ""}>
+        <Form name="billingForm" form={form} onFinish={onSaveAddressSubmit}>
+          <Form.Item<SaveAddressForm>
+            name="addressName"
+            label={
+              <>
+                Address
+                {breakPoint?.md && <br />} Name*
+              </>
+            }
+            rules={[{ required: true, message: "*Address Name is required" }]}
+          >
+            <Input className={styles.input} placeholder="Address Name*" />
+          </Form.Item>
+          <Form.Item label="Address">
             <Form.Item<SaveAddressForm>
-              name="addressName"
-              label={
-                <>
-                  Address
-                  {breakPoint?.md && <br />} Name*
-                </>
-              }
-              rules={[{ required: true, message: "*Address Name is required" }]}
+              name="addressLine1"
+              rules={[
+                { required: true, message: "*Address Line 1 is required" },
+              ]}
             >
-              <Input className={styles.input} placeholder="Address Name*" />
+              <Input className={styles.input} placeholder="Street Name" />
             </Form.Item>
-            <Form.Item label="Address">
-              <Form.Item<SaveAddressForm>
-                name="addressLine1"
-                rules={[
-                  { required: true, message: "*Address Line 1 is required" },
-                ]}
-              >
-                <Input className={styles.input} placeholder="Street Name" />
-              </Form.Item>
-              <Form.Item<SaveAddressForm>
-                name="addressLine2"
-                rules={[
-                  { required: true, message: "*Address Line 2 is required" },
-                ]}
-              >
-                <Input
-                  className={styles.input}
-                  placeholder="Apartment, Suite, Unit etc.*"
-                />
-              </Form.Item>
+            <Form.Item<SaveAddressForm>
+              name="addressLine2"
+              rules={[
+                { required: true, message: "*Address Line 2 is required" },
+              ]}
+            >
+              <Input
+                className={styles.input}
+                placeholder="Apartment, Suite, Unit etc.*"
+              />
             </Form.Item>
-            <Flex gap={".75rem"} vertical={!breakPoint?.md}>
-              <Form.Item<SaveAddressForm>
-                name="country"
-                label="Country"
-                style={{ flexGrow: 1 }}
-                rules={[
-                  { required: true, message: "*Location is required" },
-                  { validator: countryValidator, message: "Invalid country" },
-                ]}
-              >
-                <Country form={form} fieldKey="country" />
-              </Form.Item>
-              <Form.Item<SaveAddressForm>
-                name="city"
-                label="City"
-                className={styles.city}
-                style={{ flex: 1 }}
-                rules={[{ required: true, message: "*City is required" }]}
-              >
-                <Input
-                  className={styles.input}
-                  placeholder="Town/City*"
-                  size="middle"
-                />
-              </Form.Item>
-              <Form.Item<SaveAddressForm>
-                name="zipCode"
-                label="Zip Code*"
-                style={{ flex: 1 }}
-                rules={[{ required: true, message: "*Zip Code is required" }]}
-              >
-                <Input className={styles.input} placeholder="Zip Code*" />
-              </Form.Item>
-            </Flex>
-            <Button htmlType="submit" className={styles.formSubmitBtn}>
-              Save Address
-            </Button>
-          </Form>
-        </div>
-      ),
-    },
-    {
-      key: "purchase",
-      label: (
-        <Flex className={styles.billingHeader} align="center">
-          Payments
-        </Flex>
-      ),
-      children: (
-        <div>
-          <Button onClick={proceedPayment} loading={loading}>
-            Payment
+          </Form.Item>
+          <Flex gap={".75rem"} vertical={!breakPoint?.md}>
+            <Form.Item<SaveAddressForm>
+              name="country"
+              label="Country"
+              style={{ flexGrow: 1 }}
+              rules={[
+                { required: true, message: "*Location is required" },
+                { validator: countryValidator, message: "Invalid country" },
+              ]}
+            >
+              <Country form={form} fieldKey="country" />
+            </Form.Item>
+            <Form.Item<SaveAddressForm>
+              name="city"
+              label="City"
+              className={styles.city}
+              style={{ flex: 1 }}
+              rules={[{ required: true, message: "*City is required" }]}
+            >
+              <Input
+                className={styles.input}
+                placeholder="Town/City*"
+                size="middle"
+              />
+            </Form.Item>
+            <Form.Item<SaveAddressForm>
+              name="zipCode"
+              label="Zip Code*"
+              style={{ flex: 1 }}
+              rules={[{ required: true, message: "*Zip Code is required" }]}
+            >
+              <Input className={styles.input} placeholder="Zip Code*" />
+            </Form.Item>
+          </Flex>
+          <Button htmlType="submit" className={styles.formSubmitBtn}>
+            Save Address
           </Button>
+        </Form>
+      </div>
+    );
+  };
+
+  const getPaymentContent = () => {
+    return (
+      currentStep === 1 && (
+        <Button
+          className={styles.formSubmitBtn}
+          disabled={totalPrice === 0}
+          onClick={proceedPayment}
+          loading={loading}
+        >
+          Pay {totalPrice}
+        </Button>
+      )
+    );
+  };
+
+  const handlePaymentModalCancel = () => {
+    clearCart();
+    navigate("/mypurchases");
+  };
+
+  const getPaymentModal = () => {
+    return (
+      <Modal
+        destroyOnClose={true}
+        open={isPaymentModalOpen}
+        centered
+        closable={true}
+        onCancel={handlePaymentModalCancel}
+        footer={null}
+      >
+        <div className="modal-container">
+          <Flex vertical className={styles.modalWrapper} justify="center" align="center" gap={'1.5rem'}>
+            <h2>
+              Booking <br /> Successful!
+            </h2>
+            <CartSuccess/>
+            <p>
+              All the details regarding your course booking will be sent over to
+              your registered <b>email address.</b>
+            </p>
+          </Flex>
         </div>
-      ),
-    },
-  ];
+      </Modal>
+    );
+  };
 
   return (
     <div className={styles.checkoutWrapper}>
@@ -206,12 +249,23 @@ export default function Checkout() {
             <Row>
               <Col span={breakPoint?.lg ? 12 : 24}>
                 <div className={styles.billingFormWrapper}>
-                  <Collapse
+                  <Steps
                     className={styles.billingFormCollapse}
-                    defaultActiveKey={["billingInfo"]}
-                    ghost
-                    items={items}
-                    expandIconPosition="end"
+                    direction="vertical"
+                    size={breakPoint?.md ? "default" : "small"}
+                    current={currentStep}
+                    items={[
+                      {
+                        title: getBillingTitle(),
+                        description: getBillingContent(),
+                        disabled: currentStep == 1,
+                      },
+                      {
+                        title: getPaymentTitle(),
+                        description: getPaymentContent(),
+                        disabled: currentStep == 0,
+                      },
+                    ]}
                   />
                 </div>
               </Col>
@@ -249,7 +303,7 @@ export default function Checkout() {
                           </Flex>
                         </Flex>
                         <div className="font-sm font-bold">
-                          ${course?.price ?? 0}
+                          ${course?.courseAmt ?? 0}
                         </div>
                       </Flex>
                     ))}
@@ -285,6 +339,7 @@ export default function Checkout() {
           </div>
         </Flex>
       </div>
+      {getPaymentModal()}
     </div>
   );
 }

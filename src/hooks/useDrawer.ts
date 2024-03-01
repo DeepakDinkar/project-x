@@ -29,3 +29,5 @@ export const useDrawer = () => {
 
     return { state, dispatch };
 }
+
+export default useDrawer;

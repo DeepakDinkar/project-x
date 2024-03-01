@@ -6,7 +6,10 @@ export const AUTH = Object.freeze({
   RESET_PASSWORD: "/auth/reset-password",
   REFRESH_TOKEN: '/auth/refreshToken',
   LOGOUT: "/auth/signout",
-  GOOGLE_SIGNIN: "/auth/google-login"
+  GOOGLE_SIGNIN: "/auth/google-login",
+  GET_KEY: '/auth/get_key',
+  GET_STORED_DATA: '/auth/get_stored_data',
+  UPDATE_STORE_DATA: '/auth/store_data'
 });
 
 // User Endpoints

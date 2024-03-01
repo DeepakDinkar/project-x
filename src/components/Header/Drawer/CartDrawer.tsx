@@ -5,10 +5,10 @@ import { STATUS } from "../../../constants/messages.constants";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import { Course } from "../../../models/Course";
 import { Status } from "../../../models/ExceptionProps";
-import { removeFromCart } from "../../../redux/reducers/cartReducer";
 import { openModal } from "../../../redux/reducers/loginModalReducer";
 import Exception from "../../../utils/Exception/Exception";
 import { Dustbin } from "../../../utils/svgs/Dustbin";
+import useCart from "../../../hooks/useCart";
 
 type Props = {
   isDrawerVisible: boolean;
@@ -22,6 +22,7 @@ export default function CartDrawer({
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { removeItemsFromCart } = useCart();
   const isUserLoggedIn =
     useSelector((state: { user: { login: boolean } }) => state.user)?.login ??
     false;
@@ -31,7 +32,7 @@ export default function CartDrawer({
     [];
 
   const navigateToCheckout = () => {
-    isUserLoggedIn ? navigate("/checkout") :  dispatch(openModal());
+    isUserLoggedIn ? navigate("/checkout") : dispatch(openModal());
     closeDrawer();
   };
 
@@ -55,6 +56,10 @@ export default function CartDrawer({
         </span>
       );
     }
+  };
+
+  const removeCourseFromCart = (course: Course) => {
+    removeItemsFromCart(course);
   };
 
   const getRenderer = () => {
@@ -85,20 +90,13 @@ export default function CartDrawer({
                   {course.campaignTemplateCourseName}
                 </div>
                 <Flex gap={20} align="center">
-                  <span className="font-sm">Price: ${course?.price ?? 0}</span>
+                  <span className="font-sm">
+                    Price: ${course?.courseAmt ?? 0}
+                  </span>
                   {getLiveOrVirtualLocation(course)}
                 </Flex>
               </Flex>
-              <Dustbin
-                onClick={() =>
-                  dispatch(
-                    removeFromCart({
-                      id: course.id,
-                      locationIndex: course.locationIndex,
-                    })
-                  )
-                }
-              />
+              <Dustbin onClick={() => removeCourseFromCart(course)} />
             </Flex>
           ))}
           <Button

@@ -214,6 +214,24 @@
   }
 }
 
+.stepDisabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.modalWrapper {
+  gap: 1rem;
+  padding: 0 1rem;
+  text-align: center;
+
+  h2 {
+    font-family: $font-roboto-slab;
+    font-size: 1.5rem;
+    color: $primary;
+    font-weight: 500;
+  }
+}
+
 @media only screen and (max-width: $lg) {
   .checkoutCourseContainer {
     margin: 0 !important;

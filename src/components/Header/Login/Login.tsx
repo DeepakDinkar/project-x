@@ -116,7 +116,7 @@ export default function Login() {
             <GoogleIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
             {t("modals.google")}
           </Button>
-          <Button className={styles.outlineBtn}>
+          <Button className={styles.outlineBtn} disabled>
             <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
             {t("modals.facebook")}
           </Button>

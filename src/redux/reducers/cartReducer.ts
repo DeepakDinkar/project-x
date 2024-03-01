@@ -1,54 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Course } from "../../models/Course";
-import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
-import { message } from "antd";
-
-const CART_KEY = "CART";
-
-const getInitialItems = () => {
-  const items = SessionStorageUtils.getParseItem(CART_KEY);
-  return items ?? [];
-};
 
 const initialState: { items: Course[]; isDrawerVisible: boolean } = {
-  items: getInitialItems(),
+  items: [],
   isDrawerVisible: false,
-};
-
-const getItemIndex = (items: Course[], id: number, locationIndex: number) => {
-  return items.findIndex(
-    (item) => item.id == id && locationIndex == item.locationIndex
-  );
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
-      const { id, locationIndex } = action.payload;
-      if (getItemIndex(state.items, id, locationIndex) > -1) {
-        message.warning("Course already added to cart");
-      } else {
-        state.items = [...state.items, action.payload];
-        message.success("Course add to cart");
-      }
-      SessionStorageUtils.setParsedItem(CART_KEY, state.items);
+    updateCartItems: (state, action) => {
+      state.items = action.payload;
+    },
+    openCartDrawer: (state) => {
       state.isDrawerVisible = true;
-    },
-
-    removeFromCart: (state, action) => {
-      const { id, locationIndex } = action.payload;
-      const index = getItemIndex(state.items, id, locationIndex);
-      if (index !== -1) {
-        state.items.splice(index, 1);
-        SessionStorageUtils.setParsedItem(CART_KEY, state.items);
-        message.success("Course removed from cart");
-      }
-    },
-    clearCart: (state) => {
-      state.items = [];
-      SessionStorageUtils.clearSession();
     },
     closeCartDrawer: (state) => {
       state.isDrawerVisible = false;
@@ -56,7 +22,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, closeCartDrawer } =
+export const { updateCartItems, openCartDrawer, closeCartDrawer } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

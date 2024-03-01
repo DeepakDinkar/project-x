@@ -12,5 +12,5 @@ export interface Course {
     isTrending?: boolean;
     locationIndex?: number;
     location?: Array<any>;
-    price: number;
+    courseAmt: number;
 }

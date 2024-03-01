@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DRAWER } from "../../constants/drawer.constants";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
-import { useDrawer } from "../../hooks/useDrawer";
+import useDrawer from "../../hooks/useDrawer";
 import { logout } from "../../redux/reducers/userReducer";
 import { Cart } from "../../utils/svgs/Cart";
 

@@ -425,6 +425,12 @@ p {
 }
 
 .modal-container {
+  position: relative;
+  &::after {
+    content: '';
+    background: url("/images/owl.png");
+  }
+  
   padding-bottom: 1rem;
   .ant-btn,
   .ant-input,

@@ -17,9 +17,10 @@ export const mapPurchasePayLoad = (courses: Course[]): PurchasePayload[] => {
     payload.courseId = course.id;
     payload.location = getLocation(course)?.locationName ?? 'Virtual';
     payload.courseDate = getLocation(course)?.date;
-    payload.courseAmt = course.price ?? 0;
+    payload.courseAmt = course.courseAmt ?? 0;
     payload.transactionId = "transactionid";
     payload.slug = course.slug;
+    payload.imageUrl = course.imageUrl ?? '';
 
     purchases.push(payload);
   });

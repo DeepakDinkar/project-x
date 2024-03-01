@@ -3,15 +3,12 @@ import { ConfigProvider, ThemeConfig } from "antd";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
+import AppInitializer from "./components/AppInitializer/AppInitializer";
 import { ModalContextProvider } from "./context/ModalContext";
 import { useBreakPoint } from "./hooks/useBreakPoint";
 import "./i18n/config";
 import store from "./redux/store";
-import AppRouter from "./router/router";
 import "./theme/card.scss";
-import ScrollToTop from "./utils/ScrollTop/ScrollTop";
 
 function App() {
   const breakPoints = useBreakPoint();
@@ -37,10 +34,7 @@ function App() {
         <ConfigProvider theme={theme}>
           <BrowserRouter>
             <ModalContextProvider>
-              <ScrollToTop />
-              <Header />
-              <AppRouter />
-              <Footer />
+             <AppInitializer />
             </ModalContextProvider>
           </BrowserRouter>
         </ConfigProvider>

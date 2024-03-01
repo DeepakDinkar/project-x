@@ -5,4 +5,5 @@ export class PurchasePayload {
     transactionId!: string;
     slug!: string;
     location?: string;
+    imageUrl?:string;
 }
