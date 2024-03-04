@@ -11,6 +11,8 @@ const initialState = {
   userName: null,
   login: false,
   authToken: null,
+  isGoogle: false,
+  isNormal: false,
 };
 
 const getInitialState = () => {
