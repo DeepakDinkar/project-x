@@ -217,7 +217,7 @@ export default function CourseDetails() {
     };
 
     const getMentorInformation = () => {
-      const mentor = courseDetails.trainer ? courseDetails.trainer[0] : null;
+      const mentor = courseDetails?.trainer ? courseDetails?.trainer[0] : null;
 
       return (
         mentor && (
