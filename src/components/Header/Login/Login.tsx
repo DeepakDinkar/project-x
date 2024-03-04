@@ -35,6 +35,7 @@ export default function Login() {
 
   const responseMessage = (response: any) => {
     fetch(response.access_token).then((data) => {
+      data.userName = data.firstName;
       dispatch(login(data));
       dispatch(closeModal());
     });
