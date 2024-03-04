@@ -424,13 +424,29 @@ p {
   }
 }
 
+.ant-input-number-handler-wrap {
+  display: none;
+}
+
 .modal-container {
   position: relative;
+  z-index: 1;
   &::after {
-    content: '';
-    background: url("/images/owl.png");
+    content: "";
+    background: url(/images/owl.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 40%;
+    opacity: 0.1;
+    background-position: left;
+    margin-right: -24px;
   }
-  
+
   padding-bottom: 1rem;
   .ant-btn,
   .ant-input,
@@ -495,7 +511,8 @@ p {
     padding: 0 1.5rem !important;
     font-size: 1.5rem;
   }
-  .ant-select-selection-placeholder, .ant-select-selection-item {
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
     font-size: 1.2rem;
   }
 }

@@ -4,7 +4,8 @@ enum ModalView {
   Login = "login",
   ForgetPassword = "forgetPassword",
   Register = "Register",
-  ConfirmPassword = "ConfirmPassword"
+  ConfirmPassword = "ConfirmPassword",
+  ResetPassword = "ResetPassword"
 }
 
 type AppContextProviderProps = { children: React.ReactNode };

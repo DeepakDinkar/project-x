@@ -59,13 +59,20 @@ export default function Header() {
     useSelector((state: { cart: { isDrawerVisible: boolean } }) => state.cart)
       ?.isDrawerVisible ?? false;
 
+  useEffect(() => {
+    if(isRouteActive('/reset-password')) {
+      setView(ModalView.ResetPassword);
+      dispatch(openModal());
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, setView]);
+
   const logOut = async () => {
     await fetch();
     dispatch(logout());
     googleLogout();
   };
 
-  useEffect(() => {}, [user, user.login]);
 
   const showModal = () => {
     dispatch(openModal());

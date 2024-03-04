@@ -20,7 +20,11 @@ import styles from "./Login.module.scss";
 export default function Login() {
   const { setView } = useModalContext();
   const { t } = useTranslation();
-  const { fetch, loading: googleLoading } = useFetch(loginWithGoogle);
+  const {
+    fetch,
+    loading: googleLoading,
+    error: googleError,
+  } = useFetch(loginWithGoogle);
 
   const {
     fetch: loginFetch,
@@ -30,7 +34,10 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const responseMessage = (response: any) => {
-    fetch(response.access_token);
+    fetch(response.access_token).then((data) => {
+      dispatch(login(data));
+      dispatch(closeModal());
+    });
   };
 
   const onError = (response: any) => {
@@ -116,6 +123,9 @@ export default function Login() {
             <GoogleIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
             {t("modals.google")}
           </Button>
+          {googleError && (
+            <div className={styles.loginError}>{googleError.message}</div>
+          )}
           <Button className={styles.outlineBtn} disabled>
             <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
             {t("modals.facebook")}

@@ -15,6 +15,7 @@ export default function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<Home />} errorElement={<RouteError />} />
+      <Route path="/reset-password" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/courses" element={<Verticals />} />
       <Route path="/verticals/:slug" element={<Courses />} />

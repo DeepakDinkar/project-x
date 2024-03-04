@@ -39,7 +39,7 @@ export default function GridCard({ courses = [] }: Readonly<GridCardProps>) {
           justify="space-between"
           style={{ padding: "1.5rem" }}
         >
-          <Flex gap={5}>
+          <Flex gap={5} wrap="wrap">
             {isDatePassed30Days(course.courseAddedDate) && (
               <span className="card-chip font-bold">New Course</span>
             )}

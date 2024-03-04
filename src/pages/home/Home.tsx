@@ -159,7 +159,7 @@ function Home() {
               />
               <div className="card-overlay-wrapper h-100">
                 <Flex vertical className="h-100" justify="space-between">
-                  <Flex gap={5}>
+                  <Flex gap={5} wrap="wrap">
                     {isDatePassed30Days(
                       trendingCourses?.[currentSlide]?.courses[0]
                         ?.courseAddedDate

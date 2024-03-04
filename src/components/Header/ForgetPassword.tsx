@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input } from "antd";
+import { Button, Flex, Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import emailValidator from "../../error/Validations/emailValidator";
 import useFetch from "../../hooks/useFetch";
@@ -22,9 +22,8 @@ export default function ForgetPassword() {
 
   const onSubmit = (values: ForgetPassword) => {
     fetch(values).then(() => {
-      setTimeout(() => {
-        dispatch(closeModal());
-      }, 3000);
+      dispatch(closeModal());
+      message.success("Mail sent successfully");
     });
   };
 

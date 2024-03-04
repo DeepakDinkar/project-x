@@ -2,6 +2,7 @@ import { LoginForm } from "../models/LoginForm";
 import { ProfileForm } from "../models/ProfileForm";
 import { ProfilePayload } from "../models/ProfilePayload";
 import { RegisterForm } from "../models/RegisterForm";
+import { ResetPasswordPayload } from "../models/ResetPasswordPayload";
 import { LoginPayload } from "./../models/LoginPayload";
 import { RegisterPayload } from "./../models/RegisterPayload";
 
@@ -45,5 +46,15 @@ export const mapProfilePayLoad = (values: ProfileForm): ProfilePayload => {
   payload.country = values.country;
   payload.imageUrl = values.imageUrl;
 
+  return payload;
+};
+
+export const mapResetPasswordPayLoad = (
+  values: { password: string },
+  token: string
+): ResetPasswordPayload => {
+  const payload = new ResetPasswordPayload();
+  payload.newPassword = values.password;
+  payload.token = token;
   return payload;
 };

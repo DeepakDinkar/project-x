@@ -47,6 +47,13 @@ export const forgetPassword = async (payload: { emailId: string }) => {
     : Promise.reject(response.data);
 };
 
+export const resetPassword = async (payload: { token: string, newPassword: string }) => {
+  const response = await axiosConfig.post(AUTH.RESET_PASSWORD, payload);
+  return response.status === 200 || response.status === 201
+    ? Promise.resolve(response.data)
+    : Promise.reject(response.data);
+};
+
 export const logoutUser = async () => {
   const response = await axiosConfig.post(AUTH.LOGOUT);
   return response?.status === 200 || response?.status === 201

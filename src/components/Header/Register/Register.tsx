@@ -1,30 +1,28 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, Flex, Form, Input, InputNumber } from "antd";
 import { ReactNode } from "react";
-import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { ModalView, useModalContext } from "../../../context/ModalContext";
 import countryValidator from "../../../error/Validations/countryValidator";
 import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
 import useFetch from "../../../hooks/useFetch";
 import { RegisterForm } from "../../../models/RegisterForm";
-import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { registerUser } from "../../../services/userApi";
 import Country from "../../../utils/Country/Country";
 import { mapRegisterFormPayLoad } from "../../../utils/formUtils";
 import styles from "../Login/Login.module.scss";
-import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { fetch, error, loading } = useFetch(registerUser);
   const { view, setView } = useModalContext();
 
-  const onLoginSubmit = async (values: RegisterForm) => {
+  const onRegisterSubmit = async (values: RegisterForm) => {
     const payload = await mapRegisterFormPayLoad(values);
-    await fetch(payload);
-    dispatch(closeModal());
+    fetch(payload).then(() => {
+      setView(ModalView.Login);
+    });
   };
 
   const onNextClick = () => {
@@ -196,7 +194,7 @@ export default function Register() {
 
   return (
     <div className="modal-container">
-      <Form name="registerForm" form={form} onFinish={onLoginSubmit}>
+      <Form name="registerForm" form={form} onFinish={onRegisterSubmit}>
         <Flex vertical className={styles.modalWrapper}>
           <div className={styles.backBtn}>
             <ArrowLeftOutlined onClick={handleBackBtn} />

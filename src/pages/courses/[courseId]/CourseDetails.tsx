@@ -210,8 +210,44 @@ export default function CourseDetails() {
           </>
         );
       } else {
-        return <span className="font-bold sub-header">No Locations Available</span>
+        return (
+          <span className="font-bold sub-header">No Locations Available</span>
+        );
       }
+    };
+
+    const getMentorInformation = () => {
+      const mentor = courseDetails.trainer ? courseDetails.trainer[0] : null;
+
+      return (
+        mentor && (
+          <div style={{ marginTop: "1.5rem" }}>
+            <Flex className={styles.mentorCard} gap={"2rem"}>
+              <div className={styles.mentorImageWrapper}>
+                <Image
+                  src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
+                  height={breakPoints?.md ? 250 : 100}
+                  width={breakPoints?.md ? 250 : 100}
+                  preview={false}
+                />
+                <div className={styles.mentorCardCircle}></div>
+              </div>
+              <Flex
+                vertical
+                className="font-bold"
+                style={{ justifyContent: "center" }}
+                gap={"1rem"}
+              >
+                <span className="font-default text-uppercase">Trainer</span>
+                <span className="sub-header">{mentor?.trainerName}</span>
+                <span className="sub-header">{mentor?.phoneNumber}</span>
+                <span className="sub-header">{mentor?.email}</span>
+                <Button className="outline-btn">Reach Out</Button>
+              </Flex>
+            </Flex>
+          </div>
+        )
+      );
     };
 
     return (
@@ -305,14 +341,14 @@ export default function CourseDetails() {
             <Flex vertical gap={"1.5rem"} flex={1}>
               <div className="common-header font-bold">Accredited by</div>
               <Flex vertical gap={"1rem"}>
-                {/* <Image
+                <Image
                   height={breakPoints?.md ? 60 : 30}
                   width={breakPoints?.md ? 195 : 110}
                   style={{ padding: ".5rem 0" }}
                   src="https://s3-alpha-sig.figma.com/img/f2e2/47f3/e7ec3a77e2b669846e2d582131f3f8de?Expires=1704672000&Signature=mSysxUFo0LrgJWZhwBsf3W6OoWbLJ5WKVIl0BZAEA3uFG-o45W6naQ1c7kGvdHCcUlsmH0ShJQkyaMdNecKSbnKT~1WKa6U6iBU7X0q59Bq0c-pJ5RYbsl8Rwlk4jZOZJ701Me6PJqJ2SOAU3xObwuK~MJ8llkPd3GCziBHxUUEmaW8XjipVJAXUFO5oGFtmxqCvcfVUbUixJtJzUqOqdr1h7g5M6XGsxPhFP71h5UEdwvNjyJubB0sWiCINzS19cLw8eFAwe3x7oay9r-kUVe0uVQlRutq5~JOpoE4JS02ckZ8EKeI3dKx1g-q58VSmhs0o-6LFn9oQQlkhp4ob9Q__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
                   fallback="/images/courses/pexels-pavel-danilyuk-8438918 1.png"
                   preview={false}
-                /> */}
+                />
                 <div className="sub-header font-bold">
                   World Commerce And Contracting Association
                 </div>
@@ -328,32 +364,7 @@ export default function CourseDetails() {
                   commercial relationships. Get ready to embrace change and
                   innovation.
                 </p>
-                <div style={{ marginTop: "1.5rem" }}>
-                  <Flex className={styles.mentorCard} gap={"2rem"}>
-                    <div className={styles.mentorImageWrapper}>
-                      <Image
-                        src="/images/about-us/pexels-tony-jamesandersson-1674752-removebg-preview1.png"
-                        height={breakPoints?.md ? 250 : 100}
-                        width={breakPoints?.md ? 250 : 100}
-                      />
-                      <div className={styles.mentorCardCircle}></div>
-                    </div>
-                    <Flex
-                      vertical
-                      className="font-bold"
-                      style={{ justifyContent: "center" }}
-                      gap={"1rem"}
-                    >
-                      <span className="font-default text-uppercase">
-                        Trainer
-                      </span>
-                      <span className="sub-header">Jo Doe</span>
-                      <span className="sub-header">+971 4 447 57 11</span>
-                      <span className="sub-header">jodoe@gmail.com</span>
-                      <Button className="outline-btn">Reach Out</Button>
-                    </Flex>
-                  </Flex>
-                </div>
+                {getMentorInformation()}
               </Flex>
             </Flex>
             <Flex vertical flex={1} gap={"1.5rem"}>

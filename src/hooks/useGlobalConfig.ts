@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Course } from "../models/Course";
 import { updateCartItems } from "../redux/reducers/cartReducer";
@@ -10,41 +10,45 @@ import useFetch from "./useFetch";
 const SECRET_KEY = "secretKey";
 
 const useGlobalConfig = () => {
-  const secretKeyRef = useRef<string>();
-  const { data, loading, fetch: secretKeyFetch } = useFetch(getSecretKey);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [secretKey, setSecretKey] = useState<string>();
+  const { data, fetch: secretKeyFetch, error } = useFetch(getSecretKey);
   const { fetch } = useFetch(getStoredData);
   const dispatch = useDispatch();
 
-  if (data) {
-    secretKeyRef.current = data;
-  }
+  useEffect(() => {
+    if (data) {
+      setSecretKey(data);
+    }
+  }, [data]);
 
   useEffect(() => {
     const key = SessionStorageUtils.getItem(SECRET_KEY);
-    key ? (secretKeyRef.current = key) : secretKeyFetch();
+    key ? setSecretKey(key) : secretKeyFetch();
   }, [secretKeyFetch]);
 
   useEffect(() => {
-    if (secretKeyRef.current) {
-      dispatch(storeSecretKey(secretKeyRef.current));
+    if (secretKey) {
+      dispatch(storeSecretKey(secretKey));
 
-      fetch(secretKeyRef.current)
+      fetch(secretKey)
         .then((storeDetails: { json: string }) => {
           updateCartCourses(storeDetails);
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => setLoading(false));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, fetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, fetch, secretKey]);
 
   const updateCartCourses = (storeDetails: { json: string }) => {
-    if (storeDetails && storeDetails.json) {
+    if (storeDetails?.json) {
       const courseItems: Course[] = JSON.parse(storeDetails.json);
       dispatch(updateCartItems(courseItems));
     }
   };
 
-  return { loading };
+  return { loading, error };
 };
 
 export default useGlobalConfig;

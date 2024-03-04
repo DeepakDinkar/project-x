@@ -4,6 +4,23 @@
   padding: 5.5rem;
   justify-content: center;
   align-items: center;
+  position: relative;
+  z-index: 1;
+  &::after {
+    content: "";
+    background: url(/images/owl.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 65%;
+    opacity: 0.1;
+    background-position: left;
+    margin-right: -24px;
+  }
 
   .coreValuesWrapper {
     padding: 5.25rem 0;
