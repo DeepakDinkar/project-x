@@ -39,7 +39,7 @@ export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
   const { clearCart } = useCart();
   const courses: Course[] =
