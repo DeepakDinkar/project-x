@@ -20,33 +20,39 @@
       color: $white;
       background: $purple-100;
       text-transform: uppercase;
-      font-size: .625rem;
+      font-size: 0.625rem;
       font-weight: 700;
       position: absolute;
       z-index: 1;
       margin: 1.5rem;
-      padding: .4rem;
+      padding: 0.3rem 0.5rem;
       border-radius: 5px;
-      gap: 5px;
+      gap: 3px;
       align-items: center;
+
+      :global {
+        svg {
+          height: 9px;
+        }
+      }
     }
   }
 }
 
-@media screen and (max-width: $md) { 
-    .verticalListWrapper {
-        gap: 1.5rem !important;
-        margin: 1.5rem 0 !important;
-        grid-template-columns: repeat(2, 1fr) !important;
+@media screen and (max-width: $md) {
+  .verticalListWrapper {
+    gap: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    grid-template-columns: repeat(2, 1fr) !important;
 
-        .verticalTag { 
-          margin: 1.2rem !important;
-    
-          :global {
-            svg {
-              height: 10px;
-            }
-          }
+    .verticalTag {
+      margin: 1.2rem !important;
+
+      :global {
+        svg {
+          height: 10px;
         }
+      }
     }
+  }
 }

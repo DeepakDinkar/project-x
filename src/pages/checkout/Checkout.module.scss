@@ -231,6 +231,23 @@
   }
 }
 
+.saveAddressCheckbox {
+  font-weight: 400;
+}
+
+.paymentFailureTitle {
+  color: $red-100 !important;
+}
+
+.stripeIcon {
+  height: 50px;
+  width: 50px;
+}
+
+.paymentBtnWrapper {
+  padding: 15px 0 0;
+}
+
 @media only screen and (max-width: $lg) {
   .checkoutCourseContainer {
     margin: 0 !important;

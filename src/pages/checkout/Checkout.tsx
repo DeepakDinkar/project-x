@@ -1,6 +1,7 @@
 import {
   Badge,
   Button,
+  Checkbox,
   Col,
   Flex,
   Form,
@@ -11,7 +12,7 @@ import {
   Steps,
 } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import countryValidator from "../../error/Validations/countryValidator";
@@ -25,17 +26,28 @@ import Country from "../../utils/Country/Country";
 import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import styles from "./Checkout.module.scss";
+import { CartFailure } from "../../utils/svgs/CartFailure";
+import { StripeLogo } from "../../utils/svgs/StripeLogo";
+
+enum Payment {
+  SUCCESS = "success",
+  FAILURE = "failure",
+  IDLE = "idle",
+}
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const { fetch, loading } = useFetch(purchaseCourses);
   const { clearCart } = useCart();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
     [];
+  const addressRef = useRef<SaveAddressForm>();
+  const saveAddressRef = useRef<boolean>(false);
+  const [paymentStatus, setPaymentStatus] = useState<Payment>(Payment.IDLE);
 
   const totalPrice = courses.reduce(
     (total, course) => total + (course?.courseAmt ?? 0),
@@ -87,16 +99,30 @@ export default function Checkout() {
   };
 
   const onSaveAddressSubmit = (values: SaveAddressForm) => {
-    console.log(values);
+    addressRef.current = values;
     setCurrentStep(1);
   };
 
+  const onSaveAddressChange = (event: { target: { checked: boolean } }) => {
+    saveAddressRef.current = event.target.checked;
+  };
+
   const proceedPayment = async () => {
-    const payload = mapPurchasePayLoad(courses);
-    fetch(payload).then((response) => {
-      console.log(response);
-      setIsPaymentModalOpen(true);
-    });
+    const payload = mapPurchasePayLoad(
+      courses,
+      addressRef.current,
+      saveAddressRef.current
+    );
+    fetch(payload)
+      .then(() => {
+        setPaymentStatus(Payment.SUCCESS);
+      })
+      .catch(() => {
+        setPaymentStatus(Payment.FAILURE);
+      })
+      .finally(() => {
+        setIsPaymentModalOpen(true);
+      });
   };
 
   const getBillingTitle = () => {
@@ -186,6 +212,12 @@ export default function Checkout() {
               <Input className={styles.input} placeholder="Zip Code*" />
             </Form.Item>
           </Flex>
+          <Checkbox
+            className={styles.saveAddressCheckbox}
+            onChange={onSaveAddressChange}
+          >
+            Save Address for future purpose
+          </Checkbox>
           <Button htmlType="submit" className={styles.formSubmitBtn}>
             Save Address
           </Button>
@@ -197,21 +229,61 @@ export default function Checkout() {
   const getPaymentContent = () => {
     return (
       currentStep === 1 && (
-        <Button
-          className={styles.formSubmitBtn}
-          disabled={totalPrice === 0}
-          onClick={proceedPayment}
-          loading={loading}
-        >
-          Pay {totalPrice}
-        </Button>
+        <Flex vertical className={styles.paymentBtnWrapper}>
+          <div>
+            <span className={styles.totalText}>Total</span> ({courses?.length}{" "}
+            item{courses.length > 1 && "s"}) &nbsp; &nbsp;
+            <span className={styles.totalText}>${totalPrice}</span>
+          </div>
+
+          <div className="font-sm">Do not refresh the page while processing payment</div>
+          <Button
+            className={styles.formSubmitBtn}
+            disabled={totalPrice === 0}
+            onClick={proceedPayment}
+            loading={loading}
+          >
+            Pay with <StripeLogo className={styles.stripeIcon} />
+          </Button>
+        </Flex>
       )
     );
   };
 
   const handlePaymentModalCancel = () => {
-    clearCart();
-    navigate("/mypurchases");
+    if (paymentStatus == Payment.SUCCESS) {
+      clearCart();
+      navigate("/mypurchases");
+    }
+  };
+
+  const getSuccessPaymentContent = () => {
+    return (
+      <>
+        <h2>
+          Booking <br /> Successful!
+        </h2>
+        <CartSuccess />
+        <p>
+          All the details regarding your course booking will be sent over to
+          your registered <b>email address.</b>
+        </p>
+      </>
+    );
+  };
+
+  const getFailurePaymentContent = () => {
+    return (
+      <>
+        <h2 className={styles.paymentFailureTitle}>
+          Uh Oh!
+          <br />
+          Booking Unsuccessful
+        </h2>
+        <CartFailure />
+        <p>Something has gone wrong. Please try again to make your booking.</p>
+      </>
+    );
   };
 
   const getPaymentModal = () => {
@@ -221,19 +293,21 @@ export default function Checkout() {
         open={isPaymentModalOpen}
         centered
         closable={true}
-        onCancel={handlePaymentModalCancel}
+        onCancel={() => setIsPaymentModalOpen(false)}
+        afterClose={handlePaymentModalCancel}
         footer={null}
       >
         <div className="modal-container">
-          <Flex vertical className={styles.modalWrapper} justify="center" align="center" gap={'1.5rem'}>
-            <h2>
-              Booking <br /> Successful!
-            </h2>
-            <CartSuccess/>
-            <p>
-              All the details regarding your course booking will be sent over to
-              your registered <b>email address.</b>
-            </p>
+          <Flex
+            vertical
+            className={styles.modalWrapper}
+            justify="center"
+            align="center"
+            gap={"1.5rem"}
+          >
+            {paymentStatus === Payment.SUCCESS
+              ? getSuccessPaymentContent()
+              : getFailurePaymentContent()}
           </Flex>
         </div>
       </Modal>

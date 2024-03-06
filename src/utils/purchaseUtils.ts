@@ -1,8 +1,16 @@
 import { Course } from "../models/Course";
-import { PurchasePayload } from "../models/PurchasePayload";
+import { PurchaseCourse, PurchasePayload } from "../models/PurchasePayload";
+import { SaveAddressForm } from "../models/SaveAddressForm";
 
-export const mapPurchasePayLoad = (courses: Course[]): PurchasePayload[] => {
-  const purchases: PurchasePayload[] = [];
+export const mapPurchasePayLoad = (
+  courses: Course[],
+  address: SaveAddressForm | undefined,
+  saveAddres: boolean
+): PurchasePayload => {
+  const payload = new PurchasePayload();
+  payload.address = address;
+  payload.saveAddress = saveAddres;
+  payload.courses = [];
 
   const getLocation = (course: Course) => {
     if (course.location) {
@@ -12,18 +20,18 @@ export const mapPurchasePayLoad = (courses: Course[]): PurchasePayload[] => {
   };
 
   courses.forEach((course) => {
-    const payload = new PurchasePayload();
+    const purchaseCourse = new PurchaseCourse();
 
-    payload.courseId = course.id;
-    payload.location = getLocation(course)?.locationName ?? 'Virtual';
-    payload.courseDate = getLocation(course)?.date;
-    payload.courseAmt = course.courseAmt ?? 0;
-    payload.transactionId = "transactionid";
-    payload.slug = course.slug;
-    payload.imageUrl = course.imageUrl ?? '';
+    purchaseCourse.courseId = course.id;
+    purchaseCourse.location = getLocation(course)?.locationName ?? "Virtual";
+    purchaseCourse.courseDate = getLocation(course)?.date;
+    purchaseCourse.courseAmt = course.courseAmt ?? 0;
+    purchaseCourse.transactionId = "transactionid";
+    purchaseCourse.slug = course.slug;
+    purchaseCourse.imageUrl = course.imageUrl ?? "";
 
-    purchases.push(payload);
+    payload.courses.push(purchaseCourse);
   });
 
-  return purchases;
+  return payload;
 };
