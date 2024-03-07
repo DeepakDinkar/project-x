@@ -26,7 +26,21 @@
     "verticalsText": "Vertical",
     "topicsText": "Courses"
   },
-  "courseDetailsPage": {},
+  "courseDetailsPage": {
+    "selectLocationText": "Select Location & Date",
+    "noLocationText": "No Locations Available",
+    "courseTrainer": "Trainer",
+    "reachOutBtn": "Reach Out",
+    "keyTakeAwayText": "Key Take Aways",
+    "accreditedByText": "Accredited by",
+    "addToCartBtn": "Add to cart",
+    "downloadBrochureBtn": "DOWNLOAD BROCHURE"
+  },
+  "verticalDetailsPage": {
+    "filterText": "Filter",
+    "topicsAvailable": "Topics available",
+    "verticalDescription": "Choose the latest topics offered curated by our professionals"
+  },
   "aboutPage": {
     "title": "About Us",
     "subTitle": "Your Success is Our Mission!",
@@ -40,7 +54,33 @@
     "coreValuesSubTitle3": "We value education as the highest form of wealth",
     "boardAdvisors": "Board of Advisors"
   },
-  "checkout": {},
+  "checkout": {
+    "title": "Checkout",
+    "applyCode": "Apply Code",
+    "vat": "VAT",
+    "totalText": "Total",
+    "virtualText": "Live Virtual Training",
+    "face2Face": "Face 2 Face",
+    "virtualLocation": "Virtual",
+    "paymentFailure": {
+      "title": "Uh Oh! Booking Unsuccessful",
+      "description": "Something has gone wrong. Please try again to make your booking."
+    },
+    "paymentSuccess": {
+      "title": "Booking Successful!",
+      "description": "All the details regarding your course booking will be sent over to your registered email address."
+    },
+    "payment": {
+      "donotRefreshText": "Do not refresh the page while processing payment",
+      "payBtn": "Pay with",
+      "title": "Payment"
+    },
+    "billing":{
+      "saveBtn": "Save Address",
+      "saveAddressFuture": "Save Address for future purpose",
+      "title": "Billing Info"
+    }
+  },
   "userProfilePage": {
     "title": "My Profile",
     "updateProfileBtn": "Update Profile"
@@ -54,7 +94,8 @@
     "noPurchasesFoundText": "Uh oh! Looks like you have not enrolled in any of the courses yet.",
     "currentCoursesText": "Happening Now",
     "upcomingCoursesText": "Upcoming",
-    "previousCoursesText": "Previous"
+    "previousCoursesText": "Previous",
+    "seeLocationBtn": "See Location"
   },
   "utils": {
     "newCourse": "New Course",
@@ -63,6 +104,7 @@
     "loadMoreBtn": "Load More",
     "recommendedCourses": "Recommended Courses",
     "trendingCourses": "Trending Courses",
+    "similarCourses": "Similar Courses",
     "exploreCoursesBtn": "Explore Courses"
   },
   "modals": {
@@ -96,7 +138,8 @@
     },
     "requestCallback": {
       "title": "Request a Conversation",
-      "requestCallbackBtn": "Send Request"
+      "requestCallbackBtn": "Send Request",
+      "textAreaPlaceholderText": "I want to talk about..."
     },
     "footerLinks": {
       "contact": {
@@ -118,5 +161,10 @@
   },
   "misc": {
     "footerAppText": "Qomoi"
+  },
+  "appInitalizer": {
+    "title": "We apologize for the inconvenience, but our application is currently undergoing maintenance. Please check back later for updates. Thank you for your understanding.",
+    "subTitle": "Qomoi",
+    "loadingText": "Loading..."
   }
 }

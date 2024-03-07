@@ -6,4 +6,5 @@ export interface MyPurchase {
     purchasedDate: string;
     transactionId: string;
     imageUrl: string;
+    slug: string;
 }

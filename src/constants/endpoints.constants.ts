@@ -27,7 +27,9 @@ export const COURSES = Object.freeze({
   BANNER: "/banner",
   LOCATIONS: '/locations',
   RECOMMENDED: '/recommended',
-  SIMILAR: '/similar'
+  SIMILAR: '/similar',
+  TRENDING: '/trending',
+  TRAINERS: '/trainers'
 });
 
 // Verticals Endpoints

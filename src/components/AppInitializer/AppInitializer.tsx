@@ -6,10 +6,12 @@ import ScrollToTop from "../../utils/ScrollTop/ScrollTop";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { useTranslation } from "react-i18next";
 
 export default function AppInitializer() {
   const { loading, error } = useGlobalConfig();
   const breakPoints = useBreakPoint();
+  const { t } = useTranslation();
 
   if (error) {
     return (
@@ -17,8 +19,8 @@ export default function AppInitializer() {
         <Result
           style={{ maxWidth: breakPoints?.md ? "50%" : "100%" }}
           status="404"
-          title="We apologize for the inconvenience, but our application is currently undergoing maintenance. Please check back later for updates. Thank you for your understanding."
-          subTitle="Qomoi"
+          title={t('appInitalizer.title')}
+          subTitle={t('appInitalizer.subTitle')}
         />
       </Flex>
     );
@@ -33,7 +35,7 @@ export default function AppInitializer() {
       gap={25}
     >
       <Spin indicator={<LoadingOutlined style={{ fontSize: 100 }} spin />} />
-      <div>Loading...</div>
+      <div>{t('appInitalizer.loadingText')}</div>
     </Flex>
   ) : (
     <>

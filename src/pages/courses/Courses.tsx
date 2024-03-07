@@ -13,6 +13,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GridCard from "../../components/GridCard/GridCard";
@@ -57,6 +58,7 @@ function Courses() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
   const {
     data: verticalCourse,
@@ -185,7 +187,7 @@ function Courses() {
     return (
       pageRef.current < data?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t('utils.loadMoreBtn')}
         </Button>
       )
     );
@@ -437,8 +439,7 @@ function Courses() {
                 </span>
                 {breakPoints?.md && (
                   <span className={styles.courseSubTitle}>
-                    Choose the latest topics offered curated by our
-                    professionals
+                    {t("verticalDetailsPage.verticalDescription")}
                   </span>
                 )}
               </Flex>
@@ -447,7 +448,8 @@ function Courses() {
         </div>
         <div className={`${styles.exploreSearchWrapper}`}>
           <div className={styles.topicText}>
-            {verticalCourse?.courses?.length || 0} Topics available
+            {verticalCourse?.courses?.length || 0}{" "}
+            {t("verticalDetailsPage.topicsAvailable")}
           </div>
           <Flex vertical gap={"2rem"}>
             <Flex
@@ -473,7 +475,7 @@ function Courses() {
                   className={styles.outlineBtn}
                   onClick={() => setIsFilterDrawerVisible(true)}
                 >
-                  Filter <DownOutlined />
+                  {t("verticalDetailsPage.filterText")} <DownOutlined />
                 </Button>
               )}
             </Flex>

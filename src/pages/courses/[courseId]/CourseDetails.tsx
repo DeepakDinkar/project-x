@@ -2,11 +2,13 @@
 import { Badge, Button, Divider, Flex, Image, Rate, Select, Spin } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import GridCard from "../../../components/GridCard/GridCard";
 import { STATUS } from "../../../constants/messages.constants";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import useCart from "../../../hooks/useCart";
 import useFetch from "../../../hooks/useFetch";
 import useFetchOnLoad from "../../../hooks/useFetchOnLoad";
 import { Course } from "../../../models/Course";
@@ -21,13 +23,13 @@ import { getVerticals } from "../../../services/verticalsApi";
 import Exception from "../../../utils/Exception/Exception";
 import { isDatePassed30Days } from "../../../utils/commonUtils";
 import styles from "./CourseDetails.module.scss";
-import useCart from "../../../hooks/useCart";
 
 export default function CourseDetails() {
   const breakPoints = useBreakPoint();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const pageRef = useRef<number>(1);
+  const { t } = useTranslation();
   const { addItemsToCart, loading } = useCart();
 
   const [courses, setCourses] = useState<Course[]>([]);
@@ -85,7 +87,7 @@ export default function CourseDetails() {
     return (
       pageRef.current < courseData?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t("utils.loadMoreBtn")}
         </Button>
       )
     );
@@ -144,7 +146,6 @@ export default function CourseDetails() {
   const addCourseToCart = () => {
     const details = { ...courseDetails };
     details.locationIndex = locationRef.current;
-    // dispatch(addToCart(details));
     addItemsToCart(details);
   };
 
@@ -200,7 +201,9 @@ export default function CourseDetails() {
       if (courseDetails?.location && courseDetails?.location?.length > 0) {
         return (
           <>
-            <span className="font-bold sub-header">Select Location & Date</span>
+            <span className="font-bold sub-header">
+              {t("courseDetailsPage.selectLocationText")}
+            </span>
             <Select
               defaultValue={courseDetails?.location ? 0 : undefined}
               placeholder="Choose Location & Date"
@@ -211,7 +214,9 @@ export default function CourseDetails() {
         );
       } else {
         return (
-          <span className="font-bold sub-header">No Locations Available</span>
+          <span className="font-bold sub-header">
+            {t("courseDetailsPage.noLocationText")}
+          </span>
         );
       }
     };
@@ -238,11 +243,11 @@ export default function CourseDetails() {
                 style={{ justifyContent: "center" }}
                 gap={"1rem"}
               >
-                <span className="font-default text-uppercase">Trainer</span>
+                <span className="font-default text-uppercase">{t('courseDetailsPage.courseTrainer')}</span>
                 <span className="sub-header">{mentor?.trainerName}</span>
                 <span className="sub-header">{mentor?.phoneNumber}</span>
                 <span className="sub-header">{mentor?.email}</span>
-                <Button className="outline-btn">Reach Out</Button>
+                <Button className="outline-btn">{t('courseDetailsPage.reachOutBtn')}</Button>
               </Flex>
             </Flex>
           </div>
@@ -276,11 +281,11 @@ export default function CourseDetails() {
                 >
                   <Flex gap={".5rem"}>
                     {isDatePassed30Days(courseDetails?.courseAddedDate) && (
-                      <span className="card-chip font-bold">New Course</span>
+                      <span className="card-chip font-bold">{t('utils.newCourse')}</span>
                     )}
 
                     {courseDetails?.isTrending && (
-                      <span className="card-chip font-bold">Trending</span>
+                      <span className="card-chip font-bold">{t('utils.trending')}</span>
                     )}
                   </Flex>
                 </Flex>
@@ -324,10 +329,10 @@ export default function CourseDetails() {
               disabled={courseDetails?.location?.length == 0}
               loading={loading}
             >
-              Add to cart
+              {t('courseDetailsPage.addToCartBtn')}
             </Button>
             <Button type="text" className="text-uppercase">
-              DOWNLOAD BROCHURE
+            {t('courseDetailsPage.downloadBrochureBtn')}
             </Button>
           </Flex>
         </div>
@@ -339,7 +344,7 @@ export default function CourseDetails() {
             style={{ padding: "2rem 0" }}
           >
             <Flex vertical gap={"1.5rem"} flex={1}>
-              <div className="common-header font-bold">Accredited by</div>
+              <div className="common-header font-bold">{t('courseDetailsPage.accreditedByText')}</div>
               <Flex vertical gap={"1rem"}>
                 <Image
                   height={breakPoints?.md ? 60 : 30}
@@ -368,7 +373,7 @@ export default function CourseDetails() {
               </Flex>
             </Flex>
             <Flex vertical flex={1} gap={"1.5rem"}>
-              <div className="common-header font-bold">Key Take Aways</div>
+              <div className="common-header font-bold">{t('courseDetailsPage.keyTakeAwayText')}</div>
               <Flex vertical gap={".5rem"}>
                 {courseDetails?.keyTakeAway.map(
                   (key: string, index: number) => (
@@ -392,7 +397,7 @@ export default function CourseDetails() {
           </Flex>
         </div>
         <Divider className={styles.divider} />
-        <div className="common-header font-bold">Similar Topics</div>
+        <div className="common-header font-bold">{t('utils.similarCourses')}</div>
         {getCoursesRenderer()}
       </div>
     );

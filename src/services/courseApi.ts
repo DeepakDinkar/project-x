@@ -33,11 +33,11 @@ export const getRecommendedCourses = async (page: number) => {
 
 export const getTrendingCourses = async (page: number) => {
   const response = await axiosConfig.get(
-    COURSES.All + COURSES.RECOMMENDED + "/" + page
+    COURSES.All + COURSES.TRENDING + "/" + page
   );
   return response.status === 200
     ? Promise.resolve(response.data)
-    : Promise.reject(new Error("Unable to get recommended courses"));
+    : Promise.reject(new Error("Unable to get trending courses"));
 };
 
 export const getSimilarCourses = async (slug: string, page: number) => {
@@ -47,4 +47,13 @@ export const getSimilarCourses = async (slug: string, page: number) => {
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get recommended courses"));
+};
+
+export const getTrainers = async (page: number) => {
+  const response = await axiosConfig.get(
+    COURSES.All + COURSES.TRAINERS + "/" + page
+  );
+  return response.status === 200
+    ? Promise.resolve(response.data)
+    : Promise.reject(new Error("Unable to get trainers"));
 };

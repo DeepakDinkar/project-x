@@ -13,6 +13,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import countryValidator from "../../error/Validations/countryValidator";
@@ -24,10 +25,10 @@ import { SaveAddressForm } from "../../models/SaveAddressForm";
 import { purchaseCourses } from "../../services/userApi";
 import Country from "../../utils/Country/Country";
 import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
-import { CartSuccess } from "../../utils/svgs/CartSuccess";
-import styles from "./Checkout.module.scss";
 import { CartFailure } from "../../utils/svgs/CartFailure";
+import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import { StripeLogo } from "../../utils/svgs/StripeLogo";
+import styles from "./Checkout.module.scss";
 
 enum Payment {
   SUCCESS = "success",
@@ -39,6 +40,7 @@ export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
   const { clearCart } = useCart();
@@ -53,6 +55,7 @@ export default function Checkout() {
     (total, course) => total + (course?.courseAmt ?? 0),
     0
   );
+
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -71,12 +74,12 @@ export default function Checkout() {
             <Flex gap={5} align="center">
               <Badge color="purple" />
 
-              <span className="font-sm">Face 2 Face</span>
+              <span className="font-sm">{t('checkout.face2Face')}</span>
             </Flex>
           ) : (
             <Flex gap={5} align="center">
               <Badge color="green" />
-              <span className="font-sm">Live Virtual Training</span>
+              <span className="font-sm">{t('checkout.virtualText')}</span>
             </Flex>
           )}
         </span>
@@ -91,7 +94,7 @@ export default function Checkout() {
         const locationName = location.locationName;
         return locationName
           ? locationName + " | " + dayjs(location.date).format("MMM D, YYYY")
-          : "Virtual";
+          : t('checkout.virtualLocation');
       }
       return "";
     }
@@ -128,7 +131,7 @@ export default function Checkout() {
   const getBillingTitle = () => {
     return (
       <Flex className={styles.billingHeader} align="center">
-        Billing Info
+        {t('checkout.billing.title')}
       </Flex>
     );
   };
@@ -136,7 +139,7 @@ export default function Checkout() {
   const getPaymentTitle = () => {
     return (
       <Flex className={styles.billingHeader} align="center">
-        Payment
+        {t('checkout.payment.title')}
       </Flex>
     );
   };
@@ -216,10 +219,10 @@ export default function Checkout() {
             className={styles.saveAddressCheckbox}
             onChange={onSaveAddressChange}
           >
-            Save Address for future purpose
+            {t("checkout.billing.saveAddressFuture")}
           </Checkbox>
           <Button htmlType="submit" className={styles.formSubmitBtn}>
-            Save Address
+            {t("checkout.billing.saveBtn")}
           </Button>
         </Form>
       </div>
@@ -231,19 +234,22 @@ export default function Checkout() {
       currentStep === 1 && (
         <Flex vertical className={styles.paymentBtnWrapper}>
           <div>
-            <span className={styles.totalText}>Total</span> ({courses?.length}{" "}
+            <span className={styles.totalText}>{t('checkout.totalText')}</span> ({courses?.length}{" "}
             item{courses.length > 1 && "s"}) &nbsp; &nbsp;
             <span className={styles.totalText}>${totalPrice}</span>
           </div>
 
-          <div className="font-sm">Do not refresh the page while processing payment</div>
+          <div className="font-sm">
+            {t("checkout.payment.donotRefreshText")}
+          </div>
           <Button
             className={styles.formSubmitBtn}
             disabled={totalPrice === 0}
             onClick={proceedPayment}
             loading={loading}
           >
-            Pay with <StripeLogo className={styles.stripeIcon} />
+            {t("checkout.payment.payBtn")}{" "}
+            <StripeLogo className={styles.stripeIcon} />
           </Button>
         </Flex>
       )
@@ -260,14 +266,9 @@ export default function Checkout() {
   const getSuccessPaymentContent = () => {
     return (
       <>
-        <h2>
-          Booking <br /> Successful!
-        </h2>
+        <h2>{t("checkout.paymentSuccess.title")}</h2>
         <CartSuccess />
-        <p>
-          All the details regarding your course booking will be sent over to
-          your registered <b>email address.</b>
-        </p>
+        <p>{t("checkout.paymentSuccess.description")}</p>
       </>
     );
   };
@@ -276,12 +277,10 @@ export default function Checkout() {
     return (
       <>
         <h2 className={styles.paymentFailureTitle}>
-          Uh Oh!
-          <br />
-          Booking Unsuccessful
+          {t("checkout.paymentFailure.title")}
         </h2>
         <CartFailure />
-        <p>Something has gone wrong. Please try again to make your booking.</p>
+        <p> {t("checkout.paymentFailure.description")}</p>
       </>
     );
   };
@@ -318,7 +317,9 @@ export default function Checkout() {
     <div className={styles.checkoutWrapper}>
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"2.5rem"}>
-          <div className="main-header font-bold font-ubuntu">Checkout</div>
+          <div className="main-header font-bold font-ubuntu">
+            {t("checkout.title")}
+          </div>
           <div className="w-100">
             <Row>
               <Col span={breakPoint?.lg ? 12 : 24}>
@@ -384,19 +385,21 @@ export default function Checkout() {
                   </Flex>
                   <Flex className={styles.couponCodeWrapper}>
                     <Input disabled />
-                    <Button disabled>Apply Code</Button>
+                    <Button disabled>{t("checkout.applyCode")}</Button>
                   </Flex>
                   <Flex className={styles.totalWrapper}>
                     <table>
                       <tbody>
                         <tr>
-                          <td>VAT</td>
+                          <td>{t("checkout.vat")}</td>
                           <td>$0</td>
                         </tr>
                         <tr>
                           <td>
-                            <span className={styles.totalText}>Total</span> (
-                            {courses?.length} item{courses.length > 1 && "s"})
+                            <span className={styles.totalText}>
+                              {t("checkout.totalText")}
+                            </span>{" "}
+                            ({courses?.length} item{courses.length > 1 && "s"})
                           </td>
                           <td>
                             <span className={styles.totalText}>

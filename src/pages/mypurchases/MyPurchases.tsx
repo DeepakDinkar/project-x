@@ -143,7 +143,7 @@ export default function MyPurchases() {
             />
             <Flex vertical style={{ flex: 1, justifyContent: "space-evenly" }}>
               <div className="font-sm text-uppercase">
-                leadership and business management
+                {purchase?.slug}
               </div>
               <div className="font-default font-bold">
                 {purchase?.coursesName}

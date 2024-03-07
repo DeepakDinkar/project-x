@@ -8,15 +8,15 @@ import {
   Select,
   message,
 } from "antd";
-import styles from "../Footer.module.scss";
+import TextArea from "antd/es/input/TextArea";
+import { useTranslation } from "react-i18next";
+import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
+import { useBreakPoint } from "../../../hooks/useBreakPoint";
 import {
   CallBackMode,
   RequestCallbackForm,
 } from "../../../models/RequestCallbackForm";
-import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
-import TextArea from "antd/es/input/TextArea";
-import { useBreakPoint } from "../../../hooks/useBreakPoint";
-import { useTranslation } from "react-i18next";
+import styles from "../Footer.module.scss";
 
 export default function RequestCallback() {
   const [form] = Form.useForm();
@@ -130,7 +130,7 @@ export default function RequestCallback() {
           </Form.Item>
 
           <Form.Item<RequestCallbackForm> name="comment">
-            <TextArea rows={4} placeholder="I want to talk about..." />
+            <TextArea rows={4} placeholder={t('footer.requestCallback.textAreaPlaceholderText')} />
           </Form.Item>
 
           <Form.Item<RequestCallbackForm> name="callbackMode">

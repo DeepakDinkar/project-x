@@ -93,7 +93,7 @@ export default function MyCourses() {
         </div>
         <Flex vertical>
           <div className={`${styles.courseTitle} text-uppercase font-bold`}>
-            leadership and business management
+            {course?.slug}
           </div>
           <div className={`${styles.courseSubTitle} font-bold`}>
             {course?.coursesName}
@@ -105,7 +105,7 @@ export default function MyCourses() {
         </div>
         <div>
           <Button type="link" className={styles.locationBtn}>
-            See Location
+            {t('userMyCoursesPage.seeLocationBtn')}
           </Button>
         </div>
       </Flex>
@@ -230,7 +230,7 @@ export default function MyCourses() {
     return (
       pageRef.current < courseData?.totalPages && (
         <Button style={{ margin: "auto" }} onClick={() => loadMoreData()}>
-          Load More
+          {t('utils.loadMoreBtn')}
         </Button>
       )
     );
