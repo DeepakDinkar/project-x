@@ -451,7 +451,7 @@ export default function MyProfile() {
       <div className="w-100">
         <Flex vertical style={{ alignItems: "center" }} gap={"1.5rem"}>
           <div className="main-header font-bold font-ubuntu">
-            {t("userProfilePage.updateProfileBtn")}
+            {t("userProfilePage.title")}
           </div>
           {getRender()}
         </Flex>
