@@ -97,7 +97,7 @@ export default function Register() {
           />
         </Form.Item>
         <Form.Item<RegisterForm>
-          name="location"
+          name="country"
           rules={[
             { required: true, message: "*Location is required" },
             { validator: countryValidator, message: "Invalid country" },

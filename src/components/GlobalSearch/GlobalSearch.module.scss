@@ -1,6 +1,6 @@
 @import "../../theme/variables";
 .globalSearchInput {
-  border: none;
+  border: 1px solid $secondary;
   max-width: 380px;
   input {
     height: 40px !important;

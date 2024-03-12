@@ -171,9 +171,6 @@ export default function Checkout() {
             </Form.Item>
             <Form.Item<SaveAddressForm>
               name="addressLine2"
-              rules={[
-                { required: true, message: "*Address Line 2 is required" },
-              ]}
             >
               <Input
                 className={styles.input}

@@ -6,7 +6,7 @@
       "descriptionHighlight": " curated skill courses ",
       "description2": "based on your work needs and Scale up compared to your peers.",
       "trendingText": "Trending in ",
-      "verticalsText": "Verticals",
+      "verticalsText": "Courses",
       "exploreBtn": "Explore Now"
     },
     "verticals": {
@@ -143,19 +143,35 @@
     },
     "footerLinks": {
       "contact": {
-        "title": "Contact"
+        "title": "Contact",
+        "email": "info@qomoi.com",
+        "offices": "Offices: ",
+        "officePlaces": " Atlanta, GA, USA (North Americam HQ) San Diego, CA, USA Other offices coming soon!"
       },
       "menu": {
-        "title": "Menu"
+        "title": "Menu",
+        "explore": "Explore",
+        "aboutUs": "About Us",
+        "signup": "Sign Up"
       },
       "services": {
-        "title": "Services"
+        "title": "Services",
+        "liveVirtualTraining": "Live virtual Training",
+        "face2faceTraining": "Class room face to face training",
+        "consulting": "Consulting",
+        "mentorCoaching": "Mentoring and coaching",
+        "auditing": "Auditing"
       },
       "legal": {
-        "title": "Legal"
+        "title": "Legal",
+        "termsAndConditions": "Terms and Conditions",
+        "privacyAndPolicy": "Privacy and cookie policy",
+        "faqs": "FAQs"
       },
       "institute": {
-        "title": "Qomoi Institute"
+        "title": "Qomoi Institute",
+        "careers": "Careers",
+        "news": "News"
       }
     }
   },

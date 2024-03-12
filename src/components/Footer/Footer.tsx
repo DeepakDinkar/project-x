@@ -6,22 +6,33 @@ import styles from "./Footer.module.scss";
 import RequestCallback from "./RequestCallback/RequestCallback";
 import { openModal } from "../../redux/reducers/loginModalReducer";
 
-const CONTACT_US = ["info@qomoi.com"];
-const MENU = ["Explore", "About Us", "Sign Up"];
-const SERVICES = [
-  "Live virtual Training",
-  "Class room face to face training",
-  "Consulting",
-  "Mentoring and coaching",
-  "Auditing",
-];
-const LEGAL = ["Terms and Conditions", "Privacy and cookie policy", "FAQs"];
-const QOMOI_INSTITUTE = ["Careers", "News"];
-
 function Footer() {
   const breakPoints = useBreakPoint();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const CONTACT_US = [t("footer.footerLinks.contact.email")];
+  const MENU = [
+    t("footer.footerLinks.menu.explore"),
+    t("footer.footerLinks.menu.aboutUs"),
+    t("footer.footerLinks.menu.signup"),
+  ];
+  const SERVICES = [
+    t("footer.footerLinks.services.liveVirtualTraining"),
+    t("footer.footerLinks.services.face2faceTraining"),
+    t("footer.footerLinks.services.consulting"),
+    t("footer.footerLinks.services.mentorCoaching"),
+    t("footer.footerLinks.services.auditing"),
+  ];
+  const LEGAL = [
+    t("footer.footerLinks.legal.termsAndConditions"),
+    t("footer.footerLinks.legal.privacyAndPolicy"),
+    t("footer.footerLinks.legal.faqs"),
+  ];
+  const QOMOI_INSTITUTE = [
+    t("footer.footerLinks.institute.careers"),
+    t("footer.footerLinks.institute.news"),
+  ];
   const isUserLoggedIn =
     useSelector((state: { user: { login: boolean } }) => state.user)?.login ??
     false;
@@ -49,12 +60,8 @@ function Footer() {
         className={`${styles.officeAddress} ${styles.officeAddressMobile}`}
       >
         <a href="#contact">{CONTACT_US[0]}</a>
-        <span>Offices:</span>
-        <span>
-          Atlanta, GA, USA (North Americam HQ)
-          <br /> San Diego, CA, USA <br />
-          Other offices coming soon!
-        </span>
+        <span>{t("footer.footerLinks.contact.offices")}</span>
+        <span>{t("footer.footerLinks.contact.officePlaces")}</span>
       </Flex>
     );
   };
@@ -123,7 +130,7 @@ function Footer() {
         />
         <List
           size="small"
-          header={<div>{t("footer.footerLinks.contact.title")}</div>}
+          header={<div>{t("footer.footerLinks.menu.title")}</div>}
           bordered
           dataSource={MENU}
           renderItem={(item) => (
