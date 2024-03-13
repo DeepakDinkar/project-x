@@ -19,7 +19,7 @@ export const mapRegisterFormPayLoad = async (
   payload.email = values.email;
   payload.password = await bycryptPassword(values.password);
   payload.mobile = values.phoneNumber;
-  payload.location = values.location;
+  payload.country = values.country;
 
   return payload;
 };

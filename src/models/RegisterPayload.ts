@@ -4,5 +4,5 @@ export class RegisterPayload {
     email!: string;
     mobile!: number;
     password!: string;
-    location!: string;
+    country!: string;
 }
