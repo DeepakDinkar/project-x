@@ -1,17 +1,17 @@
 {
   "homePage": {
     "banner": {
-      "title": "Want to upskill at work?",
-      "description1": "Get started with our",
-      "descriptionHighlight": " curated skill courses ",
-      "description2": "based on your work needs and Scale up compared to your peers.",
+      "title": "Your Personal Brand",
+      "description1": "You can become the Go-To Expert in your industry",
+      "descriptionHighlight": " through our skills courses ",
+      "description2": "and scaling up compared to your peers.",
       "trendingText": "Trending in ",
       "verticalsText": "Courses",
       "exploreBtn": "Explore Now"
     },
     "verticals": {
-      "title": "Verticals",
-      "subTitle": "Our 7 Business Verticals",
+      "title": "Business Verticals",
+      "subTitle": "Our 5 Business Verticals",
       "verticalTopicsCountText": "Courses"
     },
     "explore": {
