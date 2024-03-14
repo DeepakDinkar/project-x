@@ -21,8 +21,8 @@
     }
   },
   "verticalsPage": {
-    "title": "Verticals",
-    "subTitle": "Choose the latest verticals offered by our professionals",
+    "title": "Business Verticals",
+    "subTitle": "Choose amongst the latest verticals offered to upscale your brand.",
     "verticalsText": "Vertical",
     "topicsText": "Courses"
   },
@@ -39,19 +39,20 @@
   "verticalDetailsPage": {
     "filterText": "Filter",
     "topicsAvailable": "Topics available",
-    "verticalDescription": "Choose the latest topics offered curated by our professionals"
+    "verticalDescription": "Choose the latest topics offered by our world's leading professionals."
   },
   "aboutPage": {
     "title": "About Us",
     "subTitle": "Your Success is Our Mission!",
-    "para1": " We are a growing international training and consulting company with world-class trainers. Established in 2010, Qomo Institutehas been upskilling and rebranding organizations and individuals through auditing and needs analysis services, and training deliveries throughout the world.",
-    "para2": "We understand that the business community is highly competitive and continuous learning delivered by world-class practitioners to you/your organization will help brand success. Our services are a great solution to creating a “5% culture!",
-    "para3": "Years ago, an international study was performed, and it was discovered that 95% of employees ranged from poor to adequate [“meets expectations’]. The inverse of this demonstrates that only 5% of us care to do more. These 5% will offer propositions of value, that go above and beyond, in order to make the company, the governmental agency, the department, the team, the business unit, the individual better! Thus, it is our goal to reach out to 5% CLUB members and make their brand strong",
-    "para4": " Beyond training, our subject-matter experts within our 5 verticals, are available for: Consulting, Coaching, Mentoring, Auditing services. Please contact us if you have project needs that fit within any of these service buckets.",
+    "para1": " We are a growing international training, professional development, and consulting company with world-class trainers. Established in 2010, Qomo Institute has been upskilling and rebranding organizations, one individual at a time, through needs analysis and training deliveries throughout the world.",
+    "para2": "We understand that the business community is highly competitive and continuous learning delivered by world-class practitioners to you/your organization will help your brand. Our services are a great solution to creating a “5% Club Culture!",
+    "para3": "Years ago, an international study was performed and it was discovered that 95% of employees ranged from poor to adequate [“meets expectations’]. The inverse of this demonstrates that only 5% of us care to do more than. These 5% will offer propositions of value, that go above and beyond, in order to make the company, the governmental agency, the department, the team, the business unit, and the individual better! Thus, it is our goal to reach out to 5% CLUB members and make their brand strong",
+    "para4": "Your brand allows you to stand out from your peers. Training is an investment that yields respect, increase, promotion, and recognition. Commit to your potential today!"
+    "para5": "Beyond training, our subject-matter experts within our 5 business verticals, are available for: Consulting, Coaching, Mentoring, Auditing services. Please contact us if you have project needs that fit within any of these services.",
     "coreValuesTitle": "Our Core Values",
-    "coreValuesSubTitle1": "We celebrate knowledge and Idea sharing",
-    "coreValuesSubTitle2": "We believe in quality teaching",
-    "coreValuesSubTitle3": "We value education as the highest form of wealth",
+    "coreValuesSubTitle1": "We celebrate those in the 5% Club daily",
+    "coreValuesSubTitle2": "We employ only the world's best practioners as our trainers",
+    "coreValuesSubTitle3": "We value knowledge for achievement",
     "boardAdvisors": "Board of Advisors"
   },
   "checkout": {
@@ -60,7 +61,7 @@
     "vat": "VAT",
     "totalText": "Total",
     "virtualText": "Live Virtual Training",
-    "face2Face": "Face 2 Face",
+    "face2Face": "Classroom Face 2 Face",
     "virtualLocation": "Virtual",
     "paymentFailure": {
       "title": "Uh Oh! Booking Unsuccessful",
@@ -87,11 +88,11 @@
   },
   "userMyPurchasesPage": {
     "title": "My Purchases",
-    "noPurchasesFoundText": "Uh oh! Looks like you have not purchased courses yet."
+    "noPurchasesFoundText": "No registrations as of yet. Use your discount code today."
   },
   "userMyCoursesPage": {
     "title": "My Courses",
-    "noPurchasesFoundText": "Uh oh! Looks like you have not enrolled in any of the courses yet.",
+    "noPurchasesFoundText": "No registrations as of yet. Use your discount code today.",
     "currentCoursesText": "Happening Now",
     "upcomingCoursesText": "Upcoming",
     "previousCoursesText": "Previous",
@@ -112,11 +113,11 @@
     "google": "Continue with google",
     "facebook": "Continue with facebook",
     "forgetPassword": "Forget Password",
-    "forgetPasswordMessage": "You will receive a mail on your registered email for a password change.",
+    "forgetPasswordMessage": "You will receive an email on your registered email for a password change.",
     "resetPassword": "Reset Password",
     "reset": "Reset",
     "membership": "Not a member?",
-    "signup": "Sign up",
+    "signup": "Sign up for free",
     "latestUpdates": "to get latest updates and exciting offers on courses",
     "next": "Next"
   },
@@ -131,10 +132,10 @@
   },
   "footer": {
     "membership": {
-      "title": "Become a member now!",
-      "subTitle": "Receive course updates and discount codes",
-      "profileText": "Manage your profile",
-      "membershipBtn": "Get Membership"
+      "title": "Become a free member now!",
+      "subTitle": "Receive course updates and discount codes for future registrations",
+      "profileText": "Manage your profile here",
+      "membershipBtn": "Get Free Membership"
     },
     "requestCallback": {
       "title": "Request a Conversation",
@@ -144,9 +145,9 @@
     "footerLinks": {
       "contact": {
         "title": "Contact",
-        "email": "info@qomoi.com",
+        "email": "Scott@qomoi.com",
         "offices": "Offices: ",
-        "officePlaces": " Atlanta, GA, USA (North Americam HQ) San Diego, CA, USA Other offices coming soon!"
+        "officePlaces": "USA - Atlanta, Georgia (North American HQ) and San Diego, California; Baja California, Mexico."
       },
       "menu": {
         "title": "Menu",
@@ -156,31 +157,31 @@
       },
       "services": {
         "title": "Services",
-        "liveVirtualTraining": "Live virtual Training",
-        "face2faceTraining": "Class room face to face training",
+        "liveVirtualTraining": "Live Virtual Training",
+        "face2faceTraining": "Classroom Face to Face Training",
         "consulting": "Consulting",
-        "mentorCoaching": "Mentoring and coaching",
-        "auditing": "Auditing"
+        "mentorCoaching": "Mentoring and Coaching",
+        "auditing": "Auditing and Needs Assessment"
       },
       "legal": {
         "title": "Legal",
         "termsAndConditions": "Terms and Conditions",
-        "privacyAndPolicy": "Privacy and cookie policy",
+        "privacyAndPolicy": "Privacy and Cookie Policy",
         "faqs": "FAQs"
       },
       "institute": {
-        "title": "Qomoi Institute",
+        "title": "Qomo Institute",
         "careers": "Careers",
         "news": "News"
       }
     }
   },
   "misc": {
-    "footerAppText": "Qomoi"
+    "footerAppText": "QomoI"
   },
   "appInitalizer": {
     "title": "We apologize for the inconvenience, but our application is currently undergoing maintenance. Please check back later for updates. Thank you for your understanding.",
-    "subTitle": "Qomoi",
+    "subTitle": "QomoI",
     "loadingText": "Loading..."
   }
 }
