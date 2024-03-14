@@ -92,9 +92,9 @@ function CoursesList() {
     >
       <div className={styles.titleContent}>
         <LeftCurve />
-        <p className="main-header font-bold">Verticals</p>
+        <p className="main-header font-bold">{t('homePage.verticals.title')}</p>
         <p className={`${styles.subHeader} sub-header font-bold`}>
-          Our {verticals?.length || 0} Business Verticals
+          {t('homePage.verticals.subTitle')}
         </p>
         <RightCurve />
       </div>
