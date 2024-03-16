@@ -23,7 +23,7 @@ export const USER = Object.freeze({
 
 // Courses Endpoints
 export const COURSES = Object.freeze({
-  All: "/courses",
+  ALL: "/courses",
   BANNER: "/banner",
   LOCATIONS: '/locations',
   RECOMMENDED: '/recommended',
@@ -45,3 +45,9 @@ export const SEARCH = Object.freeze({
 
 // Checkout Endpoints
 export const CHECKOUT = "/checkout";
+
+// Qomoi Endpoints
+export const QOMOI = Object.freeze({
+  ALL: '/qomoi',
+  REQUEST_CALLBACK: '/callback'
+});

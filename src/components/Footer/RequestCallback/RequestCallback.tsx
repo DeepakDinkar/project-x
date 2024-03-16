@@ -12,10 +12,12 @@ import TextArea from "antd/es/input/TextArea";
 import { useTranslation } from "react-i18next";
 import phoneNumberValidator from "../../../error/Validations/phoneNumberValidator";
 import { useBreakPoint } from "../../../hooks/useBreakPoint";
+import useFetch from "../../../hooks/useFetch";
 import {
   CallBackMode,
   RequestCallbackForm,
 } from "../../../models/RequestCallbackForm";
+import { requestCallback } from "../../../services/qomoiApi";
 import styles from "../Footer.module.scss";
 
 export default function RequestCallback() {
@@ -23,20 +25,25 @@ export default function RequestCallback() {
   const breakPoints = useBreakPoint();
   const [messageApi, contextHolder] = message.useMessage();
   const { t } = useTranslation();
+  const { fetch, loading } = useFetch(requestCallback);
 
   const initalValues = { callBackMode: CallBackMode.PHONE };
 
   const onRequestCallbackSubmit = (values: RequestCallbackForm) => {
-    messageApi.open({
-      type: "success",
-      content: "We will call back to your " + values.callbackMode,
-    });
+    fetch(values)
+      .then(() => {
+        messageApi.success("Will callback you later.");
+        form.resetFields();
+      })
+      .catch(() =>
+        messageApi.error("Unable to send request. Please try later.")
+      );
   };
 
   const getDiscountOptions = () => {
     return [
-      { value: true, label: "YES" },
-      { value: false, label: "NO" },
+      { value: true, label: "Yes" },
+      { value: false, label: "No" },
     ];
   };
 
@@ -130,7 +137,10 @@ export default function RequestCallback() {
           </Form.Item>
 
           <Form.Item<RequestCallbackForm> name="comment">
-            <TextArea rows={4} placeholder={t('footer.requestCallback.textAreaPlaceholderText')} />
+            <TextArea
+              rows={4}
+              placeholder={t("footer.requestCallback.textAreaPlaceholderText")}
+            />
           </Form.Item>
 
           <Form.Item<RequestCallbackForm> name="callbackMode">
@@ -140,8 +150,12 @@ export default function RequestCallback() {
             </Radio.Group>
           </Form.Item>
 
-          <Button className={styles.requestSubmitBtn} htmlType="submit">
-            {t('footer.requestCallback.requestCallbackBtn')}
+          <Button
+            className={styles.requestSubmitBtn}
+            htmlType="submit"
+            loading={loading}
+          >
+            {t("footer.requestCallback.requestCallbackBtn")}
           </Button>
           {contextHolder}
         </Flex>

@@ -2,21 +2,21 @@ import { COURSES } from "../constants/endpoints.constants";
 import { axiosConfig } from "./axios-config";
 
 export const getBannerVerticalCourses = async () => {
-  const response = await axiosConfig.get(COURSES.All + COURSES.BANNER);
+  const response = await axiosConfig.get(COURSES.ALL + COURSES.BANNER);
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get trending courses"));
 };
 
 export const getCourseByCourseId = async (courseId: number) => {
-  const response = await axiosConfig.get(COURSES.All + "/" + courseId);
+  const response = await axiosConfig.get(COURSES.ALL + "/" + courseId);
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get course information"));
 };
 
 export const getAllCourseLocations = async () => {
-  const response = await axiosConfig.get(COURSES.All + COURSES.LOCATIONS);
+  const response = await axiosConfig.get(COURSES.ALL + COURSES.LOCATIONS);
   return response.status === 200
     ? Promise.resolve(response.data)
     : Promise.reject(new Error("Unable to get course locations"));
@@ -24,7 +24,7 @@ export const getAllCourseLocations = async () => {
 
 export const getRecommendedCourses = async (page: number) => {
   const response = await axiosConfig.get(
-    COURSES.All + COURSES.RECOMMENDED + "/" + page
+    COURSES.ALL + COURSES.RECOMMENDED + "/" + page
   );
   return response.status === 200
     ? Promise.resolve(response.data)
@@ -33,7 +33,7 @@ export const getRecommendedCourses = async (page: number) => {
 
 export const getTrendingCourses = async (page: number) => {
   const response = await axiosConfig.get(
-    COURSES.All + COURSES.TRENDING + "/" + page
+    COURSES.ALL + COURSES.TRENDING + "/" + page
   );
   return response.status === 200
     ? Promise.resolve(response.data)
@@ -42,7 +42,7 @@ export const getTrendingCourses = async (page: number) => {
 
 export const getSimilarCourses = async (slug: string, page: number) => {
   const response = await axiosConfig.get(
-    COURSES.All + COURSES.SIMILAR + "/" + slug + "/" + page
+    COURSES.ALL + COURSES.SIMILAR + "/" + slug + "/" + page
   );
   return response.status === 200
     ? Promise.resolve(response.data)
@@ -51,7 +51,7 @@ export const getSimilarCourses = async (slug: string, page: number) => {
 
 export const getTrainers = async (page: number) => {
   const response = await axiosConfig.get(
-    COURSES.All + COURSES.TRAINERS + "/" + page
+    COURSES.ALL + COURSES.TRAINERS + "/" + page
   );
   return response.status === 200
     ? Promise.resolve(response.data)
