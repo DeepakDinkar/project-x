@@ -118,11 +118,8 @@ function Footer() {
               <List.Item>{item}</List.Item>
               <List.Item>
                 <Flex vertical className={styles.officeAddress}>
-                  <span>Offices:</span>
-                  <span>
-                    Atlanta, GA, USA (North Americam HQ) San Diego, CA, USA
-                    Other offices coming soon!
-                  </span>
+                  <span>{t("footer.footerLinks.contact.offices")}</span>
+                  <span>{t("footer.footerLinks.contact.officePlaces")}</span>
                 </Flex>
               </List.Item>
             </>
