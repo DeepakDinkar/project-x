@@ -169,6 +169,8 @@ function About() {
               <p>{t("aboutPage.para3")}</p>
               <p>&nbsp;</p>
               <p>{t("aboutPage.para4")}</p>
+              <p>&nbsp;</p>
+              <p>{t("aboutPage.para5")}</p>
             </div>
           </div>
         </div>
