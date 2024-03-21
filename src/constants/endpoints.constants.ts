@@ -9,7 +9,8 @@ export const AUTH = Object.freeze({
   GOOGLE_SIGNIN: "/auth/google-login",
   GET_KEY: '/auth/get_key',
   GET_STORED_DATA: '/auth/get_stored_data',
-  UPDATE_STORE_DATA: '/auth/store_data'
+  UPDATE_STORE_DATA: '/auth/store_data',
+  STRIPE_TESTING: '/auth/create-checkout-session'
 });
 
 // User Endpoints

@@ -30,7 +30,7 @@ axiosConfig.interceptors.response.use(
       error?.response?.status === 401 &&
       originalRequest.url.includes("/user")
     ) {
-      store.dispatch(logout());
+      // store.dispatch(logout());
     }
     return error.response;
   }

@@ -29,6 +29,7 @@ import { CartFailure } from "../../utils/svgs/CartFailure";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import { StripeLogo } from "../../utils/svgs/StripeLogo";
 import styles from "./Checkout.module.scss";
+import { updateStripeData } from "../../services/authApi";
 
 enum Payment {
   SUCCESS = "success",
@@ -43,6 +44,7 @@ export default function Checkout() {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
+  const { fetch: stripFetch} = useFetch(updateStripeData);
   const { clearCart } = useCart();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
@@ -117,14 +119,19 @@ export default function Checkout() {
       saveAddressRef.current
     );
     fetch(payload)
-      .then(() => {
-        setPaymentStatus(Payment.SUCCESS);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((values: any) => {
+        stripFetch(values).then(url => {
+          console.log(url);
+          window.location.href = url;
+        })
+        // setPaymentStatus(Payment.SUCCESS);
       })
       .catch(() => {
         setPaymentStatus(Payment.FAILURE);
       })
       .finally(() => {
-        setIsPaymentModalOpen(true);
+        // setIsPaymentModalOpen(true);
       });
   };
 

@@ -21,3 +21,12 @@ export const updateStoredData = async (payload: string) => {
     ? Promise.resolve(response.data)
     : Promise.reject(response.data);
 };
+
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateStripeData = async (payload: any) => {
+  const response = await axiosConfig.post(AUTH.STRIPE_TESTING, payload);
+  return response.status === 200 || response.status === 201
+    ? Promise.resolve(response.data)
+    : Promise.reject(response.data);
+};
