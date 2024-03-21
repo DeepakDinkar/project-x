@@ -1,6 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { logout } from "../redux/reducers/userReducer";
-import store from "../redux/store";
+// import { logout } from "../redux/reducers/userReducer";
+// import store from "../redux/store";
 import { SessionStorageUtils } from "../utils/SessionStorageUtils";
 
 const AUTH_KEY = "auth";
