@@ -31,6 +31,8 @@ function Home() {
     error: Error | undefined;
   } = useFetchOnLoad(getBannerVerticalCourses);
 
+  console.log('Home calledd...');
+
   const onCarouselChange = (currentSlide: number) => {
     setCurrentSlide(currentSlide);
   };
