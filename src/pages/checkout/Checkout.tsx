@@ -273,6 +273,7 @@ export default function Checkout() {
     if (paymentStatus == Payment.SUCCESS) {
       clearCart();
       navigate("/mypurchases");
+      SessionStorageUtils.removeItem(STRIPE_ENABLED);
     }
   };
 

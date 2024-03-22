@@ -1,5 +1,5 @@
 import { Carousel, Col, Flex, Image, Layout, Row, Spin } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import CoursesList from "../../components/HomePage/Courses/CoursesList";
@@ -11,6 +11,7 @@ import { Status } from "../../models/ExceptionProps";
 import { VerticalCourse } from "../../models/VerticalCourse";
 import { getBannerVerticalCourses } from "../../services/courseApi";
 import Exception from "../../utils/Exception/Exception";
+import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 import { isDatePassed30Days } from "../../utils/commonUtils";
 import { LeftCurve } from "../../utils/svgs/LeftCurve";
 import { RightCurve } from "../../utils/svgs/RightCurve";
@@ -31,7 +32,9 @@ function Home() {
     error: Error | undefined;
   } = useFetchOnLoad(getBannerVerticalCourses);
 
-  console.log('Home calledd...');
+  useEffect(() => {
+    SessionStorageUtils.clearSession();
+  }, []);
 
   const onCarouselChange = (currentSlide: number) => {
     setCurrentSlide(currentSlide);
