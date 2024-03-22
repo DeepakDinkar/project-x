@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import countryValidator from "../../error/Validations/countryValidator";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
 import useCart from "../../hooks/useCart";
@@ -29,13 +29,20 @@ import { CartFailure } from "../../utils/svgs/CartFailure";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import { StripeLogo } from "../../utils/svgs/StripeLogo";
 import styles from "./Checkout.module.scss";
-import { updateStripeData } from "../../services/authApi";
+import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 
 enum Payment {
   SUCCESS = "success",
   FAILURE = "failure",
   IDLE = "idle",
 }
+
+const PAYMEN_QUERY_PARAMS = Object.freeze({
+  SUCCESS: "success",
+  CANCELLED: "cancelled",
+});
+
+const STRIPE_ENABLED = "stripeEnabled";
 
 export default function Checkout() {
   const breakPoint = useBreakPoint();
@@ -44,7 +51,6 @@ export default function Checkout() {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
-  const { fetch: stripFetch} = useFetch(updateStripeData);
   const { clearCart } = useCart();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
@@ -52,13 +58,24 @@ export default function Checkout() {
   const addressRef = useRef<SaveAddressForm>();
   const saveAddressRef = useRef<boolean>(false);
   const [paymentStatus, setPaymentStatus] = useState<Payment>(Payment.IDLE);
+  const [queryParams] = useSearchParams();
+
+  const isPaymentSuccess = queryParams.get(PAYMEN_QUERY_PARAMS.SUCCESS);
+  const isPaymentCancelled = queryParams.get(PAYMEN_QUERY_PARAMS.CANCELLED);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isStripeEnabled = SessionStorageUtils.getItem(STRIPE_ENABLED);
+    if ((isPaymentSuccess || isPaymentCancelled) && isStripeEnabled) {
+      setPaymentStatus(isPaymentSuccess ? Payment.SUCCESS : Payment.FAILURE);
+      setIsPaymentModalOpen(true);
+    }
+  }, []);
 
   const totalPrice = courses.reduce(
     (total, course) => total + (course?.courseAmt ?? 0),
     0
   );
-
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!courses || courses?.length == 0) {
@@ -76,12 +93,12 @@ export default function Checkout() {
             <Flex gap={5} align="center">
               <Badge color="purple" />
 
-              <span className="font-sm">{t('checkout.face2Face')}</span>
+              <span className="font-sm">{t("checkout.face2Face")}</span>
             </Flex>
           ) : (
             <Flex gap={5} align="center">
               <Badge color="green" />
-              <span className="font-sm">{t('checkout.virtualText')}</span>
+              <span className="font-sm">{t("checkout.virtualText")}</span>
             </Flex>
           )}
         </span>
@@ -96,7 +113,7 @@ export default function Checkout() {
         const locationName = location.locationName;
         return locationName
           ? locationName + " | " + dayjs(location.date).format("MMM D, YYYY")
-          : t('checkout.virtualLocation');
+          : t("checkout.virtualLocation");
       }
       return "";
     }
@@ -119,26 +136,20 @@ export default function Checkout() {
       saveAddressRef.current
     );
     fetch(payload)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .then((values: any) => {
-        stripFetch(values).then(url => {
-          console.log(url);
-          window.location.href = url;
-        })
-        // setPaymentStatus(Payment.SUCCESS);
+      .then((url: string) => {
+        url && (window.location.href = url);
+        SessionStorageUtils.setItem(STRIPE_ENABLED, "true");
       })
       .catch(() => {
         setPaymentStatus(Payment.FAILURE);
-      })
-      .finally(() => {
-        // setIsPaymentModalOpen(true);
+        setIsPaymentModalOpen(true);
       });
   };
 
   const getBillingTitle = () => {
     return (
       <Flex className={styles.billingHeader} align="center">
-        {t('checkout.billing.title')}
+        {t("checkout.billing.title")}
       </Flex>
     );
   };
@@ -146,7 +157,7 @@ export default function Checkout() {
   const getPaymentTitle = () => {
     return (
       <Flex className={styles.billingHeader} align="center">
-        {t('checkout.payment.title')}
+        {t("checkout.payment.title")}
       </Flex>
     );
   };
@@ -176,9 +187,7 @@ export default function Checkout() {
             >
               <Input className={styles.input} placeholder="Street Name" />
             </Form.Item>
-            <Form.Item<SaveAddressForm>
-              name="addressLine2"
-            >
+            <Form.Item<SaveAddressForm> name="addressLine2">
               <Input
                 className={styles.input}
                 placeholder="Apartment, Suite, Unit etc.*"
@@ -238,8 +247,8 @@ export default function Checkout() {
       currentStep === 1 && (
         <Flex vertical className={styles.paymentBtnWrapper}>
           <div>
-            <span className={styles.totalText}>{t('checkout.totalText')}</span> ({courses?.length}{" "}
-            item{courses.length > 1 && "s"}) &nbsp; &nbsp;
+            <span className={styles.totalText}>{t("checkout.totalText")}</span>{" "}
+            ({courses?.length} item{courses.length > 1 && "s"}) &nbsp; &nbsp;
             <span className={styles.totalText}>${totalPrice}</span>
           </div>
 
