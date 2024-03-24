@@ -160,7 +160,11 @@ export default function CourseDetails() {
   const getRenderer = () => {
     if (isLoading) {
       return (
-        <Flex style={{ padding: "3rem 0" }} justify="center">
+        <Flex
+          style={{ padding: "3rem 0", height: "80vh" }}
+          justify="center"
+          align="center"
+        >
           <Spin size="large" />
         </Flex>
       );
@@ -243,11 +247,15 @@ export default function CourseDetails() {
                 style={{ justifyContent: "center" }}
                 gap={"1rem"}
               >
-                <span className="font-default text-uppercase">{t('courseDetailsPage.courseTrainer')}</span>
+                <span className="font-default text-uppercase">
+                  {t("courseDetailsPage.courseTrainer")}
+                </span>
                 <span className="sub-header">{mentor?.trainerName}</span>
                 <span className="sub-header">{mentor?.phoneNumber}</span>
                 <span className="sub-header">{mentor?.email}</span>
-                <Button className="outline-btn">{t('courseDetailsPage.reachOutBtn')}</Button>
+                <Button className="outline-btn">
+                  {t("courseDetailsPage.reachOutBtn")}
+                </Button>
               </Flex>
             </Flex>
           </div>
@@ -281,11 +289,15 @@ export default function CourseDetails() {
                 >
                   <Flex gap={".5rem"}>
                     {isDatePassed30Days(courseDetails?.courseAddedDate) && (
-                      <span className="card-chip font-bold">{t('utils.newCourse')}</span>
+                      <span className="card-chip font-bold">
+                        {t("utils.newCourse")}
+                      </span>
                     )}
 
                     {courseDetails?.isTrending && (
-                      <span className="card-chip font-bold">{t('utils.trending')}</span>
+                      <span className="card-chip font-bold">
+                        {t("utils.trending")}
+                      </span>
                     )}
                   </Flex>
                 </Flex>
@@ -329,7 +341,7 @@ export default function CourseDetails() {
               disabled={courseDetails?.location?.length == 0}
               loading={loading}
             >
-              {t('courseDetailsPage.addToCartBtn')}
+              {t("courseDetailsPage.addToCartBtn")}
             </Button>
             {/* <Button type="text" className="text-uppercase">
             {t('courseDetailsPage.downloadBrochureBtn')}
@@ -344,7 +356,9 @@ export default function CourseDetails() {
             style={{ padding: "2rem 0" }}
           >
             <Flex vertical gap={"1.5rem"} flex={1}>
-              <div className="common-header font-bold">{t('courseDetailsPage.accreditedByText')}</div>
+              <div className="common-header font-bold">
+                {t("courseDetailsPage.accreditedByText")}
+              </div>
               <Flex vertical gap={"1rem"}>
                 <Image
                   height={breakPoints?.md ? 60 : 30}
@@ -373,7 +387,9 @@ export default function CourseDetails() {
               </Flex>
             </Flex>
             <Flex vertical flex={1} gap={"1.5rem"}>
-              <div className="common-header font-bold">{t('courseDetailsPage.keyTakeAwayText')}</div>
+              <div className="common-header font-bold">
+                {t("courseDetailsPage.keyTakeAwayText")}
+              </div>
               <Flex vertical gap={".5rem"}>
                 {courseDetails?.keyTakeAway.map(
                   (key: string, index: number) => (
@@ -397,7 +413,9 @@ export default function CourseDetails() {
           </Flex>
         </div>
         <Divider className={styles.divider} />
-        <div className="common-header font-bold">{t('utils.similarCourses')}</div>
+        <div className="common-header font-bold">
+          {t("utils.similarCourses")}
+        </div>
         {getCoursesRenderer()}
       </div>
     );

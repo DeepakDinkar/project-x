@@ -74,7 +74,7 @@ export default function Verticals() {
             <div className="card-bottom-wrapper">
               <span className="card-bottom-title">{vertical.title}</span>
               <span className="font-bold font-default">
-                {vertical.noOfCourses || 0} {t('verticalsPage.topicsText')}
+                {vertical.noOfCourses || 0} {t("verticalsPage.topicsText")}
               </span>
             </div>
           </div>
@@ -85,7 +85,15 @@ export default function Verticals() {
 
   const getRenderer = () => {
     if (isVerticalsLoading) {
-      return <Spin size="large" />;
+      return (
+        <Flex
+          style={{ padding: "3rem 0", height: "70vh" }}
+          justify="center"
+          align="center"
+        >
+          <Spin size="large" />
+        </Flex>
+      );
     }
     if (isVerticalsError) {
       return (

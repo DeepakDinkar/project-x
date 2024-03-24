@@ -395,7 +395,7 @@ function Courses() {
   const getRootRenderedList = () => {
     if (isLoading) {
       return (
-        <Flex align="center" justify="center" className="w-100">
+        <Flex align="center" justify="center" className="w-100" style={{ height: '70vh'}}>
           <Spin size="large" />
         </Flex>
       );
