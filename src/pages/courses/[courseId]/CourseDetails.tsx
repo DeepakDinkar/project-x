@@ -331,9 +331,9 @@ export default function CourseDetails() {
             >
               {t('courseDetailsPage.addToCartBtn')}
             </Button>
-            <Button type="text" className="text-uppercase">
+            {/* <Button type="text" className="text-uppercase">
             {t('courseDetailsPage.downloadBrochureBtn')}
-            </Button>
+            </Button> */}
           </Flex>
         </div>
         <Divider className={styles.divider} />

@@ -44,12 +44,14 @@ export const useCart = () => {
   const removeItemsFromCart = (course: Course) => {
     const { id, locationIndex = -1 } = course;
     const index = getItemIndex(courseItems, id, locationIndex);
-    if (index !== -1) {
-      const existingCourseItems = [...courseItems];
-      const payload = createPayload(existingCourseItems.splice(index, 1));
+
+    if (index > -1) {
+      const newItems = [...courseItems];
+      newItems.splice(index, 1);
+      const payload = createPayload(newItems);
       fetch(payload)
         .then(() => {
-          dispatch(updateCartItems(existingCourseItems.splice(index, 1)));
+          dispatch(updateCartItems(newItems));
           message.success("Item removed from cart successfully");
         })
         .catch(() => {

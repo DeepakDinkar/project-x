@@ -16,10 +16,15 @@ import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
+import { useNavigate } from "react-router-dom";
+import { SessionStorageUtils } from "../../../utils/SessionStorageUtils";
+
+const IS_CHECKED_CLICKED = "isCheckOutClicked";
 
 export default function Login() {
   const { setView } = useModalContext();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const {
     fetch,
     loading: googleLoading,
@@ -32,10 +37,12 @@ export default function Login() {
     error: loginError,
   } = useFetch(loginUser);
   const dispatch = useDispatch();
+  const isCheckOutClicked = SessionStorageUtils.getItem(IS_CHECKED_CLICKED);
 
   const responseMessage = (response: any) => {
     fetch(response.access_token).then((data) => {
       data.userName = data.firstName;
+      navigateToCheckout();
       dispatch(login(data));
       dispatch(closeModal());
     });
@@ -54,9 +61,17 @@ export default function Login() {
     const payload = await mapLoginFormPayLoad(values);
 
     loginFetch(payload).then((data) => {
+      navigateToCheckout();
       dispatch(login(data));
       dispatch(closeModal());
     });
+  };
+
+  const navigateToCheckout = () => {
+    if (isCheckOutClicked) {
+      SessionStorageUtils.removeItem(IS_CHECKED_CLICKED);
+      navigate("/checkout");
+    }
   };
 
   return (

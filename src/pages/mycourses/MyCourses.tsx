@@ -103,11 +103,11 @@ export default function MyCourses() {
           {course?.location ?? "Virtual"} |{" "}
           {dayjs(course?.courseDate).format("MMM DD, YYYY")}
         </div>
-        <div>
+        {/* <div>
           <Button type="link" className={styles.locationBtn}>
             {t('userMyCoursesPage.seeLocationBtn')}
           </Button>
-        </div>
+        </div> */}
       </Flex>
     ));
   };

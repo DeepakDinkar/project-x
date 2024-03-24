@@ -1,4 +1,4 @@
-import { Badge, Button, Drawer, Flex, Image } from "antd";
+import { Badge, Button, Drawer, Flex, Image, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { STATUS } from "../../../constants/messages.constants";
@@ -9,11 +9,16 @@ import { openModal } from "../../../redux/reducers/loginModalReducer";
 import Exception from "../../../utils/Exception/Exception";
 import { Dustbin } from "../../../utils/svgs/Dustbin";
 import useCart from "../../../hooks/useCart";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { SessionStorageUtils } from "../../../utils/SessionStorageUtils";
 
 type Props = {
   isDrawerVisible: boolean;
   closeDrawer: () => void;
 };
+
+const IS_CHECKED_CLICKED = "isCheckOutClicked";
 
 export default function CartDrawer({
   isDrawerVisible,
@@ -22,7 +27,8 @@ export default function CartDrawer({
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { removeItemsFromCart } = useCart();
+  const { removeItemsFromCart, loading } = useCart();
+  const [loadingIndex, setLoadingIndex] = useState<number>(-1);
   const isUserLoggedIn =
     useSelector((state: { user: { login: boolean } }) => state.user)?.login ??
     false;
@@ -32,8 +38,18 @@ export default function CartDrawer({
     [];
 
   const navigateToCheckout = () => {
-    isUserLoggedIn ? navigate("/checkout") : dispatch(openModal());
+    if (isUserLoggedIn) {
+      navigate("/checkout");
+    } else {
+      SessionStorageUtils.setItem(IS_CHECKED_CLICKED, "true");
+      dispatch(openModal());
+    }
     closeDrawer();
+  };
+
+  const handleRemoveCart = (index: number, course: Course) => {
+    setLoadingIndex(index);
+    removeCourseFromCart(course);
   };
 
   const getLiveOrVirtualLocation = (course: Course) => {
@@ -96,7 +112,13 @@ export default function CartDrawer({
                   {getLiveOrVirtualLocation(course)}
                 </Flex>
               </Flex>
-              <Dustbin onClick={() => removeCourseFromCart(course)} />
+              {loading && loadingIndex === index ? (
+                <Spin
+                  indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />}
+                />
+              ) : (
+                <Dustbin onClick={() => handleRemoveCart(index, course)} />
+              )}
             </Flex>
           ))}
           <Button

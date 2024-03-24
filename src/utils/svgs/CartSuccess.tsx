@@ -13,8 +13,8 @@ export function CartSuccess() {
       <path
         d="M55.8496 25.9769L64.2921 34.4195L80.5278 18.1838"
         stroke="white"
-        stroke-width="4"
-        stroke-linecap="round"
+        strokeWidth="4"
+        strokeLinecap="round"
       />
       <defs>
         <pattern

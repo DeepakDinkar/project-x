@@ -1,7 +1,6 @@
 import {
   Badge,
   Button,
-  Checkbox,
   Col,
   Flex,
   Form,
@@ -9,7 +8,7 @@ import {
   Input,
   Modal,
   Row,
-  Steps,
+  Steps
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
@@ -24,12 +23,12 @@ import { Course } from "../../models/Course";
 import { SaveAddressForm } from "../../models/SaveAddressForm";
 import { purchaseCourses } from "../../services/userApi";
 import Country from "../../utils/Country/Country";
+import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
 import { CartFailure } from "../../utils/svgs/CartFailure";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import { StripeLogo } from "../../utils/svgs/StripeLogo";
 import styles from "./Checkout.module.scss";
-import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 
 enum Payment {
   SUCCESS = "success",
@@ -79,6 +78,7 @@ export default function Checkout() {
 
   useEffect(() => {
     if (!courses || courses?.length == 0) {
+      console.log('navigate to home');
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,9 +125,9 @@ export default function Checkout() {
     setCurrentStep(1);
   };
 
-  const onSaveAddressChange = (event: { target: { checked: boolean } }) => {
-    saveAddressRef.current = event.target.checked;
-  };
+  // const onSaveAddressChange = (event: { target: { checked: boolean } }) => {
+  //   saveAddressRef.current = event.target.checked;
+  // };
 
   const proceedPayment = async () => {
     const payload = mapPurchasePayLoad(
@@ -228,12 +228,12 @@ export default function Checkout() {
               <Input className={styles.input} placeholder="Zip Code*" />
             </Form.Item>
           </Flex>
-          <Checkbox
+          {/* <Checkbox
             className={styles.saveAddressCheckbox}
             onChange={onSaveAddressChange}
           >
             {t("checkout.billing.saveAddressFuture")}
-          </Checkbox>
+          </Checkbox> */}
           <Button htmlType="submit" className={styles.formSubmitBtn}>
             {t("checkout.billing.saveBtn")}
           </Button>
