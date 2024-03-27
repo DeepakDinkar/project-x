@@ -13,7 +13,7 @@
     height: 100%;
     display: grid;
     gap: 2.5rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 
     .verticalTag {
       display: flex;
@@ -43,7 +43,7 @@
   .verticalListWrapper {
     gap: 1.5rem !important;
     margin: 1.5rem 0 !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
 
     .verticalTag {
       margin: 1.2rem !important;
@@ -54,5 +54,17 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: $lg) {
+  .verticalListWrapper {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media screen and (max-width: $sm) {
+  .verticalListWrapper {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }

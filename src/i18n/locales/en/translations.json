@@ -73,7 +73,7 @@
     },
     "payment": {
       "donotRefreshText": "Do not refresh the page while processing payment",
-      "payBtn": "Pay with",
+      "payBtn": "Pay",
       "title": "Payment"
     },
     "billing":{

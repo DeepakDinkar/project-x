@@ -27,7 +27,6 @@ import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
 import { CartFailure } from "../../utils/svgs/CartFailure";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
-import { StripeLogo } from "../../utils/svgs/StripeLogo";
 import styles from "./Checkout.module.scss";
 
 enum Payment {
@@ -261,8 +260,7 @@ export default function Checkout() {
             onClick={proceedPayment}
             loading={loading}
           >
-            {t("checkout.payment.payBtn")}{" "}
-            <StripeLogo className={styles.stripeIcon} />
+            {t("checkout.payment.payBtn")}
           </Button>
         </Flex>
       )
