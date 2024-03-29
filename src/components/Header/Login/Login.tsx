@@ -3,6 +3,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Divider, Flex, Form, Input, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ModalView, useModalContext } from "../../../context/ModalContext";
 import emailValidator from "../../../error/Validations/emailValidator";
 import useFetch from "../../../hooks/useFetch";
@@ -10,14 +11,12 @@ import { LoginForm } from "../../../models/LoginForm";
 import { closeModal } from "../../../redux/reducers/loginModalReducer";
 import { login } from "../../../redux/reducers/userReducer";
 import { loginUser, loginWithGoogle } from "../../../services/userApi";
+import { SessionStorageUtils } from "../../../utils/SessionStorageUtils";
 import { mapLoginFormPayLoad } from "../../../utils/formUtils";
-import { FacebookIcon } from "../../../utils/svgs/FacebookIcon";
 import { GoogleIcon } from "../../../utils/svgs/GoogleIcon";
 import { MailIcon } from "../../../utils/svgs/MailIcon";
 import { PasswordIcon } from "../../../utils/svgs/PasswordIcon";
 import styles from "./Login.module.scss";
-import { useNavigate } from "react-router-dom";
-import { SessionStorageUtils } from "../../../utils/SessionStorageUtils";
 
 const IS_CHECKED_CLICKED = "isCheckOutClicked";
 
@@ -142,10 +141,10 @@ export default function Login() {
           {googleError && (
             <div className={styles.loginError}>{googleError.message}</div>
           )}
-          <Button className={styles.outlineBtn} disabled>
+          {/* <Button className={styles.outlineBtn} disabled>
             <FacebookIcon style={{ paddingRight: ".5rem", flexShrink: 0 }} />{" "}
             {t("modals.facebook")}
-          </Button>
+          </Button> */}
           <Divider className={styles.divider} />
           <div className={styles.signupContainer}>
             <span>{t("modals.membership")}</span>

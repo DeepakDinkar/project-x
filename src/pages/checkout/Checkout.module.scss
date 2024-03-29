@@ -140,7 +140,7 @@
       }
 
       .ant-select-selector {
-        background: $white !important;
+        background: $grey-100 !important;
         border: 0 !important;
       }
     }
@@ -246,6 +246,29 @@
 
 .paymentBtnWrapper {
   padding: 15px 0 0;
+}
+
+.savedAddressWrapper {
+  :global {
+    .ant-spin-container {
+      cursor: pointer;
+      max-height: 300px;
+      overflow: auto;
+    }
+  }
+
+  .addressSelectBtn {
+    span {
+      font-size: 12px;
+    }
+  }
+
+}
+
+:global {
+  #billingForm_zipCode {
+    max-width: fit-content;
+ }
 }
 
 @media only screen and (max-width: $lg) {

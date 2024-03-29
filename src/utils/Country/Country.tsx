@@ -1,4 +1,5 @@
 import { AutoComplete, FormInstance, Image } from "antd";
+import { useWatch } from "antd/es/form/Form";
 import { ReactNode, useEffect, useState } from "react";
 import countryJson from "../../assets/json/country.json";
 
@@ -16,9 +17,9 @@ type Props = {
 export default function Country({
   form,
   fieldKey,
-  fieldValue,
 }: Readonly<Props>) {
   const [options, setOptions] = useState<Option[]>([]);
+  const contryValue = useWatch('country', form);
 
   useEffect(() => {
     const countryOptions = countryJson.map((country) => {
@@ -42,7 +43,6 @@ export default function Country({
 
   return (
     <AutoComplete
-      defaultValue={fieldValue}
       defaultActiveFirstOption
       options={options}
       placeholder="Location (Country)"
@@ -52,7 +52,8 @@ export default function Country({
         return isOptionsAvailable;
       }}
       onSelect={onSelect}
-      onSearch={(value) => form.setFieldsValue({ [fieldKey]: value })}
+      onChange={(value) => form.setFieldsValue({ [fieldKey]: value })}
+      value={contryValue}
     />
   );
 }

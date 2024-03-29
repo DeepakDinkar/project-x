@@ -79,7 +79,9 @@
     "billing":{
       "saveBtn": "Save Address",
       "saveAddressFuture": "Save Address for future purpose",
-      "title": "Billing Info"
+      "title": "Billing Info",
+      "savedAdressTitle": "Saved Address",
+      "copyAddressBtn": "Copy Address"
     }
   },
   "userProfilePage": {

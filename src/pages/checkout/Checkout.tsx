@@ -1,17 +1,20 @@
 import {
   Badge,
   Button,
+  Checkbox,
   Col,
   Flex,
   Form,
   Image,
   Input,
+  List,
   Modal,
   Row,
-  Steps
+  Steps,
+  Typography,
 } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -21,13 +24,14 @@ import useCart from "../../hooks/useCart";
 import useFetch from "../../hooks/useFetch";
 import { Course } from "../../models/Course";
 import { SaveAddressForm } from "../../models/SaveAddressForm";
-import { purchaseCourses } from "../../services/userApi";
+import { getUserProfile, purchaseCourses } from "../../services/userApi";
 import Country from "../../utils/Country/Country";
 import { SessionStorageUtils } from "../../utils/SessionStorageUtils";
 import { mapPurchasePayLoad } from "../../utils/purchaseUtils";
 import { CartFailure } from "../../utils/svgs/CartFailure";
 import { CartSuccess } from "../../utils/svgs/CartSuccess";
 import styles from "./Checkout.module.scss";
+import useFetchOnLoad from "../../hooks/useFetchOnLoad";
 
 enum Payment {
   SUCCESS = "success",
@@ -42,6 +46,12 @@ const PAYMEN_QUERY_PARAMS = Object.freeze({
 
 const STRIPE_ENABLED = "stripeEnabled";
 
+interface BillingAddressList {
+  id: number;
+  jsonData: string;
+  userK: number;
+}
+
 export default function Checkout() {
   const breakPoint = useBreakPoint();
   const navigate = useNavigate();
@@ -49,6 +59,7 @@ export default function Checkout() {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState<number>(0);
   const { fetch, loading } = useFetch(purchaseCourses);
+  const { data } = useFetchOnLoad(getUserProfile);
   const { clearCart } = useCart();
   const courses: Course[] =
     useSelector((state: { cart: { items: Course[] } }) => state.cart)?.items ||
@@ -61,6 +72,8 @@ export default function Checkout() {
   const isPaymentSuccess = queryParams.get(PAYMEN_QUERY_PARAMS.SUCCESS);
   const isPaymentCancelled = queryParams.get(PAYMEN_QUERY_PARAMS.CANCELLED);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+  const billingAddressList: BillingAddressList[] =
+    data?.billingAddressList ?? [];
 
   useEffect(() => {
     const isStripeEnabled = SessionStorageUtils.getItem(STRIPE_ENABLED);
@@ -77,7 +90,6 @@ export default function Checkout() {
 
   useEffect(() => {
     if (!courses || courses?.length == 0) {
-      console.log('navigate to home');
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,9 +136,9 @@ export default function Checkout() {
     setCurrentStep(1);
   };
 
-  // const onSaveAddressChange = (event: { target: { checked: boolean } }) => {
-  //   saveAddressRef.current = event.target.checked;
-  // };
+  const onSaveAddressChange = (event: { target: { checked: boolean } }) => {
+    saveAddressRef.current = event.target.checked;
+  };
 
   const proceedPayment = async () => {
     const payload = mapPurchasePayLoad(
@@ -164,7 +176,11 @@ export default function Checkout() {
   const getBillingContent = () => {
     return (
       <div className={currentStep === 1 ? styles.stepDisabled : ""}>
-        <Form name="billingForm" form={form} onFinish={onSaveAddressSubmit}>
+        <Form
+          name="billingForm"
+          form={form}
+          onFinish={onSaveAddressSubmit}
+        >
           <Form.Item<SaveAddressForm>
             name="addressName"
             label={
@@ -179,14 +195,14 @@ export default function Checkout() {
           </Form.Item>
           <Form.Item label="Address">
             <Form.Item<SaveAddressForm>
-              name="addressLine1"
+              name="address1"
               rules={[
                 { required: true, message: "*Address Line 1 is required" },
               ]}
             >
               <Input className={styles.input} placeholder="Street Name" />
             </Form.Item>
-            <Form.Item<SaveAddressForm> name="addressLine2">
+            <Form.Item<SaveAddressForm> name="address2">
               <Input
                 className={styles.input}
                 placeholder="Apartment, Suite, Unit etc.*"
@@ -218,26 +234,74 @@ export default function Checkout() {
                 size="middle"
               />
             </Form.Item>
-            <Form.Item<SaveAddressForm>
-              name="zipCode"
-              label="Zip Code*"
-              style={{ flex: 1 }}
-              rules={[{ required: true, message: "*Zip Code is required" }]}
-            >
-              <Input className={styles.input} placeholder="Zip Code*" />
-            </Form.Item>
           </Flex>
-          {/* <Checkbox
+          <Form.Item<SaveAddressForm>
+            name="zipCode"
+            label="Zip Code*"
+            style={{ flex: 1 }}
+            rules={[{ required: true, message: "*Zip Code is required" }]}
+          >
+            <Input className={styles.input} placeholder="Zip Code*" />
+          </Form.Item>
+          <Checkbox
             className={styles.saveAddressCheckbox}
             onChange={onSaveAddressChange}
           >
             {t("checkout.billing.saveAddressFuture")}
-          </Checkbox> */}
+          </Checkbox>
+          {billingAddressList && billingAddressList.length > 0 && (
+            <div className={styles.savedAddressWrapper}>
+              <List
+                header={<div>{t("checkout.billing.savedAdressTitle")}</div>}
+                bordered
+                dataSource={billingAddressList}
+                renderItem={(item: BillingAddressList) => (
+                  <Fragment key={item.id}> {renderList(item)}</Fragment>
+                )}
+              />
+            </div>
+          )}
           <Button htmlType="submit" className={styles.formSubmitBtn}>
             {t("checkout.billing.saveBtn")}
           </Button>
         </Form>
       </div>
+    );
+  };
+
+  const convertJsonDataToObject = (jsonData: string) => {
+    return jsonData ? JSON.parse(jsonData) : null;
+  };
+
+  const chooseAddress = (address: SaveAddressForm) => {
+    for (const [key, value] of Object.entries(address)) {
+      form.setFieldValue(key, value);
+    }
+  };
+
+  const renderList = (item: BillingAddressList) => {
+    const address = convertJsonDataToObject(item.jsonData);
+    return (
+      <List.Item>
+        <Typography.Paragraph>
+          {address?.addressName}
+          <br />
+          {address?.address1} {address?.address2}
+          <br />
+          {address?.city}{" "}
+          {address?.zipCode
+            ? address?.country - address?.zipCode
+            : address?.country}
+        </Typography.Paragraph>
+        <Button
+          onClick={() => chooseAddress(address)}
+          type="text"
+          size="small"
+          className={styles.addressSelectBtn}
+        >
+          {t("checkout.billing.copyAddressBtn")}
+        </Button>
+      </List.Item>
     );
   };
 

@@ -102,10 +102,11 @@ export default function MyProfile() {
   }, [courseData, courseData?.content]);
 
   const getInitialValues = () => {
-    if (data ?? data.imageUrl) {
-      imageUrlRef.current = data.imageUrl;
+    const profileData = data?.profileDto;
+    if (profileData ?? data.imageUrl) {
+      imageUrlRef.current = profileData.imageUrl;
     }
-    return data ?? null;
+    return profileData ?? null;
   };
 
   const handleChange: UploadProps["onChange"] = (info) => {
@@ -148,7 +149,7 @@ export default function MyProfile() {
             { validator: countryValidator, message: "Invalid country" },
           ]}
         >
-          <Country form={form} fieldKey="country" fieldValue={data?.country} />
+          <Country form={form} fieldKey="country" />
         </Form.Item>
         <Form.Item<ProfileForm>
           name="city"
