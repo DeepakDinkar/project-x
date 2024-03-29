@@ -290,7 +290,7 @@ export default function Checkout() {
           <br />
           {address?.city}{" "}
           {address?.zipCode
-            ? address?.country - address?.zipCode
+            ? address?.country + ' - ' + address?.zipCode
             : address?.country}
         </Typography.Paragraph>
         <Button
