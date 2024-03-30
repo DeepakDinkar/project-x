@@ -19,7 +19,7 @@ export default function Country({
   fieldKey,
 }: Readonly<Props>) {
   const [options, setOptions] = useState<Option[]>([]);
-  const contryValue = useWatch('country', form);
+  const contryValue = useWatch(fieldKey, form);
 
   useEffect(() => {
     const countryOptions = countryJson.map((country) => {
