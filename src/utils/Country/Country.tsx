@@ -1,4 +1,4 @@
-import { AutoComplete, FormInstance, Image } from "antd";
+import { AutoComplete, FormInstance } from "antd";
 import { useWatch } from "antd/es/form/Form";
 import { ReactNode, useEffect, useState } from "react";
 import countryJson from "../../assets/json/country.json";
@@ -14,10 +14,10 @@ type Props = {
   fieldValue?: string;
 };
 
-export default function Country({
-  form,
-  fieldKey,
-}: Readonly<Props>) {
+// const COUNTRY_URL = "https://country-code-au6g.vercel.app/";
+// /* <Image src={COUNTRY_URL + country.image} preview={false} height={20} width={20} />{" "} */
+
+export default function Country({ form, fieldKey }: Readonly<Props>) {
   const [options, setOptions] = useState<Option[]>([]);
   const contryValue = useWatch(fieldKey, form);
 
@@ -27,8 +27,7 @@ export default function Country({
         value: country.name,
         label: (
           <div>
-            <Image src={country.image} preview={false} height={20} width={20} />{" "}
-            {country.name}
+            {country?.emoji} {country.name}
           </div>
         ),
       };
@@ -53,7 +52,6 @@ export default function Country({
       }}
       onSelect={onSelect}
       onChange={(value) => form.setFieldsValue({ [fieldKey]: value })}
-      onSearch={(value) => form.setFieldsValue({ [fieldKey]: value })}
       value={contryValue}
     />
   );

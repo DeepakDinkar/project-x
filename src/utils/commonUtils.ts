@@ -7,3 +7,5 @@ export const isDatePassed30Days = (date: string) => {
 
   return daysDiff < 30;
 };
+
+

@@ -11,7 +11,8 @@ import {
   UploadProps,
   message
 } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useWatch } from "antd/es/form/Form";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import GridCard from "../../components/GridCard/GridCard";
@@ -32,6 +33,7 @@ import { getUserProfile, updateProfile } from "../../services/userApi";
 import { getVerticals } from "../../services/verticalsApi";
 import Country from "../../utils/Country/Country";
 import Exception from "../../utils/Exception/Exception";
+import { getCountryCode } from "../../utils/formUtils";
 import styles from "./MyProfile.module.scss";
 
 const getBase64 = (img: Blob, callback: (url: string) => void) => {
@@ -81,6 +83,8 @@ export default function MyProfile() {
   const imageUrlRef = useRef<string>();
 
   const { data: verticals }: VerticalData = useFetchOnLoad(getVerticals);
+  const countryValue = useWatch("country", form);
+  const dialCode = useMemo(() => getCountryCode(countryValue), [countryValue]);
 
   useEffect(() => {
     verticals && dispatch(setVerticals(verticals));
@@ -102,7 +106,8 @@ export default function MyProfile() {
   }, [courseData, courseData?.content]);
 
   const getInitialValues = () => {
-    const profileData = data?.profileDto;
+    const profileData = data?.profileDto as ProfileForm;
+    profileData.phoneNo = profileData.phoneNo ? profileData.phoneNo.slice(-10) : profileData.phoneNo;
     if (profileData ?? data.imageUrl) {
       imageUrlRef.current = profileData.imageUrl;
     }
@@ -304,6 +309,7 @@ export default function MyProfile() {
             <Form.Item<ProfileForm>
               label={<>Phone {breakPoints?.md && <br />} Number</>}
               name="phoneNo"
+              className={styles.inputNumberWrapper}
               style={{
                 flex: 1,
               }}
@@ -316,6 +322,7 @@ export default function MyProfile() {
             >
               <InputNumber
                 className={styles.input}
+                addonBefore={<div>{dialCode}</div>}
                 placeholder="Phone Number"
                 size="middle"
               />

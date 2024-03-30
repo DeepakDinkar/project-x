@@ -1,8 +1,7 @@
 import { LoginForm } from "../models/LoginForm";
-import { ProfileForm } from "../models/ProfileForm";
-import { ProfilePayload } from "../models/ProfilePayload";
 import { RegisterForm } from "../models/RegisterForm";
 import { ResetPasswordPayload } from "../models/ResetPasswordPayload";
+import countryJson from "./../assets/json/country.json";
 import { LoginPayload } from "./../models/LoginPayload";
 import { RegisterPayload } from "./../models/RegisterPayload";
 
@@ -11,14 +10,15 @@ const bycryptPassword = async (password: string) => {
 };
 
 export const mapRegisterFormPayLoad = async (
-  values: RegisterForm
+  values: RegisterForm,
+  dialCode: string | null
 ): Promise<RegisterPayload> => {
   const payload = new RegisterPayload();
   payload.firstName = values.firstName;
   payload.lastName = values.lastName;
   payload.email = values.email;
   payload.password = await bycryptPassword(values.password);
-  payload.mobile = values.phoneNumber;
+  payload.mobile = dialCode ? dialCode + values.phoneNumber : values.phoneNumber;
   payload.country = values.country;
 
   return payload;
@@ -33,22 +33,6 @@ export const mapLoginFormPayLoad = async (
   return payload;
 };
 
-export const mapProfilePayLoad = (values: ProfileForm): ProfilePayload => {
-  const payload = new ProfilePayload();
-
-  payload.firstName = values.firstName;
-  payload.lastName = values.lastName;
-  payload.address1 = values.address1;
-  payload.address2 = values.address2;
-  payload.phoneNo = values.phoneNo;
-  payload.city = values.city;
-  payload.zipCode = values.zipCode;
-  payload.country = values.country;
-  payload.imageUrl = values.imageUrl;
-
-  return payload;
-};
-
 export const mapResetPasswordPayLoad = (
   values: { password: string },
   token: string
@@ -58,3 +42,8 @@ export const mapResetPasswordPayLoad = (
   payload.token = token;
   return payload;
 };
+
+export const getCountryCode = (value: string) => {
+  const country = countryJson.find(country => value?.toLowerCase() === country?.name?.toLowerCase());
+  return country?.dial_code ?? null; 
+}
