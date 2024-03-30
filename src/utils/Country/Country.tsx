@@ -53,6 +53,7 @@ export default function Country({
       }}
       onSelect={onSelect}
       onChange={(value) => form.setFieldsValue({ [fieldKey]: value })}
+      onSearch={(value) => form.setFieldsValue({ [fieldKey]: value })}
       value={contryValue}
     />
   );

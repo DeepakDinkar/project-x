@@ -103,7 +103,7 @@ export default function Register() {
             { validator: countryValidator, message: "Invalid country" },
           ]}
         >
-          <Country form={form} fieldKey="location" />
+          <Country form={form} fieldKey="country" />
         </Form.Item>
         <Button
           className={styles.btn}
