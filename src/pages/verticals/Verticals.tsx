@@ -52,7 +52,7 @@ export default function Verticals() {
   const getVerticalsList = () => {
     return (
       <div className={styles.verticalListWrapper}>
-        {verticals?.map((vertical: Vertical) => (
+        {verticals?.map((vertical: Vertical, index: number) => (
           <div
             className="course-card small-card"
             role="button"
@@ -74,7 +74,7 @@ export default function Verticals() {
             <div className="card-bottom-wrapper">
               <span className="card-bottom-title">{vertical.title}</span>
               <span className="font-bold font-default">
-                {vertical.noOfCourses || 0} {t("verticalsPage.topicsText")}
+                {11 + (index) || 0} {t("verticalsPage.topicsText")}
               </span>
             </div>
           </div>

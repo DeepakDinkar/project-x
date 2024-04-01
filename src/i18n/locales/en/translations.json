@@ -147,9 +147,12 @@
     "footerLinks": {
       "contact": {
         "title": "Contact",
-        "email": "Scott@qomoi.com",
-        "offices": "Office: ",
-        "officePlaces": "USA - Atlanta, Georgia (North American HQ) and San Diego, California; Baja California, Mexico."
+        "email": "Scott@QomoI.com",
+        "phoneNumber": "+1 619 665 6251",
+        "offices": "Offices: ",
+        "officePlace1": "USA - Atlanta, Georgia.",
+        "officePlace2": "USA - San Diego, California.",
+        "officePlace3": "Mexico - Baja California."
       },
       "menu": {
         "title": "Menu",

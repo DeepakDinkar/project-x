@@ -229,6 +229,7 @@ function About() {
           </div>
         </>
       )}
+      <Divider className={styles.divider} />
     </Flex>
   );
 }

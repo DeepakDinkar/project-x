@@ -2,9 +2,9 @@ import { Collapse, CollapseProps, Flex, Image, Layout, List } from "antd";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useBreakPoint } from "../../hooks/useBreakPoint";
+import { openModal } from "../../redux/reducers/loginModalReducer";
 import styles from "./Footer.module.scss";
 import RequestCallback from "./RequestCallback/RequestCallback";
-import { openModal } from "../../redux/reducers/loginModalReducer";
 
 function Footer() {
   const breakPoints = useBreakPoint();
@@ -60,8 +60,11 @@ function Footer() {
         className={`${styles.officeAddress} ${styles.officeAddressMobile}`}
       >
         <a href="#contact">{CONTACT_US[0]}</a>
+        <span>{t("footer.footerLinks.contact.phoneNumber")}</span>
         <span>{t("footer.footerLinks.contact.offices")}</span>
-        <span>{t("footer.footerLinks.contact.officePlaces")}</span>
+        <span>{t("footer.footerLinks.contact.officePlace1")}</span>
+        <span>{t("footer.footerLinks.contact.officePlace2")}</span>
+        <span>{t("footer.footerLinks.contact.officePlace3")}</span>
       </Flex>
     );
   };
@@ -116,10 +119,15 @@ function Footer() {
           renderItem={(item) => (
             <>
               <List.Item>{item}</List.Item>
+              <List.Item style={{ paddingTop: 0, paddingBottom: 0}}>
+                <span>{t("footer.footerLinks.contact.phoneNumber")}</span>
+              </List.Item>
               <List.Item>
                 <Flex vertical className={styles.officeAddress}>
                   <span>{t("footer.footerLinks.contact.offices")}</span>
-                  <span>{t("footer.footerLinks.contact.officePlaces")}</span>
+                  <span>{t("footer.footerLinks.contact.officePlace1")}</span>
+                  <span>{t("footer.footerLinks.contact.officePlace2")}</span>
+                  <span>{t("footer.footerLinks.contact.officePlace3")}</span>
                 </Flex>
               </List.Item>
             </>

@@ -184,6 +184,11 @@
   }
 }
 
+.divider {
+  stroke-width: 1px;
+  border-block-start: 1px solid $brown;
+}
+
 .trademark {
   font-size: 12px;
   text-align: center;
