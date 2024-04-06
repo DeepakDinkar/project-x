@@ -12,7 +12,7 @@ import "./theme/card.scss";
 
 function App() {
   const breakPoints = useBreakPoint();
-  const googleClientId = import.meta.env.VITE_BASE_URL;
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIEND_ID;
   const theme: ThemeConfig = {
     components: {
       Button: {
