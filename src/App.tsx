@@ -9,16 +9,10 @@ import { useBreakPoint } from "./hooks/useBreakPoint";
 import "./i18n/config";
 import store from "./redux/store";
 import "./theme/card.scss";
-import { loadStripe } from "@stripe/stripe-js";
 
 function App() {
   const breakPoints = useBreakPoint();
-
-  const stripePromise = loadStripe("pk_test_51Or9WRHIxaQosNkX3uRI4LmG0KY62h04jvPP6CSJ0abDTtGboVGR84aljppCfGsrO3TgXasDGTP1KBZ0xPZRwURh00dAf8E4Nt");
-
-  console.log(stripePromise);
-
-
+  const googleClientId = import.meta.env.VITE_BASE_URL;
   const theme: ThemeConfig = {
     components: {
       Button: {
@@ -36,11 +30,11 @@ function App() {
 
   return (
     <Provider store={store}>
-      <GoogleOAuthProvider clientId="471731862964-dkuur20m90phgklr5cq32pq2706qjc3c.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={googleClientId}>
         <ConfigProvider theme={theme}>
           <BrowserRouter>
             <ModalContextProvider>
-             <AppInitializer />
+              <AppInitializer />
             </ModalContextProvider>
           </BrowserRouter>
         </ConfigProvider>

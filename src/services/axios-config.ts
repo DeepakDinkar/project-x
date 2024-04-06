@@ -30,6 +30,7 @@ axiosConfig.interceptors.response.use(
       error?.response?.status === 401 &&
       originalRequest.url.includes("/user")
     ) {
+      // SessionStorageUtils.clearSession();
       // store.dispatch(logout());
     }
     return error.response;
